@@ -1,0 +1,65 @@
+name: CoStrength
+version: 1.0
+main: io.github.thelordman.costrength.CoStrength
+api-version: 1.18
+prefix: CoStrength
+author: The Lord
+description: The main plugin used by CoStrength. costrength.minehut.gg
+website: thelordman.github.io
+load: STARTUP
+loadbefore:
+  - CoStrengthDiscord
+commands:
+  gmc:
+    description: Changes target's gamemode to creative.
+    permission: command.gamemode.creative
+    usage: /gmc [player]
+  gms:
+    description: Changes target's gamemode to survival.
+    permission: command.gamemode.survival
+    usage: /gms [player]
+  gma:
+    description: Changes target's gamemode to adventure.
+    permission: command.gamemode.adventure
+    usage: /gma [player]
+  gmsp:
+    description: Changes target's gamemode to spectator.
+    permission: command.gamemode.spectator
+    usage: /gmsp [player]
+  liami:
+    description: Say something as Liami, even if he's offline.
+    permission: command.liami
+    usage: /liami [text]
+  balance:
+    description: Check the balance of an offline or online player.
+    aliases: bal
+    usage: /balance [offline-player]
+  economy:
+    description: Change or get various values about the target's economy.
+    aliases: [eco, econ]
+    permission: command.economy
+    usage: /economy <offline-player> <set, add, remove, reset, multiply, divide, get, pow> [<amount>]
+  stats:
+    description: Check the stats of an offline or online player.
+    aliases: st
+    usage: /stats [offline-player]
+  jail:
+    description: Send or release a player to or from jail, or set the location of jail.
+    aliases: j
+    usage: /jail [offline-player]
+  sun:
+    description: Set the weather to sunny.
+    aliases: [clear, clouds]
+    usage: /sun
+  rain:
+    description: Set the weather to rain.
+    aliases: [snow, downfall]
+    usage: /rain
+  thunder:
+    description: Set the weather to thunder.
+    aliases: storm
+    usage: /thunder
+  broadcast:
+    description: Send a broadcast accross the server and in Discord.
+    aliases: bc
+    usage: /broadcast <text>
