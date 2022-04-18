@@ -46,20 +46,37 @@ commands:
   jail:
     description: Send or release a player to or from jail, or set the location of jail.
     aliases: j
+    permission: command.jail
     usage: /jail [offline-player]
   sun:
     description: Set the weather to sunny.
-    aliases: [clear, clouds]
+    aliases: [clean, clouds]
+    permission: command.sun
     usage: /sun
   rain:
     description: Set the weather to rain.
     aliases: [snow, downfall]
+    permission: command.rain
     usage: /rain
   thunder:
     description: Set the weather to thunder.
     aliases: storm
+    permission: command.thunder
     usage: /thunder
   broadcast:
     description: Send a broadcast accross the server and in Discord.
     aliases: bc
+    permission: command.broadcast
     usage: /broadcast <text>
+  spawn:
+    description: Send someone or yourself to spawn.
+    usage: /spawn [player]
+  tphere:
+    description: Teleports the target to the location of the executor.
+    permission: command.tphere
+    usage: /tphere <player>
+  commandspy:
+    description: Toggle Command Spy on and off. While toggled on, you can see all executed commands by everyone.
+    aliases: [cmdspy, cspy]
+    permission: command.commandspy
+    usage: /commandspy

@@ -20,8 +20,8 @@ public class StatsCommand implements CommandExecutor {
                     "&6Kills&7: &f" + Methods.rStr((float) player.getStatistic(Statistic.PLAYER_KILLS)) + "\n" +
                     "&6Deaths&7: &f" + Methods.rStr((float) player.getStatistic(Statistic.DEATHS)) + "\n" +
                     "&6K/D ratio&7: &f" + Methods.rStr(Methods.getKdr(player)) + "\n" +
-                    "&6Killstreak&7: &f" + Methods.rStr(EconomyManager.getKillstreak(player)) + "\n&r" +
-                    "&6Playtime&7: &f" + player.getStatistic(Statistic.TOTAL_WORLD_TIME) + "\n"));
+                    "&6Killstreak&7: &f" + Methods.rStr(Float.valueOf(EconomyManager.getKillstreak(player))) + "\n&r" +
+                    "&6Playtime&7: &f" + Methods.hourTimeFormat(player.getStatistic(Statistic.PLAY_ONE_MINUTE), 20) + "\n&r"));
         }
         else {
             Player target = Bukkit.getPlayer(args[0]);
@@ -31,8 +31,8 @@ public class StatsCommand implements CommandExecutor {
                     "&6Kills&7: &f" + Methods.rStr((float) target.getStatistic(Statistic.PLAYER_KILLS)) + "\n" +
                     "&6Deaths&7: &f" + Methods.rStr((float) target.getStatistic(Statistic.DEATHS)) + "\n" +
                     "&6K/D ratio&7: &f" + Methods.rStr(Methods.getKdr(target)) + "\n" +
-                    "&6Killstreak&7: &f" + Methods.rStr(EconomyManager.getKillstreak(target)) + "\n&r" +
-                    "&6Playtime&7: &f" + target.getStatistic(Statistic.TOTAL_WORLD_TIME) + "\n"));
+                    "&6Killstreak&7: &f" + Methods.rStr(Float.valueOf(EconomyManager.getKillstreak(target))) + "\n&r" +
+                    "&6Playtime&7: &f" + Methods.hourTimeFormat(target.getStatistic(Statistic.PLAY_ONE_MINUTE), 20) + "\n&r"));
         }
         return true;
     }

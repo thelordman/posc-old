@@ -18,9 +18,9 @@ public class JailCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
 
-        if (args.length > 1) {
+        if (args.length < 1) {
             jailLocation = player.getLocation();
-            player.sendMessage(Methods.cStr("&6Jail was set to your location."));
+            player.sendMessage(Methods.cStr("&6Jail was set to &f" + Methods.locToString(jailLocation, false)));
             return true;
         }
 
@@ -35,15 +35,22 @@ public class JailCommand implements CommandExecutor {
     }
 
     private boolean jail(Player player, Player target) {
+        if (target == null) {
+            return false;
+        }
+
         if (isJailed(target)) {
             target.removeScoreboardTag("isJailed");
             Methods.teleportPlayerToSpawn(target, PlayerTeleportEvent.TeleportCause.COMMAND);
+            player.sendMessage(Methods.cStr("&6You unjailed the player &f" + target.getDisplayName() + "&6."));
+            target.sendMessage(Methods.cStr("&6You have been unjailed by &f" + player.getDisplayName() + "&6."));
         } else {
             target.addScoreboardTag("isJailed");
             target.teleportAsync(jailLocation, PlayerTeleportEvent.TeleportCause.COMMAND);
-            player.sendMessage("You jailed the player "+target.getName());
-            target.sendMessage("You have been jailed");
+            player.sendMessage(Methods.cStr("&6You jailed the player &f" + target.getDisplayName() + "&6. &8| &f" + Methods.locToString(jailLocation, false)));
+            target.sendMessage(Methods.cStr("&6You have been jailed by &f" + player.getDisplayName() + "&6. &8| &f" + Methods.locToString(jailLocation, false)));
         }
+
         return true;
     }
 }

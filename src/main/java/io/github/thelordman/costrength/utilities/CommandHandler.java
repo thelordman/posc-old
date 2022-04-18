@@ -25,6 +25,9 @@ public class CommandHandler {
         registerCommand("sun", new WeatherCommands());
         registerCommand("rain", new WeatherCommands());
         registerCommand("thunder", new WeatherCommands());
+        registerCommand("spawn", new SpawnCommand());
+        registerCommand("tphere", new TphereCommand());
+        registerCommand("commandspy", new CommandSpyCommand());
     }
 
     private void registerCommand(String command, CommandExecutor executor) {

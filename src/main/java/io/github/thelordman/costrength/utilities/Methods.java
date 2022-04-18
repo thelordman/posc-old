@@ -11,6 +11,8 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
+import static java.lang.Math.round;
+
 public class Methods {
     public static ChatColor playerChatColor(Player player, String type) {
         ChatColor color;
@@ -25,10 +27,18 @@ public class Methods {
         return color;
     }
 
-    public static Float getKdr(Player player) {
+    public static String locToString(Location location, Boolean extra) {
+        if (extra) {
+            return location.getWorld().getName() + "," + round(location.getX()) + "," + round(location.getY()) + "," + round(location.getZ()) +
+                    "," + round(location.getYaw()) + "," + round(location.getPitch());
+        } else {
+            return "X: " + round(location.getX()) + ", Y: " + round(location.getY()) + ", Z: " + round(location.getZ());
+        }
+    }
 
+    public static Float getKdr(Player player) {
         return !(player.getStatistic(Statistic.PLAYER_KILLS) == 0) | !(player.getStatistic(Statistic.DEATHS) == 0) ?
-                ((float) player.getStatistic(Statistic.PLAYER_KILLS)) / (float) player.getStatistic(Statistic.DEATHS) : 0;
+                ((float) player.getStatistic(Statistic.PLAYER_KILLS)) / (float) player.getStatistic(Statistic.DEATHS) : 0f;
     }
     public static String cStr(String message) {
         return ChatColor.translateAlternateColorCodes('&', message);
@@ -54,6 +64,13 @@ public class Methods {
     }
 
     public static void teleportPlayerToSpawn(Player player, PlayerTeleportEvent.TeleportCause cause) {
-        player.teleportAsync(new Location(Bukkit.getWorld("world"), 0, -60, 0, 0, 0), cause);
+        player.teleportAsync(new Location(Bukkit.getWorld("world"), 0.5, -60, 0.5, 0, 0), cause);
+    }
+
+    public static String hourTimeFormat(Integer seconds, Integer division) {
+        int hours = (seconds / division) / 3600;
+        int minutes = (seconds % 3600) / 60;
+
+        return hours + " hours and " + minutes + " minutes";
     }
 }

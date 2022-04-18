@@ -31,9 +31,7 @@ public class GamemodeCommands implements CommandExecutor {
                 return false;
         }
 
-        Player target = Methods.determineTarget(sender, args.length > 0 ? args[0] : sender.getName());
-
-        return updateMode(target, sender, mode);
+        return updateMode(Methods.determineTarget(sender, args.length > 0 ? args[0] : sender.getName()), sender, mode);
     }
 
     private boolean updateMode(Player target, CommandSender sender, GameMode mode) {
