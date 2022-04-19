@@ -69,8 +69,7 @@ public class Methods {
 
     public static String hourTimeFormat(Integer seconds, Integer division) {
         int hours = (seconds / division) / 3600;
-        int minutes = (seconds % 3600) / 60;
 
-        return hours + " hours and " + minutes + " minutes";
+        return hours + " hours and ";
     }
 }
