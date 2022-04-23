@@ -11,6 +11,7 @@ public class TphereCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if (!Methods.checkCommandPermission(sender, (byte) 4)) return true;
         if (args.length < 1) return false;
         Player target = Methods.determineTarget(sender, args[0]);
         Player player = (Player) sender;

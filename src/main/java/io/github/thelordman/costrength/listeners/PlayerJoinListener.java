@@ -1,6 +1,7 @@
 package io.github.thelordman.costrength.listeners;
 
 import io.github.thelordman.costrength.CoStrength;
+import io.github.thelordman.costrength.ranks.RankManager;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
 import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.utilities.Methods;
@@ -15,6 +16,8 @@ import java.awt.*;
 public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
+        event.getPlayer().setDisplayName(Methods.cStr(RankManager.getPrefix(event.getPlayer()) + event.getPlayer().getName()));
+
         String message = event.getPlayer().hasPlayedBefore() ? "&7[&a+&7] &7" + event.getPlayer().getDisplayName() : "&7[&a+&7] &7" + event.getPlayer().getDisplayName() + " &6#" + Bukkit.getServer().getOfflinePlayers().length;
         event.setJoinMessage(Methods.cStr(message));
 
@@ -28,7 +31,7 @@ public class PlayerJoinListener implements Listener {
         ScoreboardHandler.updateBoard(event.getPlayer());
 
         EmbedBuilder builder = new EmbedBuilder();
-        builder.setAuthor(event.getPlayer().getDisplayName() + " Joined", null, "https://crafatar.com/avatars/" + event.getPlayer().getUniqueId());
+        builder.setAuthor(Methods.replaceColorCodes(event.getPlayer().getDisplayName() + " Joined"), null, "https://crafatar.com/avatars/" + event.getPlayer().getUniqueId());
         builder.setColor(Color.GREEN);
 
         CoStrength.minecraftChatChannel.sendMessageEmbeds(builder.build()).queue();

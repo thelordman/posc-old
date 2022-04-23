@@ -15,10 +15,11 @@ import java.text.ParseException;
 public class EconomyCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (!Methods.checkCommandPermission(sender, (byte) 7)) return true;
         if (args.length < 2 | args.length > 3) return false;
         Player target = Bukkit.getPlayer(args[0]);
         String executor = sender instanceof Player ? ((Player) sender).getDisplayName() : "Console";
-
+        if (target == null) return false;
 
         if (args.length < 3) {
             if (args[1].equals("reset")) {

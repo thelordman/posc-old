@@ -1,6 +1,7 @@
 package io.github.thelordman.costrength.listeners;
 
 import io.github.thelordman.costrength.CoStrength;
+import io.github.thelordman.costrength.ranks.RankManager;
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,13 +12,8 @@ public class PlayerChatListener implements Listener {
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         String message;
         message = event.getMessage().contains("@") ? "I'm a fat bitch" : event.getMessage();
-        event.setFormat(Methods.cStr(Methods.playerChatColor(event.getPlayer(), "primary") + event.getPlayer().getDisplayName() + Methods.playerChatColor(event.getPlayer(), "secondary") + ": " + Methods.playerChatColor(event.getPlayer(), "primary") + message));
+        event.setFormat(Methods.cStr(RankManager.getPrefix(event.getPlayer()) + event.getPlayer().getDisplayName() + Methods.playerChatColor(event.getPlayer(), (byte) 1) + ": " + Methods.playerChatColor(event.getPlayer(), (byte) 0) + message));
 
-        if (event.getMessage().contains("@")) {
-            CoStrength.minecraftChatChannel.sendMessage("**" + event.getPlayer().getDisplayName() + ":** I'm a fat bitch").queue();
-        }
-        else {
-            CoStrength.minecraftChatChannel.sendMessage("**" + event.getPlayer().getDisplayName() + ":** " + event.getMessage()).queue();
-        }
+        CoStrength.minecraftChatChannel.sendMessage(Methods.replaceColorCodes("**" + RankManager.getPrefix(event.getPlayer()) + event.getPlayer().getDisplayName() + ":** " + message)).queue();
     }
 }

@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public class CommandSpyCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if (!Methods.checkCommandPermission(sender, (byte) 6)) return true;
         if (sender instanceof Player player && args.length == 0) {
             if (player.getScoreboardTags().contains("commandSpyToggled")) {
                 player.removeScoreboardTag("commandSpyToggled");

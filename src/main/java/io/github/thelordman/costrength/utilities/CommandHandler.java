@@ -28,6 +28,7 @@ public class CommandHandler {
         registerCommand("spawn", new SpawnCommand());
         registerCommand("tphere", new TphereCommand());
         registerCommand("commandspy", new CommandSpyCommand());
+        registerCommand("rank", new RankCommand());
     }
 
     private void registerCommand(String command, CommandExecutor executor) {

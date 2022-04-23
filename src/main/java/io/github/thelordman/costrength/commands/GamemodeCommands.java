@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 public class GamemodeCommands implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (!Methods.checkCommandPermission(sender, (byte) 5)) return true;
         if (sender instanceof ConsoleCommandSender && args.length == 0) return false;
 
         GameMode mode;

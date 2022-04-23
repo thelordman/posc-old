@@ -28,7 +28,7 @@ public class PlayerDeathListener implements Listener {
             ScoreboardHandler.updateBoard(killer);
         }
         else {
-            player.sendTitle(ChatColor.RED + "You Died", "", 10, 100, 40);
+            player.sendTitle(ChatColor.RED + "You Died", "");
             event.setDeathMessage(Methods.cStr("&7Death &8| &7" + event.getDeathMessage()));
         }
         EconomyManager.setKillstreak(player, 0);
@@ -36,7 +36,7 @@ public class PlayerDeathListener implements Listener {
         ScoreboardHandler.updateBoard(player);
 
         EmbedBuilder builder = new EmbedBuilder();
-        builder.setAuthor(event.getPlayer().getDisplayName() + " Died", null, "https://crafatar.com/avatars/" + event.getPlayer().getUniqueId());
+        builder.setAuthor(Methods.replaceColorCodes(event.getPlayer().getDisplayName() + " Died"), null, "https://crafatar.com/avatars/" + event.getPlayer().getUniqueId());
         builder.setColor(Color.RED);
         if (event.getDeathMessage() != null) {
             builder.setDescription(originalMsg);
@@ -59,7 +59,7 @@ public class PlayerDeathListener implements Listener {
         EconomyManager.setBalance(victim, victimBalance - takeFromVictim);
         EconomyManager.setBalance(killer, EconomyManager.getBalance(killer) + reward);
 
-        victim.sendTitle(ChatColor.RED + "You Died", ChatColor.GOLD + killer.getDisplayName() + " stole " + ChatColor.WHITE + "$" + Methods.rStr(takeFromVictim), 10, 100, 40);
+        victim.sendTitle(ChatColor.RED + "You Died", ChatColor.GOLD + killer.getDisplayName() + " stole " + ChatColor.WHITE + "$" + Methods.rStr(takeFromVictim));
         killer.sendActionBar(victim.getDisplayName() + " &8| &f$" + Methods.rStr(reward));
     }
 }

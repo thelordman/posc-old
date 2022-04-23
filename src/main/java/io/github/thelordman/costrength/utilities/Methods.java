@@ -1,12 +1,11 @@
 package io.github.thelordman.costrength.utilities;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Statistic;
+import io.github.thelordman.costrength.ranks.RankManager;
+import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.scoreboard.Team;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
@@ -14,14 +13,14 @@ import java.util.Arrays;
 import static java.lang.Math.round;
 
 public class Methods {
-    public static ChatColor playerChatColor(Player player, String type) {
+    public static ChatColor playerChatColor(Player player, Byte type) {
         ChatColor color;
 
-        if (type.equals("primary")) {
-            color = (player.hasPermission("chatcolor.white")) ? ChatColor.WHITE : ChatColor.GRAY;
+        if (type == 0) {
+            color = RankManager.hasPermission(Bukkit.getOfflinePlayer(player.getName()), (byte) 1) ? ChatColor.WHITE : ChatColor.GRAY;
         }
         else {
-            color = (player.hasPermission("chatcolor.white")) ? ChatColor.GRAY : ChatColor.DARK_GRAY;
+            color = RankManager.hasPermission(Bukkit.getOfflinePlayer(player.getName()), (byte) 1) ? ChatColor.GRAY : ChatColor.DARK_GRAY;
         }
 
         return color;
@@ -70,6 +69,27 @@ public class Methods {
     public static String hourTimeFormat(Integer seconds, Integer division) {
         int hours = (seconds / division) / 3600;
 
-        return hours + " hours and ";
+        return hours + " hours";
+    }
+
+    public static Team getTeamFromString(String teamString) {
+        return Bukkit.getScoreboardManager().getMainScoreboard().getTeam(teamString);
+    }
+
+    public static String replaceColorCodes(String string) {
+        return string.replace("&4", "").replace("&c", "").replace("&6", "").replace("&e", "").replace("&2", "").replace("&a", "").replace("&b", "").replace("&3", "").replace("&1", "").replace("&9", "").replace("&d", "").replace("&5", "").replace("&f", "").replace("&7", "").replace("&8", "").replace("&0", "")
+                .replace("&k", "").replace("&l", "").replace("&m", "").replace("&n", "").replace("&o", "").replace("&r", "");
+    }
+
+    public static boolean checkCommandPermission(CommandSender sender, byte level) {
+        if (sender instanceof Player) {
+            OfflinePlayer player = ((OfflinePlayer) sender);
+            if (!(RankManager.hasPermission(player, level) | player.isOp())) {
+                player.getPlayer().sendMessage(Methods.cStr("&cInsufficient permissions.\n&6Please contact an admin or developer of &fCoStrength &6if you believe this shouldn't happen."));
+                return false;
+            }
+            return true;
+        }
+        return false;
     }
 }

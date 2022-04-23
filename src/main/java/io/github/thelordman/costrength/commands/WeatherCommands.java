@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 public class WeatherCommands implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if (!Methods.checkCommandPermission(sender, (byte) 5)) return true;
         World world = Bukkit.getWorld("world");
         Player player = (Player) sender;
         switch(command.getName()) {

@@ -24,7 +24,7 @@ public class PlayerQuitListener implements Listener {
 
         //Discord
         EmbedBuilder builder = new EmbedBuilder();
-        builder.setAuthor(event.getPlayer().getDisplayName() + " Left", null, "https://crafatar.com/avatars/" + event.getPlayer().getUniqueId());
+        builder.setAuthor(Methods.replaceColorCodes(event.getPlayer().getDisplayName() + " Left"), null, "https://crafatar.com/avatars/" + event.getPlayer().getUniqueId());
         builder.setColor(Color.RED);
 
         CoStrength.minecraftChatChannel.sendMessageEmbeds(builder.build()).queue();

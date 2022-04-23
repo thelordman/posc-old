@@ -95,7 +95,6 @@ public final class CoStrength extends JavaPlugin {
     @Override
     public void onDisable() {
         getLogger().info("Executing onDisable method");
-
         getLogger().info("Data saved");
 
         shutdownJDA();
