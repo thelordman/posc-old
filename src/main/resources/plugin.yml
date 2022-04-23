@@ -68,3 +68,6 @@ commands:
   rank:
     description: Give any online player any rank.
     usage: /rank <offline-player> set <rank>
+  help:
+    description: Link to the wiki.
+    usage: /help
