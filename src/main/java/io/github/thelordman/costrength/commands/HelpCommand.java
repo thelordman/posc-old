@@ -1,3 +1,5 @@
+package io.github.thelordman.costrength.commands;
+
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -15,7 +17,7 @@ public class HelpCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
         if (args.length == 0) {
-            TextComponent message = new TextComponent("Click here to see the plugin's wiki for help !");
+            TextComponent message = new TextComponent("Click here to see the plugin's wiki for help!");
             message.setColor(ChatColor.GOLD);
             message.setBold(true);
             message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/thelordman/CoStrength/wiki"));

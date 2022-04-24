@@ -76,9 +76,9 @@ public class Methods {
         return Bukkit.getScoreboardManager().getMainScoreboard().getTeam(teamString);
     }
 
-    public static String replaceColorCodes(String string) {
-        return string.replace("&4", "").replace("&c", "").replace("&6", "").replace("&e", "").replace("&2", "").replace("&a", "").replace("&b", "").replace("&3", "").replace("&1", "").replace("&9", "").replace("&d", "").replace("&5", "").replace("&f", "").replace("&7", "").replace("&8", "").replace("&0", "")
-                .replace("&k", "").replace("&l", "").replace("&m", "").replace("&n", "").replace("&o", "").replace("&r", "");
+    public static String replaceColorCodes(String string, char type) {
+        return string.replace(type + "4", "").replace(type + "c", "").replace(type + "6", "").replace(type + "e", "").replace(type + "2", "").replace(type + "a", "").replace(type + "b", "").replace(type + "3", "").replace(type + "1", "").replace(type + "9", "").replace(type + "d", "").replace(type + "5", "").replace(type + "f", "").replace(type + "7", "").replace(type + "8", "").replace(type + "0", "")
+                .replace(type + "k", "").replace(type + "l", "").replace(type + "m", "").replace(type + "n", "").replace(type + "o", "").replace(type + "r", "");
     }
 
     public static boolean checkCommandPermission(CommandSender sender, byte level) {

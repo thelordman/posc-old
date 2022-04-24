@@ -36,7 +36,7 @@ public class PlayerDeathListener implements Listener {
         ScoreboardHandler.updateBoard(player);
 
         EmbedBuilder builder = new EmbedBuilder();
-        builder.setAuthor(Methods.replaceColorCodes(event.getPlayer().getDisplayName() + " Died"), null, "https://crafatar.com/avatars/" + event.getPlayer().getUniqueId());
+        builder.setAuthor(Methods.replaceColorCodes(event.getPlayer().getDisplayName() + " Died", '§'), null, "https://crafatar.com/avatars/" + event.getPlayer().getUniqueId());
         builder.setColor(Color.RED);
         if (event.getDeathMessage() != null) {
             builder.setDescription(originalMsg);

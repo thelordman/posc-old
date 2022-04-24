@@ -17,7 +17,7 @@ public class PlayerCommandPreprocessListener implements Listener {
             }
         }
         if (event.getMessage().contains("@")) {
-            CoStrength.commandLogChannel.sendMessage("<t:" + System.currentTimeMillis() / 1000 + ":F> **" + event.getPlayer().getDisplayName() + "** executed the command `/I'm a fat bitch`").queue();
+            CoStrength.commandLogChannel.sendMessage(Methods.replaceColorCodes("<t:" + System.currentTimeMillis() / 1000 + ":F> **" + event.getPlayer().getDisplayName() + "** executed the command `/I'm a fat bitch`", '§')).queue();
         }
         else {
             CoStrength.commandLogChannel.sendMessage("<t:" + System.currentTimeMillis() / 1000 + ":F> **" + event.getPlayer().getDisplayName() + "** executed the command `" + event.getMessage() + "`").queue();

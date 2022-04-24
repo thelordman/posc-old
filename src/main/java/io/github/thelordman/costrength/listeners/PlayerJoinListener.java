@@ -31,7 +31,7 @@ public class PlayerJoinListener implements Listener {
         ScoreboardHandler.updateBoard(event.getPlayer());
 
         EmbedBuilder builder = new EmbedBuilder();
-        builder.setAuthor(Methods.replaceColorCodes(event.getPlayer().getDisplayName() + " Joined"), null, "https://crafatar.com/avatars/" + event.getPlayer().getUniqueId());
+        builder.setAuthor(Methods.replaceColorCodes(event.getPlayer().getDisplayName() + " Joined", '§'), null, "https://crafatar.com/avatars/" + event.getPlayer().getUniqueId());
         builder.setColor(Color.GREEN);
 
         CoStrength.minecraftChatChannel.sendMessageEmbeds(builder.build()).queue();

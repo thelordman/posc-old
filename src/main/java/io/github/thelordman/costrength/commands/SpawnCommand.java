@@ -20,7 +20,7 @@ public class SpawnCommand implements CommandExecutor {
         if (target == null) return false;
 
         Methods.teleportPlayerToSpawn(target, PlayerTeleportEvent.TeleportCause.COMMAND);
-        target.sendMessage(Methods.cStr("&6You have been sent to spawn. &f" + Methods.locToString(new Location(Bukkit.getWorld("world"), 0.5, -60, 0.5, 0, 0), false)));
+        target.sendMessage(Methods.cStr("&6You have been sent to spawn. &f" + Methods.locToString(new Location(Bukkit.getWorld("world"), -0.5, -41, 0.5, 0, 0), false)));
         return true;
     }
 }
