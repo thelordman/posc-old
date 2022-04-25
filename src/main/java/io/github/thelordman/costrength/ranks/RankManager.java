@@ -33,6 +33,6 @@ public class RankManager {
     }
 
     public static boolean hasPermission(OfflinePlayer player, byte level) {
-        return permissionLevel(player) > level;
+        return permissionLevel(player) >= level;
     }
 }

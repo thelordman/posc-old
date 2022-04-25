@@ -11,8 +11,8 @@ public class LiamiCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!Methods.checkCommandPermission(sender, (byte) 5)) return true;
-        Bukkit.broadcastMessage(Methods.cStr("&fLiami_&7:&f " + Methods.arrayToString(args)));
-        CoStrength.minecraftChatChannel.sendMessage("**Liami_:** " + Methods.arrayToString(args)).queue();
+        Bukkit.broadcastMessage(Methods.cStr("&9Helper &8| &9Liami_&7:&f " + Methods.arrayToString(args)));
+        CoStrength.minecraftChatChannel.sendMessage("**Helper | Liami_:** " + Methods.arrayToString(args)).queue();
         return true;
     }
 }

@@ -11,12 +11,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class SpawnCommand implements CommandExecutor {
-    public final boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public final boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (sender instanceof ConsoleCommandSender && args.length == 0 | (!RankManager.hasPermission((OfflinePlayer) sender, (byte) 2)) && args.length > 0) return false;
 
-        Player target = Methods.determineTarget(sender, args.length > 0 ? args[0] : sender.getName());
+        Player target = args.length > 0 ? Bukkit.getPlayer(args[0]) : (Player) sender;
         if (target == null) return false;
 
         Methods.teleportPlayerToSpawn(target, PlayerTeleportEvent.TeleportCause.COMMAND);
