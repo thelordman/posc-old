@@ -18,6 +18,8 @@ public class PlayerJoinListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         String mid = RankManager.getPrefix(event.getPlayer()).isEmpty() ? "" : "&8| ";
         event.getPlayer().setDisplayName(Methods.cStr(RankManager.getPrefix(event.getPlayer()) + mid + RankManager.getPlayerColor(event.getPlayer()) + event.getPlayer().getName()));
+        event.getPlayer().setPlayerListHeaderFooter(Methods.cStr("&6You are playing on &6&lCoStrength.minehut"), Methods.cStr("&6/help for help &8| &6/dc to join Discord &8| &6/buy to support the server"));
+        event.getPlayer().setPlayerListName(event.getPlayer().getDisplayName());
 
         String message = event.getPlayer().hasPlayedBefore() ? "&7[&a+&7] &7" + event.getPlayer().getDisplayName() : "&7[&a+&7] &7" + event.getPlayer().getDisplayName() + " &6#" + Bukkit.getServer().getOfflinePlayers().length;
         event.setJoinMessage(Methods.cStr(message));

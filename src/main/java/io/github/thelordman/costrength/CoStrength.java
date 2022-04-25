@@ -20,7 +20,6 @@ import java.util.UUID;
 public final class CoStrength extends JavaPlugin {
 
     public static CoStrength instance;
-
     public static CoStrength get() {
         return instance;
     }
