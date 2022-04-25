@@ -30,7 +30,6 @@ public class CommandHandler {
         registerCommand("commandspy", new CommandSpyCommand());
         registerCommand("rank", new RankCommand());
         registerCommand("help", new HelpCommand());
-        registerCommand("discord", new DiscordCommand());
     }
 
     private void registerCommand(String command, CommandExecutor executor) {

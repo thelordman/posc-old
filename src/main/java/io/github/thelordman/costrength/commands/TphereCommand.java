@@ -1,7 +1,6 @@
 package io.github.thelordman.costrength.commands;
 
 import io.github.thelordman.costrength.utilities.Methods;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,9 +13,9 @@ public class TphereCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!Methods.checkCommandPermission(sender, (byte) 4)) return true;
         if (args.length < 1) return false;
-        Player target = Bukkit.getPlayer(args[0]);
+        Player target = Methods.determineTarget(sender, args[0]);
         Player player = (Player) sender;
-        if (sender instanceof Player && !(target == null)) {
+        if (sender instanceof Player) {
             target.teleport(player.getLocation());
             player.sendMessage(Methods.cStr("&6You teleported &f" + target.getName() + " &6to your location."));
             target.sendMessage(Methods.cStr("&6You have been teleport to the location of &f" + player.getName() + "&6."));

@@ -1,7 +1,6 @@
 package io.github.thelordman.costrength.commands;
 
 import io.github.thelordman.costrength.utilities.Methods;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -33,7 +32,7 @@ public class GamemodeCommands implements CommandExecutor {
                 return false;
         }
 
-        return updateMode(args.length > 0 ? Bukkit.getPlayer(args[0]) : (Player) sender, sender, mode);
+        return updateMode(Methods.determineTarget(sender, args.length > 0 ? args[0] : sender.getName()), sender, mode);
     }
 
     private boolean updateMode(Player target, CommandSender sender, GameMode mode) {

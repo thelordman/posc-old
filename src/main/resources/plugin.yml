@@ -71,7 +71,3 @@ commands:
   help:
     description: Link to the wiki.
     usage: /help
-  discord:
-    description: Link to the wiki.
-    aliases: dc
-    usage: /discord [player]
