@@ -1,6 +1,6 @@
 package io.github.thelordman.costrength.listeners;
 
-import io.github.thelordman.costrength.CoStrength;
+import io.github.thelordman.costrength.discord.Discord;
 import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.ranks.RankManager;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
@@ -47,7 +47,7 @@ public class PlayerDeathListener implements Listener {
             builder.setDescription("He just died");
         }
 
-        CoStrength.minecraftChatChannel.sendMessageEmbeds(builder.build()).queue();
+        Discord.minecraftChatChannel.sendMessageEmbeds(builder.build()).queue();
     }
 
     private void killRewards(Player killer, Player victim) {

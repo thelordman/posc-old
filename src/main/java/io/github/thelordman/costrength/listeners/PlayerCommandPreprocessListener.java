@@ -1,6 +1,7 @@
 package io.github.thelordman.costrength.listeners;
 
 import io.github.thelordman.costrength.CoStrength;
+import io.github.thelordman.costrength.discord.Discord;
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -17,10 +18,10 @@ public class PlayerCommandPreprocessListener implements Listener {
             }
         }
         if (event.getMessage().contains("@")) {
-            CoStrength.commandLogChannel.sendMessage(Methods.replaceColorCodes("<t:" + System.currentTimeMillis() / 1000 + ":F> **" + event.getPlayer().getDisplayName() + "** executed the command `/I'm a fat bitch`", '§')).queue();
+            Discord.commandLogChannel.sendMessage(Methods.replaceColorCodes("<t:" + System.currentTimeMillis() / 1000 + ":F> **" + event.getPlayer().getDisplayName() + "** executed the command `/I'm a fat bitch`", '§')).queue();
         }
         else {
-            CoStrength.commandLogChannel.sendMessage("<t:" + System.currentTimeMillis() / 1000 + ":F> **" + event.getPlayer().getDisplayName() + "** executed the command `" + event.getMessage() + "`").queue();
+            Discord.commandLogChannel.sendMessage("<t:" + System.currentTimeMillis() / 1000 + ":F> **" + event.getPlayer().getDisplayName() + "** executed the command `" + event.getMessage() + "`").queue();
         }
     }
 }

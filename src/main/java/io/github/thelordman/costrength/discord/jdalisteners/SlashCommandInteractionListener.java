@@ -1,6 +1,7 @@
 package io.github.thelordman.costrength.discord.jdalisteners;
 
 import io.github.thelordman.costrength.CoStrength;
+import io.github.thelordman.costrength.discord.Discord;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -14,7 +15,7 @@ import java.util.Collection;
 public class SlashCommandInteractionListener extends ListenerAdapter {
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
-        if (!CoStrength.slashCommands.contains(event.getName())) return;
+        if (!Discord.slashCommands.contains(event.getName())) return;
 
         switch (event.getName()) {
             case "online":

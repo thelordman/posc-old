@@ -1,6 +1,6 @@
 package io.github.thelordman.costrength.listeners;
 
-import io.github.thelordman.costrength.CoStrength;
+import io.github.thelordman.costrength.discord.Discord;
 import io.github.thelordman.costrength.utilities.Methods;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.bukkit.event.EventHandler;
@@ -17,6 +17,6 @@ public class PlayerKickListener implements Listener {
         builder.setColor(Color.RED);
         builder.setDescription(event.getReason());
 
-        CoStrength.minecraftChatChannel.sendMessageEmbeds(builder.build()).queue();
+        Discord.minecraftChatChannel.sendMessageEmbeds(builder.build()).queue();
     }
 }

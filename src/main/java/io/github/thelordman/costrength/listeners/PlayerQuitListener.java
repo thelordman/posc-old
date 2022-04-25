@@ -1,6 +1,7 @@
 package io.github.thelordman.costrength.listeners;
 
 import io.github.thelordman.costrength.CoStrength;
+import io.github.thelordman.costrength.discord.Discord;
 import io.github.thelordman.costrength.utilities.Methods;
 import io.github.thelordman.costrength.scoreboard.FastBoard;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -27,6 +28,6 @@ public class PlayerQuitListener implements Listener {
         builder.setAuthor(Methods.replaceColorCodes(event.getPlayer().getDisplayName() + " Left", '§'), null, "https://crafatar.com/avatars/" + event.getPlayer().getUniqueId());
         builder.setColor(Color.RED);
 
-        CoStrength.minecraftChatChannel.sendMessageEmbeds(builder.build()).queue();
+        Discord.minecraftChatChannel.sendMessageEmbeds(builder.build()).queue();
     }
 }

@@ -1,6 +1,6 @@
 package io.github.thelordman.costrength.commands;
 
-import io.github.thelordman.costrength.CoStrength;
+import io.github.thelordman.costrength.discord.Discord;
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -14,9 +14,9 @@ public class BroadcastCommand implements CommandExecutor {
         if (!Methods.checkCommandPermission(sender, (byte) 4)) return true;
         if (args.length == 0) return false;
         Bukkit.broadcastMessage(Methods.cStr("&6&lCoStrength &8| &f" + Methods.arrayToString(args)));
-        CoStrength.minecraftChatChannel.sendMessage("**Broadcast**");
-        CoStrength.minecraftChatChannel.sendMessage("**" + Methods.arrayToString(args) + "**");
-        CoStrength.minecraftChatChannel.sendMessage("**Broadcast**");
+        Discord.minecraftChatChannel.sendMessage("**Broadcast**").queue();
+        Discord.minecraftChatChannel.sendMessage("**" + Methods.arrayToString(args) + "**").queue();
+        Discord.minecraftChatChannel.sendMessage("**Broadcast**").queue();
         return true;
     }
 }

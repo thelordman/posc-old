@@ -1,6 +1,7 @@
 package io.github.thelordman.costrength.ranks;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.scoreboard.Team;
 
@@ -14,6 +15,12 @@ public class RankManager {
             return Bukkit.getScoreboardManager().getMainScoreboard().getPlayerTeam(player).getPrefix();
         }
         else return "";
+    }
+
+    public static ChatColor getPlayerColor(OfflinePlayer player) {
+        if (!(Bukkit.getScoreboardManager().getMainScoreboard().getPlayerTeam(player) == null)) {
+        return Bukkit.getScoreboardManager().getMainScoreboard().getPlayerTeam(player).getColor();
+        } else return ChatColor.GRAY;
     }
 
     public static byte permissionLevel(OfflinePlayer player) {
