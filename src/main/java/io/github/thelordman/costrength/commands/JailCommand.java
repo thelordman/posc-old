@@ -1,6 +1,7 @@
 package io.github.thelordman.costrength.commands;
 
 import io.github.thelordman.costrength.utilities.Methods;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -25,7 +26,7 @@ public class JailCommand implements CommandExecutor {
             return true;
         }
 
-        return jail(player, Methods.determineTarget(sender, args[0]));
+        return jail(player, Bukkit.getPlayer(args[0]));
     }
 
     private boolean isJailed(OfflinePlayer target) {

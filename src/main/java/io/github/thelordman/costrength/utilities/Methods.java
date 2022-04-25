@@ -43,11 +43,6 @@ public class Methods {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
-    public static Player determineTarget(CommandSender sender, String target) {
-        if (sender.toString().equals(target)) return (Player) sender;
-        return Bukkit.getPlayerExact(target);
-    }
-
     public static String rfStr(String string) {
         return string.substring(0, 1).toUpperCase() + string.substring(1).toLowerCase();
     }

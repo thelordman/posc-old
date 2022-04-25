@@ -2,9 +2,11 @@ package io.github.thelordman.costrength.listeners;
 
 import io.github.thelordman.costrength.CoStrength;
 import io.github.thelordman.costrength.economy.EconomyManager;
+import io.github.thelordman.costrength.ranks.RankManager;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
 import io.github.thelordman.costrength.utilities.Methods;
 import net.dv8tion.jda.api.EmbedBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,7 +25,7 @@ public class PlayerDeathListener implements Listener {
         if (!(killer == null)) {
             killRewards(killer, player);
 
-            if (killer.hasPermission("chatcolor.white")) event.setDeathMessage(Methods.cStr("&cDeath &8| &f" + event.getDeathMessage()));
+            if (RankManager.hasPermission(Bukkit.getOfflinePlayer(killer.getName()), (byte) 1)) event.setDeathMessage(Methods.cStr("&cDeath &8| &f" + event.getDeathMessage()));
             else event.setDeathMessage(Methods.cStr("&7Death &8| &7" + event.getDeathMessage()));
             ScoreboardHandler.updateBoard(killer);
         }
@@ -39,7 +41,7 @@ public class PlayerDeathListener implements Listener {
         builder.setAuthor(Methods.replaceColorCodes(event.getPlayer().getDisplayName() + " Died", '§'), null, "https://crafatar.com/avatars/" + event.getPlayer().getUniqueId());
         builder.setColor(Color.RED);
         if (event.getDeathMessage() != null) {
-            builder.setDescription(originalMsg);
+            builder.setDescription(Methods.replaceColorCodes(originalMsg, '&'));
         }
         else {
             builder.setDescription("He just died");
