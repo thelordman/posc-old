@@ -15,8 +15,8 @@ public class MessageReceivedListener extends ListenerAdapter {
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
         String message;
-
-        if (!(event.getChannel() == Discord.minecraftChatChannel) | Objects.requireNonNull(event.getMember()).getId().equals("950449068444885062") && event.getMessage().getContentRaw().contains(":") | !event.getMessage().getEmbeds().isEmpty()) return;
+        if (!(event.getChannel() == Discord.minecraftChatChannel)) return;
+        if (Objects.requireNonNull(event.getMember()).getId().equals("950449068444885062") && event.getMessage().getContentRaw().contains(":") | !event.getMessage().getEmbeds().isEmpty()) return;
         Role highestRole = event.getMember().getRoles().get(0).getId().equals("921439677590949936") ? event.getMember().getRoles().get(1) : event.getMember().getRoles().get(0);
 
         message = "&3Discord &8| &7(" + highestRole.getName() + ") " + Utilities.memberChatColor(event.getMember(), "primary") + event.getMember().getEffectiveName() + Utilities.memberChatColor(event.getMember(), "secondary") + ": " + Utilities.memberChatColor(event.getMember(), "primary") + event.getMessage().getContentDisplay();

@@ -3,7 +3,6 @@ package io.github.thelordman.costrength.commands;
 import io.github.thelordman.costrength.ranks.RankManager;
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,7 +20,7 @@ public class SpawnCommand implements CommandExecutor {
         if (target == null) return false;
 
         Methods.teleportPlayerToSpawn(target, PlayerTeleportEvent.TeleportCause.COMMAND);
-        target.sendMessage(Methods.cStr("&6You have been sent to spawn. &f" + Methods.locToString(new Location(Bukkit.getWorld("world"), -0.5, -41, 0.5, 0, 0), false)));
+        target.sendMessage(Methods.cStr("&6You have been sent to spawn. &f" + Methods.locToString(Bukkit.getWorld("world").getSpawnLocation(), false)));
         return true;
     }
 }

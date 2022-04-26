@@ -10,8 +10,6 @@ import org.bukkit.scoreboard.Team;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 
-import static java.lang.Math.round;
-
 public class Methods {
     public static ChatColor playerChatColor(Player player, Byte type) {
         ChatColor color;
@@ -58,7 +56,7 @@ public class Methods {
     }
 
     public static void teleportPlayerToSpawn(Player player, PlayerTeleportEvent.TeleportCause cause) {
-        player.teleportAsync(new Location(Bukkit.getWorld("world"), 0.5, -60, 0.5, 0, 0), cause);
+        player.teleportAsync(Bukkit.getWorld("world").getSpawnLocation(), cause);
     }
 
     public static String hourTimeFormat(Integer seconds, Integer division) {
