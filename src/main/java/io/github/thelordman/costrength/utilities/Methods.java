@@ -27,12 +27,12 @@ public class Methods {
     }
 
     public static String locToString(Location location, Boolean extra) {
-        if (extra) {
-            return location.getWorld().getName() + "," + round(location.getX()) + "," + round(location.getY()) + "," + round(location.getZ()) +
-                    "," + round(location.getYaw()) + "," + round(location.getPitch());
-        } else {
-            return "X: " + round(location.getX()) + ", Y: " + round(location.getY()) + ", Z: " + round(location.getZ());
-        }
+        String x = rStr((float) location.getX());
+        String y = rStr((float) location.getY());
+        String z = rStr((float) location.getZ());
+        String yaw = rStr(location.getYaw());
+        String pitch = rStr(location.getPitch());
+        return extra ? location.getWorld().getName() + "," + x + "," + y + "," + z + "," + yaw + "," + pitch : "X: " + x + ", Y: " + y + ", Z: " + z;
     }
 
     public static Float getKdr(Player player) {
