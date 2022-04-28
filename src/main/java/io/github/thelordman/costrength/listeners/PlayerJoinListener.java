@@ -17,7 +17,7 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         String mid = RankManager.getPrefix(event.getPlayer()).isEmpty() ? "" : "&8| ";
-        event.getPlayer().setDisplayName(Methods.cStr(RankManager.getPrefix(event.getPlayer()) + mid + RankManager.getPlayerColor(event.getPlayer()) + event.getPlayer().getName()));
+        event.getPlayer().setDisplayName(Methods.cStr(RankManager.getPrefix(event.getPlayer()) + mid + RankManager.getPlayerColor(event.getPlayer()) + event.getPlayer().getName() + "&r"));
         event.getPlayer().setPlayerListHeaderFooter(Methods.cStr("\n  &6&lCoStrength.minehut.gg  \n"), Methods.cStr("\n&6/help &8| &6/dc &8| &6/buy"));
         event.getPlayer().setPlayerListName(event.getPlayer().getDisplayName());
 

@@ -14,6 +14,8 @@ public class ScoreboardHandler {
         scoreboard.updateLines(
                 "",
                 Methods.cStr("&6Balance&7: &f$" + Methods.rStr(EconomyManager.getBalance(player))),
+                Methods.cStr("&6Blocks&7: &f" + Methods.rStr((float) Methods.getBlocks(player))),
+                "",
                 Methods.cStr("&6Kills&7: &f" + Methods.rStr((float) player.getStatistic(Statistic.PLAYER_KILLS))),
                 Methods.cStr("&6Deaths&7: &f" + Methods.rStr((float) player.getStatistic(Statistic.DEATHS))),
                 Methods.cStr("&6K/D ratio&7: &f" + Methods.rStr(Methods.getKdr(player))),

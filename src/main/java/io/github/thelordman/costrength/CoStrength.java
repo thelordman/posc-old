@@ -14,7 +14,6 @@ import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 public final class CoStrength extends JavaPlugin {
@@ -24,7 +23,9 @@ public final class CoStrength extends JavaPlugin {
         return instance;
     }
 
-    public static Map<UUID, FastBoard> scoreboard = new HashMap<>();
+    public static HashMap<UUID, FastBoard> scoreboard = new HashMap<>();
+
+    public static HashMap<Player, String[]> lastMinedBlock = new HashMap<>();
 
     @Override
     public void onLoad() {
