@@ -10,10 +10,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.javatuples.Triplet;
 
-import static io.github.thelordman.costrength.CoStrength.lastMinedBlock;
+import java.util.HashMap;
 
 public class BlockBreakListener implements Listener {
+    private final HashMap<Player, Triplet<Material, Long, Integer>> lastBlockData = new HashMap<>();
+
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         event.setDropItems(false);
@@ -29,7 +32,6 @@ public class BlockBreakListener implements Listener {
             MineHandler.resetMine((byte) 1, player);
             return;
         }
-
         float reward = 0;
         switch (block.getType()) {
             case STONE -> reward = 1f;
@@ -40,21 +42,19 @@ public class BlockBreakListener implements Listener {
             case EMERALD_ORE -> reward = 8f;
         }
 
-        if (!(lastMinedBlock.get(player) == null)) {
-            if (lastMinedBlock.get(player)[0].equals(block.getType().toString()) && System.currentTimeMillis() - Long.parseLong(lastMinedBlock.get(player)[1]) > 5000) {
-                reward *= Float.parseFloat(lastMinedBlock.get(player)[2]) / 100;
-            }
-        }
-        String[] blockData = new String[3];
-        blockData[0] = block.getType().toString();
-        blockData[1] = String.valueOf(System.currentTimeMillis());
-        blockData[2] = lastMinedBlock.get(player) == null ? String.valueOf(0) : String.valueOf(Integer.parseInt(lastMinedBlock.get(player)[2]) + 1);
-        lastMinedBlock.put(player, blockData);
+        Material m = lastBlockData.get(player) == null ? Material.AIR : lastBlockData.get(player).getValue0();
+        long l = lastBlockData.get(player) == null ? 0 : lastBlockData.get(player).getValue1();
+        lastBlockData.put(player, new Triplet<>(block.getType(), System.currentTimeMillis(),
+                lastBlockData.get(player) == null | m != block.getType() | 5000 < System.currentTimeMillis() - l
+                        ? 1 : lastBlockData.get(player).getValue2() + 1));
+        float multi = lastBlockData.get(player) != null ? ((float) lastBlockData.get(player).getValue2()) / 100 : 0;
 
-        float money = reward;
-        float xp = reward;
+        float moneyMulti = 1 + multi;
+        float xpMulti = 1 + multi;
 
-        player.sendActionBar(Methods.cStr("&f+$" + money + " &8| &f+" + xp + "xp"));
+        float money = reward * moneyMulti, xp = reward * xpMulti;
+
+        player.sendActionBar(Methods.cStr("&f+$" + Methods.rStr(money) + " &7(" + Methods.rStr(moneyMulti) + "x) &8| &f+" + Methods.rStr(xp) + "xp &7(" + Methods.rStr(xpMulti) + "x) &8| &6Streak&7: &f" + Methods.rStr((float) lastBlockData.get(player).getValue2())));
         EconomyManager.setBalance(player, EconomyManager.getBalance(player) + money);
         EconomyManager.setXp(player, EconomyManager.getXp(player) + xp);
         ScoreboardHandler.updateBoard(player);

@@ -40,7 +40,7 @@ public class PlayerDeathListener implements Listener {
         EmbedBuilder builder = new EmbedBuilder();
         builder.setAuthor(Methods.replaceColorCodes(event.getPlayer().getDisplayName() + " Died", '§'), null, "https://crafatar.com/avatars/" + event.getPlayer().getUniqueId());
         builder.setColor(Color.RED);
-        if (event.getDeathMessage() != null) {
+        if (originalMsg != null) {
             builder.setDescription(Methods.replaceColorCodes(originalMsg, '&'));
         }
         else {
@@ -62,6 +62,6 @@ public class PlayerDeathListener implements Listener {
         EconomyManager.setBalance(killer, EconomyManager.getBalance(killer) + reward);
 
         victim.sendTitle(ChatColor.RED + "You Died", ChatColor.GOLD + killer.getDisplayName() + " stole " + ChatColor.WHITE + "$" + Methods.rStr(takeFromVictim));
-        killer.sendActionBar(victim.getDisplayName() + " &8| &f$" + Methods.rStr(reward));
+        killer.sendActionBar(Methods.cStr(victim.getDisplayName() + " &8| &f$" + Methods.rStr(reward)));
     }
 }

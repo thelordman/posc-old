@@ -25,8 +25,6 @@ public final class CoStrength extends JavaPlugin {
 
     public static HashMap<UUID, FastBoard> scoreboard = new HashMap<>();
 
-    public static HashMap<Player, String[]> lastMinedBlock = new HashMap<>();
-
     @Override
     public void onLoad() {
         getLogger().info("Executing onLoad method");

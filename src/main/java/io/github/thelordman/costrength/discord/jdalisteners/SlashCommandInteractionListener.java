@@ -2,6 +2,7 @@ package io.github.thelordman.costrength.discord.jdalisteners;
 
 import io.github.thelordman.costrength.CoStrength;
 import io.github.thelordman.costrength.discord.Discord;
+import io.github.thelordman.costrength.utilities.Methods;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -26,7 +27,7 @@ public class SlashCommandInteractionListener extends ListenerAdapter {
                 long tps = Math.round(tpsRaw[0]);
                 Collection<? extends Player> list = Bukkit.getOnlinePlayers();
                 for (Player player : list) {
-                    onlinePlayers.append(player.getDisplayName()).append(", ");
+                    onlinePlayers.append(Methods.replaceColorCodes(player.getDisplayName(), '§')).append(", ");
                     averagePing += player.getPing();
                 }
                 averagePing /= list.size();

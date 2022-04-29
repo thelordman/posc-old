@@ -90,5 +90,10 @@
             <artifactId>JDA</artifactId>
             <version>5.0.0-alpha.9</version>
         </dependency>
+        <dependency>
+            <groupId>org.javatuples</groupId>
+            <artifactId>javatuples</artifactId>
+            <version>1.2</version>
+        </dependency>
     </dependencies>
 </project>

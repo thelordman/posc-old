@@ -39,7 +39,7 @@ public class Methods {
     }
 
     public static int getBlocks(Player player) {
-        return player.getStatistic(Statistic.MINE_BLOCK, Material.STONE) + player.getStatistic(Statistic.MINE_BLOCK, Material.COAL_ORE) + player.getStatistic(Statistic.MINE_BLOCK, Material.IRON_ORE) + player.getStatistic(Statistic.MINE_BLOCK, Material.LAPIS_ORE) + player.getStatistic(Statistic.MINE_BLOCK, Material.DIAMOND_ORE) + player.getStatistic(Statistic.MINE_BLOCK, Material.EMERALD_ORE) + player.getStatistic(Statistic.MINE_BLOCK, Material.BEACON);
+        return player.getStatistic(Statistic.USE_ITEM, Material.IRON_PICKAXE) + player.getStatistic(Statistic.USE_ITEM, Material.DIAMOND_PICKAXE) + player.getStatistic(Statistic.USE_ITEM, Material.NETHERITE_PICKAXE) + player.getStatistic(Statistic.USE_ITEM, Material.GOLDEN_PICKAXE);
     }
 
     public static String cStr(String message) {
@@ -89,5 +89,9 @@ public class Methods {
             return true;
         }
         return false;
+    }
+
+    public static boolean inSpawn(Player player) {
+        return player.getLocation().getX() < 13 && player.getLocation().getY() > -13;
     }
 }
