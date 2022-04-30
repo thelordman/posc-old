@@ -1,5 +1,6 @@
 package io.github.thelordman.costrength.utilities;
 
+import io.github.thelordman.costrength.CoStrength;
 import io.github.thelordman.costrength.ranks.RankManager;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;

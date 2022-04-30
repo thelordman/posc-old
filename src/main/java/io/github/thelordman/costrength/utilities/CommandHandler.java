@@ -31,6 +31,7 @@ public class CommandHandler {
         registerCommand("rank", new RankCommand());
         registerCommand("help", new HelpCommand());
         registerCommand("discord", new DiscordCommand());
+        registerCommand("mine", new MineCommand());
     }
 
     private void registerCommand(String command, CommandExecutor executor) {

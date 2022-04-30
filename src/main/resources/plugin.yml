@@ -72,6 +72,10 @@ commands:
     description: Link to the wiki.
     usage: /help
   discord:
-    description: Link to the wiki.
+    description: Link to the Discord server.
     aliases: dc
-    usage: /discord [player]
+    usage: /discord
+  mine:
+    description: Reset the mine.
+    aliases: m
+    usage: /mine

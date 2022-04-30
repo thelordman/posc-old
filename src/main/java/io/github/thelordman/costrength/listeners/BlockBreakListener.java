@@ -25,9 +25,9 @@ public class BlockBreakListener implements Listener {
         Block block = event.getBlock();
 
         if (block.getType().equals(Material.BEACON)) {
-            float reward = EconomyManager.getBalance(player) / 100;
-            player.sendActionBar(Methods.cStr("&6Beacon &8| &f+$" + reward + " &8| &f+" + reward + "xp"));
-            EconomyManager.setBalance(player, EconomyManager.getBalance(player) / 100);
+            float reward = EconomyManager.getBalance(player) / 100 + 1000;
+            player.sendActionBar(Methods.cStr("&6Beacon &8| &f+$" + Methods.rStr(reward) + " &8| &f+" + Methods.rStr(reward) + "xp"));
+            EconomyManager.setBalance(player, EconomyManager.getBalance(player) + reward);
             ScoreboardHandler.updateBoard(player);
             MineHandler.resetMine((byte) 1, player);
             return;
