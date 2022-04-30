@@ -9,10 +9,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 
 public final class CoStrength extends JavaPlugin {
 
@@ -63,6 +63,8 @@ public final class CoStrength extends JavaPlugin {
                 ScoreboardHandler.scoreboard.get(online.getUniqueId()).updateTitle(Methods.cStr("&6&lCoStrength &7(" + Bukkit.getOnlinePlayers().size() + "&7/" + Bukkit.getMaxPlayers() + "&7)"));
             }
         }
+
+        globalTimer();
     }
 
     @Override
@@ -71,5 +73,14 @@ public final class CoStrength extends JavaPlugin {
         getLogger().info("Data saved");
 
         Discord.shutdownJDA();
+    }
+
+    private void globalTimer() {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Methods.runCombatTag();
+            }
+        }.runTaskTimer(CoStrength.get(), 0, 20);
     }
 }
