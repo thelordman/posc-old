@@ -12,7 +12,7 @@ public class PlayerCommandPreprocessListener implements Listener {
     @EventHandler
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
         for (Player online : Bukkit.getOnlinePlayers()) {
-            if (online.getScoreboardTags().contains("commandSpyToggled")) {
+            if (online.getScoreboardTags().contains("commandSpyToggled") && event.getPlayer() != online) {
                 online.sendMessage(Methods.cStr("&f" + event.getPlayer().getDisplayName() + " &6executed the command &f" + event.getMessage() + "&6."));
             }
         }

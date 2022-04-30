@@ -1,6 +1,7 @@
 package io.github.thelordman.costrength.listeners;
 
-import io.github.thelordman.costrength.CoStrength;
+
+import io.github.thelordman.costrength.utilities.Data;
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
@@ -25,8 +26,8 @@ public class EntityDamageListener implements Listener {
 
         if (attacker != null && victim != null) {
             if (Methods.inSpawn(attacker) | Methods.inSpawn(victim)) {
-                if (CoStrength.combatTag.get(victim) != null) {
-                    CoStrength.combatTag.put(victim, 20);
+                if (Data.combatTag.get(victim) != null) {
+                    Data.combatTag.put(victim, (byte) 20);
                     combatTagBar.addPlayer(victim);
                     return;
                 }
@@ -34,8 +35,8 @@ public class EntityDamageListener implements Listener {
                 return;
             }
 
-            if (CoStrength.combatTag.get(victim) == null) victim.sendMessage(Methods.cStr("&cCombat tagged &6with " + attacker + " &6for &f20 seconds&6."));
-            if (CoStrength.combatTag.get(attacker) == null) attacker.sendMessage(Methods.cStr("&cCombat tagged &6with " + victim + " &6for &f20 seconds&6."));
+            if (Data.combatTag.get(victim) == null) victim.sendMessage(Methods.cStr("&cCombat tagged &6with " + attacker + " &6for &f20 seconds&6."));
+            if (Data.combatTag.get(attacker) == null) attacker.sendMessage(Methods.cStr("&cCombat tagged &6with " + victim + " &6for &f20 seconds&6."));
 
         }
     }

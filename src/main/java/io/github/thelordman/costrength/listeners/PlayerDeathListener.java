@@ -1,9 +1,11 @@
 package io.github.thelordman.costrength.listeners;
 
+import io.github.thelordman.costrength.commands.BountyCommand;
 import io.github.thelordman.costrength.discord.Discord;
 import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.ranks.RankManager;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
+import io.github.thelordman.costrength.utilities.Data;
 import io.github.thelordman.costrength.utilities.Methods;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.bukkit.Bukkit;
@@ -18,25 +20,33 @@ import java.awt.*;
 public class PlayerDeathListener implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        Player player = event.getPlayer();
+        Player victim = event.getPlayer();
         Player killer = event.getPlayer().getKiller();
         String originalMsg = event.getDeathMessage();
 
-        if (!(killer == null)) {
-            killRewards(killer, player);
+        if (killer != null && killer != victim) {
+            killRewards(killer, victim);
 
             if (RankManager.hasPermission(Bukkit.getOfflinePlayer(killer.getName()), (byte) 1)) event.setDeathMessage(Methods.cStr("&cDeath &8| &f" + event.getDeathMessage()));
             else event.setDeathMessage(Methods.cStr("&7Death &8| &7" + event.getDeathMessage()));
+
+            if (Data.bounty.containsKey(victim)) {
+                EconomyManager.setBalance(killer, EconomyManager.getBalance(killer) + Data.bounty.get(victim));
+                Data.bounty.remove(victim);
+                Bukkit.broadcastMessage(Methods.cStr(killer.getDisplayName() + " &6collected the bounty of &f$" + Data.bounty.get(victim) + " &6on " + victim.getDisplayName() + "&6."));
+            }
+
             ScoreboardHandler.updateBoard(killer);
         }
         else {
-            player.sendTitle(ChatColor.RED + "You Died", "");
+            victim.sendTitle(ChatColor.RED + "You Died", "");
             event.setDeathMessage(Methods.cStr("&7Death &8| &7" + event.getDeathMessage()));
         }
-        EconomyManager.setKillstreak(player, 0);
+        EconomyManager.setKillstreak(victim, 0);
 
-        ScoreboardHandler.updateBoard(player);
-
+        ScoreboardHandler.updateBoard(victim);
+        
+        //Discord
         EmbedBuilder builder = new EmbedBuilder();
         builder.setAuthor(Methods.replaceColorCodes(event.getPlayer().getDisplayName() + " Died", '§'), null, "https://crafatar.com/avatars/" + event.getPlayer().getUniqueId());
         builder.setColor(Color.RED);

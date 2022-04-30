@@ -79,3 +79,6 @@ commands:
     description: Reset the mine.
     aliases: m
     usage: /mine
+  bounty:
+    description: Set or check a player's bounty.
+    usage: /bounty [player] [amount]

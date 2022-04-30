@@ -32,6 +32,7 @@ public class CommandHandler {
         registerCommand("help", new HelpCommand());
         registerCommand("discord", new DiscordCommand());
         registerCommand("mine", new MineCommand());
+        registerCommand("bounty", new BountyCommand());
     }
 
     private void registerCommand(String command, CommandExecutor executor) {

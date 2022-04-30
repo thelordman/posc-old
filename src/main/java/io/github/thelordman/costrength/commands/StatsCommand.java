@@ -17,7 +17,7 @@ public class StatsCommand implements CommandExecutor {
             if (player == null) return false;
             sender.sendMessage(Methods.cStr("\n&r    &6&lYour Statistics\n&r\n" +
                     "&6Balance&7: &f$" + Methods.rStr(EconomyManager.getBalance(player)) + "\n" +
-                    "&6Blocks&7: &f" + Methods.rStr((float) Methods.getBlocks(player)) +
+                    "&6Blocks&7: &f" + Methods.rStr(Methods.getBlocks(player)) + "\n" +
                     "&6Kills&7: &f" + Methods.rStr((float) player.getStatistic(Statistic.PLAYER_KILLS)) + "\n" +
                     "&6Deaths&7: &f" + Methods.rStr((float) player.getStatistic(Statistic.DEATHS)) + "\n" +
                     "&6K/D ratio&7: &f" + Methods.rStr(Methods.getKdr(player)) + "\n" +
@@ -29,7 +29,7 @@ public class StatsCommand implements CommandExecutor {
             if (target == null) return false;
             sender.sendMessage(Methods.cStr("\n&r    &6&l" + target.getDisplayName() + "&6&l's Statistics\n&r\n" +
                     "&6Balance&7: &f$" + Methods.rStr(EconomyManager.getBalance(target)) + "\n" +
-                    "&6Blocks&7: &f" + Methods.rStr((float) Methods.getBlocks(player)) + "\n" +
+                    "&6Blocks&7: &f" + Methods.rStr(Methods.getBlocks(player)) + "\n" +
                     "&6Kills&7: &f" + Methods.rStr((float) target.getStatistic(Statistic.PLAYER_KILLS)) + "\n" +
                     "&6Deaths&7: &f" + Methods.rStr((float) target.getStatistic(Statistic.DEATHS)) + "\n" +
                     "&6K/D ratio&7: &f" + Methods.rStr(Methods.getKdr(target)) + "\n" +

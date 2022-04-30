@@ -42,12 +42,15 @@ public class BlockBreakListener implements Listener {
             case EMERALD_ORE -> reward = 8f;
         }
 
-        Material m = lastBlockData.get(player) == null ? Material.AIR : lastBlockData.get(player).getValue0();
-        long l = lastBlockData.get(player) == null ? 0 : lastBlockData.get(player).getValue1();
+        Material m = !lastBlockData.containsKey(player) ? Material.AIR : lastBlockData.get(player).getValue0();
+        long l = !lastBlockData.containsKey(player) ? 0 : lastBlockData.get(player).getValue1();
         lastBlockData.put(player, new Triplet<>(block.getType(), System.currentTimeMillis(),
-                lastBlockData.get(player) == null | m != block.getType() | 5000 < System.currentTimeMillis() - l
-                        ? 1 : lastBlockData.get(player).getValue2() + 1));
-        float multi = lastBlockData.get(player) != null ? ((float) lastBlockData.get(player).getValue2()) / 100 : 0;
+                !lastBlockData.containsKey(player) | m != block.getType() | 5000 < System.currentTimeMillis() - l
+                        ? 0 : lastBlockData.get(player).getValue2() + 1));
+        float multi = lastBlockData.containsKey(player) ? ((float) lastBlockData.get(player).getValue2()) / 100 : 0;
+        if (lastBlockData.containsKey(player) && block.getType().equals(Material.STONE) && lastBlockData.get(player).getValue2() >= 10) {
+            multi = (float) Math.log10((float) lastBlockData.get(player).getValue2() / 10);
+        }
 
         float moneyMulti = 1 + multi;
         float xpMulti = 1 + multi;

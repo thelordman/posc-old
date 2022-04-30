@@ -13,6 +13,6 @@ public class MineCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!Methods.checkCommandPermission(sender, (byte) 1)) return true;
         MineHandler.resetMine((byte) 0, (Player) sender);
-        return false;
+        return true;
     }
 }

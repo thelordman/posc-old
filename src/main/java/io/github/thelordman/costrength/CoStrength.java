@@ -2,7 +2,6 @@ package io.github.thelordman.costrength;
 
 import io.github.thelordman.costrength.discord.Discord;
 import io.github.thelordman.costrength.economy.EconomyManager;
-import io.github.thelordman.costrength.scoreboard.FastBoard;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
 import io.github.thelordman.costrength.utilities.CommandHandler;
 import io.github.thelordman.costrength.utilities.Methods;
@@ -14,7 +13,6 @@ import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.UUID;
 
 public final class CoStrength extends JavaPlugin {
 
@@ -22,10 +20,6 @@ public final class CoStrength extends JavaPlugin {
     public static CoStrength get() {
         return instance;
     }
-
-    public static HashMap<UUID, FastBoard> scoreboard = new HashMap<>();
-
-    public static HashMap<Player, Integer> combatTag = new HashMap<>();
 
     @Override
     public void onLoad() {
@@ -66,7 +60,7 @@ public final class CoStrength extends JavaPlugin {
                     EconomyManager.setKillstreak(online, 0);
                 }
                 ScoreboardHandler.updateBoard(online);
-                scoreboard.get(online.getUniqueId()).updateTitle(Methods.cStr("&6&lCoStrength &7(" + Bukkit.getOnlinePlayers().size() + "&7/" + Bukkit.getMaxPlayers() + "&7)"));
+                ScoreboardHandler.scoreboard.get(online.getUniqueId()).updateTitle(Methods.cStr("&6&lCoStrength &7(" + Bukkit.getOnlinePlayers().size() + "&7/" + Bukkit.getMaxPlayers() + "&7)"));
             }
         }
     }
