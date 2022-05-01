@@ -1,2 +1,2 @@
 # CoStrength
-The collection of plugins, Skripts and other software for the CoStrength -Minecraft server network.
+The main plugin for the mining minigame of the CoStrength -Minecraft server network.
