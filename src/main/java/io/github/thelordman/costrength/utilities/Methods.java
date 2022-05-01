@@ -99,23 +99,4 @@ public class Methods {
     public static boolean inSpawn(Player player) {
         return player.getLocation().getX() < 13 && player.getLocation().getY() > -13;
     }
-
-    public static void addCombatTag(Player player) {
-        Data.combatTag.put(player, Pair.with(Bukkit.createBossBar(Methods.cStr("&cCombat tag"), BarColor.RED, BarStyle.SEGMENTED_20), (byte) 20));
-        Data.combatTag.get(player).getValue0().addPlayer(player);
-    }
-
-    public static void runCombatTag() {
-        for (Player online : Bukkit.getOnlinePlayers()) {
-            if (Data.combatTag.containsKey(online)) {
-                Data.combatTag.put(online, Pair.with(Data.combatTag.get(online).getValue0(), (byte) (Data.combatTag.get(online).getValue1() - 1)));
-                Data.combatTag.get(online).getValue0().setProgress(Data.combatTag.get(online).getValue0().getProgress() - 0.05);
-                if (Data.combatTag.get(online).getValue1() == 0) {
-                    Data.combatTag.remove(online);
-                    Data.combatTag.get(online).getValue0().removePlayer(online);
-                    online.sendMessage(cStr("&cCombat tag &6ended."));
-                }
-            }
-        }
-    }
 }

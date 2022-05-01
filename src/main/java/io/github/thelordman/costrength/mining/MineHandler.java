@@ -1,4 +1,4 @@
-package io.github.thelordman.costrength.mine;
+package io.github.thelordman.costrength.mining;
 
 import io.github.thelordman.costrength.CoStrength;
 import io.github.thelordman.costrength.utilities.Methods;
@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 public class MineHandler {
     public static void resetMine(byte type, Player player) {
         String executor = player == null ? "Console" : player.getDisplayName();
-        String broadcast = type == 0 ? "\n&6&lCoStrength &8| &fMine is being refilled by " + executor + "&f." : "\n&6&lCoStrength &8| &fA beacon has been found by " + executor + "&f.\n&6&lCoStrength &8| &fMine is being refilled.\n";
+        String broadcast = type == 0 ? "\n&6&lCoStrength &8| &fMine is being refilled by " + executor + "&f.\n" : "\n&6&lCoStrength &8| &fA beacon has been found by " + executor + "&f.\n&6&lCoStrength &8| &fMine is being refilled.\n";
         Bukkit.broadcastMessage(Methods.cStr(broadcast));
 
         //mine1
