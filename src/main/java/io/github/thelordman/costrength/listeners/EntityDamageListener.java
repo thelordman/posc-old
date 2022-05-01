@@ -19,19 +19,29 @@ public class EntityDamageListener implements Listener {
             return;
         }
 
-        if (attacker != null && victim != null) {
+        if (!event.isCancelled() && attacker != null && victim != null) {
+            Player[] players = {attacker,victim};
+            if (!Methods.inCombat(victim)) {
+                victim.sendMessage(Methods.cStr("&cYou are in combat with &6" + attacker.getName() + " &cfor 20 seconds!"));
+            }
+            if (!Methods.inCombat(attacker)) {
+                attacker.sendMessage(Methods.cStr("&cYou are in combat with &6" + victim.getName() + " &cfor 20 seconds!"));
+            }
             if (Methods.inSpawn(attacker) | Methods.inSpawn(victim)) {
-                if (Data.combatTag.containsKey(victim)) {
-                    Methods.addCombatTag(victim);
+                if (Methods.inCombat(victim)) {
+                    Methods.setCombatTicks(victim, 20 * 16);
+                    Methods.setCombatTicks(attacker, 20 * 16);
                     return;
                 }
                 event.setCancelled(true);
                 return;
             }
-            if (!Data.combatTag.containsKey(victim)) victim.sendMessage(Methods.cStr("&cCombat tagged &6with " + attacker + " &6for &f20 seconds&6."));
-            Methods.addCombatTag(victim);
-            if (!Data.combatTag.containsKey(attacker)) attacker.sendMessage(Methods.cStr("&cCombat tagged &6with " + victim + " &6for &f20 seconds&6."));
-            Methods.addCombatTag(victim);
+            else{
+                for(Player player : players) {
+                    if (Methods.inCombat(player)) Methods.setCombatTicks(player, 20 * 16);
+                    else Methods.addPlayer(player, 20 * 15);
+                }
+            }
         }
     }
 }

@@ -64,7 +64,7 @@ public final class CoStrength extends JavaPlugin {
             }
         }
 
-        globalTimer();
+        //globalTimer();
     }
 
     @Override
@@ -75,12 +75,12 @@ public final class CoStrength extends JavaPlugin {
         Discord.shutdownJDA();
     }
 
-    private void globalTimer() {
+    /*private void globalTimer() {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Methods.runCombatTag();
+                Methods.();
             }
         }.runTaskTimer(CoStrength.get(), 0, 20);
-    }
+    }*/
 }

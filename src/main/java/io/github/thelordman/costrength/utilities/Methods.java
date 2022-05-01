@@ -9,6 +9,7 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 import org.javatuples.Pair;
 
@@ -100,22 +101,32 @@ public class Methods {
         return player.getLocation().getX() < 13 && player.getLocation().getY() > -13;
     }
 
-    public static void addCombatTag(Player player) {
-        Data.combatTag.put(player, Pair.with(Bukkit.createBossBar(Methods.cStr("&cCombat tag"), BarColor.RED, BarStyle.SEGMENTED_20), (byte) 20));
-        Data.combatTag.get(player).getValue0().addPlayer(player);
+    public static boolean inCombat(Player player) {
+        return Data.combatTag.containsKey(player);
     }
 
-    public static void runCombatTag() {
-        for (Player online : Bukkit.getOnlinePlayers()) {
-            if (Data.combatTag.containsKey(online)) {
-                Data.combatTag.put(online, Pair.with(Data.combatTag.get(online).getValue0(), (byte) (Data.combatTag.get(online).getValue1() - 1)));
-                Data.combatTag.get(online).getValue0().setProgress(Data.combatTag.get(online).getValue0().getProgress() - 0.05);
-                if (Data.combatTag.get(online).getValue1() == 0) {
-                    Data.combatTag.remove(online);
-                    Data.combatTag.get(online).getValue0().removePlayer(online);
-                    online.sendMessage(cStr("&cCombat tag &6ended."));
+    public static void addPlayer(Player player, int ticks) {
+        Data.combatTag.put(player, ticks);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Data.combatTag.replace(player, Data.combatTag.get(player) - 1);
+                player.sendActionBar(Methods.cStr("&cCombat: &6" + Data.combatTag.get(player) / 20 + " seconds"));
+                if (Data.combatTag.get(player) <= 0) {
+                    removePlayer(player);
+                    cancel();
                 }
             }
-        }
+        }.runTaskTimer(CoStrength.instance, 0, 1);
+    }
+
+    public static void removePlayer(Player player) {
+        Data.combatTag.remove(player);
+        player.sendActionBar("");
+        player.sendMessage(Methods.cStr("&cYou are no longer in combat!"));
+    }
+
+    public static void setCombatTicks(Player player, int ticks) {
+        Data.combatTag.replace(player, ticks);
     }
 }

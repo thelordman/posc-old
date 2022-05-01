@@ -7,6 +7,6 @@ import org.javatuples.Pair;
 import java.util.HashMap;
 
 public class Data {
-    public static HashMap<Player, Pair<BossBar, Byte>> combatTag = new HashMap<>();
+    public static HashMap<Player, Integer> combatTag = new HashMap<>();
     public static HashMap<Player, Float> bounty = new HashMap<>();
 }
