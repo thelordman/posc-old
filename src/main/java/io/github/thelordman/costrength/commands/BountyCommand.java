@@ -1,6 +1,7 @@
 package io.github.thelordman.costrength.commands;
 
 import io.github.thelordman.costrength.economy.EconomyManager;
+import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
 import io.github.thelordman.costrength.utilities.Data;
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Bukkit;
@@ -21,11 +22,19 @@ public class BountyCommand implements CommandExecutor {
         }
 
         Player target = Bukkit.getPlayer(args[0]);
-        Float amount = Float.valueOf(args[1]);
-        if (target == null | amount.isNaN() | amount < 100 | EconomyManager.getBalance(player) > amount) return false;
+        Float amount;
+        try {
+            amount = Float.valueOf(args[1]);
+        } catch (NumberFormatException e) {
+            return Methods.errorMessage("notaNumber", player);
+        }
+        if (target == null | amount.isNaN()) return false;
+        if (amount < 100) return Methods.errorMessage("requires100", player);
+        if (EconomyManager.getBalance(player) < amount) return Methods.errorMessage("insufficientFunds", player);
 
         EconomyManager.setBalance(player, EconomyManager.getBalance(player) - amount);
-        Data.bounty.put(target, Data.bounty.containsKey(target) ? amount : Data.bounty.get(target));
+        Data.bounty.put(target, Data.bounty.containsKey(target) ? Data.bounty.get(target) + amount : amount);
+        ScoreboardHandler.updateBoard(player);
         Bukkit.broadcastMessage(Methods.cStr(player.getDisplayName() + " &6has added a bounty of &f$" + Methods.rStr(amount) + " &6on " + target.getDisplayName() + "&6.\n&f$" + Methods.rStr(Data.bounty.get(target)) + " &6total."));
         return true;
     }

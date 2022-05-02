@@ -1,7 +1,7 @@
 package io.github.thelordman.costrength.listeners;
 
 import io.github.thelordman.costrength.economy.EconomyManager;
-import io.github.thelordman.costrength.mine.MineHandler;
+import io.github.thelordman.costrength.mining.MineHandler;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Material;
@@ -47,10 +47,10 @@ public class BlockBreakListener implements Listener {
         lastBlockData.put(player, new Triplet<>(block.getType(), System.currentTimeMillis(),
                 !lastBlockData.containsKey(player) | m != block.getType() | 5000 < System.currentTimeMillis() - l
                         ? 0 : lastBlockData.get(player).getValue2() + 1));
-        float multi = lastBlockData.containsKey(player) ? ((float) lastBlockData.get(player).getValue2()) / 100 : 0;
-        if (lastBlockData.containsKey(player) && block.getType().equals(Material.STONE) && lastBlockData.get(player).getValue2() >= 10) {
-            multi = (float) Math.log10((float) lastBlockData.get(player).getValue2() / 10);
-        }
+        float multi = lastBlockData.containsKey(player)
+                ? (float) (block.getType().equals(Material.STONE)
+                ? Math.log(100 + lastBlockData.get(player).getValue2()) / 2
+                : lastBlockData.get(player).getValue2()) / 100 : 0;
 
         float moneyMulti = 1 + multi;
         float xpMulti = 1 + multi;

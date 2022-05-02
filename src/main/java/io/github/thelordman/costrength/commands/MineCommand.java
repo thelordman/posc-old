@@ -1,6 +1,6 @@
 package io.github.thelordman.costrength.commands;
 
-import io.github.thelordman.costrength.mine.MineHandler;
+import io.github.thelordman.costrength.mining.MineHandler;
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

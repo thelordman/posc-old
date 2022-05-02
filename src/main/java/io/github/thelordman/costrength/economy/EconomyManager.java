@@ -8,6 +8,7 @@ import java.util.UUID;
 public final class EconomyManager {
     public static final HashMap<UUID, Float> balance = new HashMap<>();
     public static final HashMap<UUID, Float> xp = new HashMap<>();
+    public static final HashMap<UUID, Integer> level = new HashMap<>();
     public static final HashMap<UUID, Integer> killstreak = new HashMap<>();
 
     public static Float getBalance(Player player) {
@@ -24,6 +25,14 @@ public final class EconomyManager {
 
     public static void setXp(Player player, Float amount) {
         xp.put(player.getUniqueId(), amount);
+    }
+
+    public static Integer getLevel(Player player) {
+        return level.get(player.getUniqueId()) == null ? 0 : level.get(player.getUniqueId());
+    }
+
+    public static void setLevel(Player player, Integer amount) {
+        level.put(player.getUniqueId(), amount);
     }
 
     public static Integer getKillstreak(Player player) {
