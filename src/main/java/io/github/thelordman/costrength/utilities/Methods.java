@@ -99,4 +99,13 @@ public class Methods {
     public static boolean inSpawn(Player player) {
         return player.getLocation().getX() < 13 && player.getLocation().getY() > -13;
     }
+
+    public static boolean errorMessage(String error, Player player) {
+        switch (error) {
+            case "insufficientFunds" -> player.sendMessage(Methods.cStr("&cYou don't have enough money for that."));
+            case "requires100" -> player.sendMessage(Methods.cStr("&cAmount must be at least $100."));
+            case "notaNumber" -> player.sendMessage(Methods.cStr("&cAmount must be a number."));
+        }
+        return true;
+    }
 }

@@ -48,9 +48,9 @@ public class BlockBreakListener implements Listener {
                 !lastBlockData.containsKey(player) | m != block.getType() | 5000 < System.currentTimeMillis() - l
                         ? 0 : lastBlockData.get(player).getValue2() + 1));
         float multi = lastBlockData.containsKey(player)
-                ? block.getType().equals(Material.STONE)
-                ? (float) Math.log(100 + lastBlockData.get(player).getValue2()) / 2
-                : ((float) lastBlockData.get(player).getValue2()) / 100 : 0;
+                ? (float) (block.getType().equals(Material.STONE)
+                ? Math.log(100 + lastBlockData.get(player).getValue2()) / 2
+                : lastBlockData.get(player).getValue2()) / 100 : 0;
 
         float moneyMulti = 1 + multi;
         float xpMulti = 1 + multi;
