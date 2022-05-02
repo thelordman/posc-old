@@ -18,8 +18,6 @@ public class EntityDamageByEntityListener implements Listener {
                 for(Player player : players) {
                     if (Methods.inCombat(player)) Methods.setCombatTicks(player, 20 * 21);
                     else {
-                        event.getDamager().sendMessage(Methods.cStr("&cYou are in combat with &6" + event.getEntity().getName() + " &cfor 20 seconds!"));
-                        event.getEntity().sendMessage(Methods.cStr("&cYou are in combat with &6" + event.getDamager().getName() + " &cfor 20 seconds!"));
                         Methods.addPlayer(player, 20 * 20);
                     }
                 }
