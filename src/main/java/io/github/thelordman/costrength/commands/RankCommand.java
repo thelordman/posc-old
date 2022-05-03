@@ -19,6 +19,7 @@ public class RankCommand implements CommandExecutor {
             String rank = args[2];
             RankManager.setRank(target, Methods.getTeamFromString(rank));
             sender.sendMessage(Methods.cStr("&f" + target.getName() + "'s &6rank was set to &f" + rank + "&6."));
+            if (target.getPlayer() != null) Methods.updateDisplayName(target.getPlayer());
             return true;
         }
         return false;

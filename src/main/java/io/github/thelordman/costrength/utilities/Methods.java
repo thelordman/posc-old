@@ -105,28 +105,39 @@ public class Methods {
         return Data.combatTag.containsKey(player);
     }
 
-    public static void addPlayer(Player player, int ticks) {
-        Data.combatTag.put(player, ticks);
+    public static void addPlayer(Player player, byte seconds) {
+        Data.combatTag.put(player, seconds);
         new BukkitRunnable() {
             @Override
             public void run() {
-                Data.combatTag.replace(player, Data.combatTag.get(player) - 1);
-                player.sendActionBar(Methods.cStr("&cCombat: &6" + Data.combatTag.get(player) / 20 + " seconds"));
+                Data.combatTag.put(player, (byte) (Data.combatTag.get(player) - 1));
+                player.sendActionBar(Methods.cStr("&cCombat tag: &6" + Data.combatTag.get(player) + " seconds"));
                 if (Data.combatTag.get(player) <= 0) {
                     removePlayer(player);
                     cancel();
                 }
             }
-        }.runTaskTimer(CoStrength.instance, 0, 1);
+        }.runTaskTimer(CoStrength.instance, 0, 20);
     }
 
     public static void removePlayer(Player player) {
         Data.combatTag.remove(player);
-        player.sendActionBar("");
-        player.sendMessage(Methods.cStr("&cYou are no longer in combat!"));
+        player.sendActionBar(Methods.cStr("&cCombat tag &6over"));
+        player.sendMessage(Methods.cStr("&cYou are no longer combat tagged."));
     }
 
-    public static void setCombatTicks(Player player, int ticks) {
-        Data.combatTag.replace(player, ticks);
+    public static boolean errorMessage(String error, Player player) {
+        switch (error) {
+            case "insufficientFunds" -> player.sendMessage(Methods.cStr("&cYou don't have enough money for that."));
+            case "requires100" -> player.sendMessage(Methods.cStr("&cAmount must be at least $100."));
+            case "notaNumber" -> player.sendMessage(Methods.cStr("&cAmount must be a number."));
+        }
+        return true;
+    }
+
+    public static void updateDisplayName(Player player) {
+        String mid = RankManager.getPrefix(player).isEmpty() ? "" : "&8| ";
+        player.setDisplayName(Methods.cStr(RankManager.levelPrefix(player) + " " + RankManager.getPrefix(player) + mid + RankManager.getPlayerColor(player) + player.getName() + "&r"));
+        player.setPlayerListName(player.getDisplayName());
     }
 }

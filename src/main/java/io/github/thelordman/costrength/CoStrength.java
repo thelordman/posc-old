@@ -9,7 +9,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
@@ -53,18 +52,14 @@ public final class CoStrength extends JavaPlugin {
 
         if (!Bukkit.getOnlinePlayers().isEmpty()) {
             for (Player online : Bukkit.getOnlinePlayers()) {
-                if (EconomyManager.getBalance(online) == null) {
-                    EconomyManager.setBalance(online, 0f);
-                }
-                if (EconomyManager.getKillstreak(online) == null) {
-                    EconomyManager.setKillstreak(online, 0);
-                }
+                if (EconomyManager.getBalance(online) == null) EconomyManager.setBalance(online, 0f);
+                if (EconomyManager.getKillstreak(online) == null) EconomyManager.setKillstreak(online, 0);
+                if (EconomyManager.getXp(online) == null) EconomyManager.setXp(online, 0f);
+                if (EconomyManager.getLevel(online) == null) EconomyManager.setLevel(online, 1);
                 ScoreboardHandler.updateBoard(online);
                 ScoreboardHandler.scoreboard.get(online.getUniqueId()).updateTitle(Methods.cStr("&6&lCoStrength &7(" + Bukkit.getOnlinePlayers().size() + "&7/" + Bukkit.getMaxPlayers() + "&7)"));
             }
         }
-
-        //globalTimer();
     }
 
     @Override
@@ -74,13 +69,4 @@ public final class CoStrength extends JavaPlugin {
 
         Discord.shutdownJDA();
     }
-
-    /*private void globalTimer() {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Methods.();
-            }
-        }.runTaskTimer(CoStrength.get(), 0, 20);
-    }*/
 }

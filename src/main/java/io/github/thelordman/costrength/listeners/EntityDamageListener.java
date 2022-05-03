@@ -21,25 +21,20 @@ public class EntityDamageListener implements Listener {
 
         if (!event.isCancelled() && attacker != null && victim != null) {
             Player[] players = {attacker,victim};
-            if (!Methods.inCombat(victim)) {
-                victim.sendMessage(Methods.cStr("&cYou are in combat with &6" + attacker.getName() + " &cfor 20 seconds!"));
-            }
-            if (!Methods.inCombat(attacker)) {
-                attacker.sendMessage(Methods.cStr("&cYou are in combat with &6" + victim.getName() + " &cfor 20 seconds!"));
-            }
+            if (!Methods.inCombat(victim)) victim.sendMessage(Methods.cStr("&cYou are in combat with &6" + attacker.getName() + " &cfor 20 seconds!"));
+            if (!Methods.inCombat(attacker)) attacker.sendMessage(Methods.cStr("&cYou are in combat with &6" + victim.getName() + " &cfor 20 seconds!"));
             if (Methods.inSpawn(attacker) | Methods.inSpawn(victim)) {
                 if (Methods.inCombat(victim)) {
-                    Methods.setCombatTicks(victim, 20 * 16);
-                    Methods.setCombatTicks(attacker, 20 * 16);
+                    Data.combatTag.put(victim, (byte) 20);
+                    Data.combatTag.put(attacker, (byte) 20);
                     return;
                 }
                 event.setCancelled(true);
-                return;
             }
-            else{
-                for(Player player : players) {
-                    if (Methods.inCombat(player)) Methods.setCombatTicks(player, 20 * 16);
-                    else Methods.addPlayer(player, 20 * 15);
+            else {
+                for (Player player : players) {
+                    if (Methods.inCombat(player)) Data.combatTag.put(player, (byte) 20);
+                    else Data.combatTag.put(victim, (byte) 20);
                 }
             }
         }

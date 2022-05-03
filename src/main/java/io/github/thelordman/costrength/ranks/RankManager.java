@@ -1,5 +1,6 @@
 package io.github.thelordman.costrength.ranks;
 
+import io.github.thelordman.costrength.economy.EconomyManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -41,5 +42,18 @@ public class RankManager {
 
     public static boolean hasPermission(OfflinePlayer player, byte level) {
         return permissionLevel(player) >= level;
+    }
+
+    public static String levelPrefix(OfflinePlayer player) {
+        int i = EconomyManager.getLevel(player.getPlayer());
+        String s = "&8[&7" + i + "&8]";
+        if (i >= 1) s = "&8[&7" + i + "&8]";
+        if (i >= 10) s = "&7[&f" + i + "&7]";
+        if (i >= 25) s = "&f[&a" + i + "&f]";
+        if (i >= 50) s = "&f[&e" + i + "&f]";
+        if (i >= 75) s = "&f[&6" + i + "&f]";
+        if (i >= 100) s = "&f[&4" + i + "&f]";
+
+        return s;
     }
 }

@@ -1,6 +1,7 @@
 package io.github.thelordman.costrength.listeners;
 
 import io.github.thelordman.costrength.economy.EconomyManager;
+import io.github.thelordman.costrength.economy.LevelHandler;
 import io.github.thelordman.costrength.mining.MineHandler;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
 import io.github.thelordman.costrength.utilities.Methods;
@@ -19,19 +20,16 @@ public class BlockBreakListener implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-        event.setDropItems(false);
+        event.setExpToDrop(0);
 
         Player player = event.getPlayer();
         Block block = event.getBlock();
-
-        if (block.getType().equals(Material.BEACON)) {
-            float reward = EconomyManager.getBalance(player) / 100 + 1000;
-            player.sendActionBar(Methods.cStr("&6Beacon &8| &f+$" + Methods.rStr(reward) + " &8| &f+" + Methods.rStr(reward) + "xp"));
-            EconomyManager.setBalance(player, EconomyManager.getBalance(player) + reward);
-            ScoreboardHandler.updateBoard(player);
-            MineHandler.resetMine((byte) 1, player);
+        if (block.getType() != Material.STONE && block.getType() != Material.COAL_ORE && block.getType() != Material.IRON_ORE && block.getType() != Material.LAPIS_ORE && block.getType() != Material.DIAMOND_ORE && block.getType() != Material.EMERALD_ORE && block.getType() != Material.BEACON) {
             return;
         }
+        event.setDropItems(false);
+
+        if (block.getType().equals(Material.BEACON)) MineHandler.resetMine((byte) 1, player);
         float reward = 0;
         switch (block.getType()) {
             case STONE -> reward = 1f;
@@ -40,6 +38,7 @@ public class BlockBreakListener implements Listener {
             case LAPIS_ORE -> reward = 3f;
             case DIAMOND_ORE -> reward = 5f;
             case EMERALD_ORE -> reward = 8f;
+            case BEACON -> reward = EconomyManager.getBalance(player) / 100f + 1000f;
         }
 
         Material m = !lastBlockData.containsKey(player) ? Material.AIR : lastBlockData.get(player).getValue0();
@@ -49,7 +48,7 @@ public class BlockBreakListener implements Listener {
                         ? 0 : lastBlockData.get(player).getValue2() + 1));
         float multi = lastBlockData.containsKey(player)
                 ? (float) (block.getType().equals(Material.STONE)
-                ? Math.log(100 + lastBlockData.get(player).getValue2()) / 2
+                ? lastBlockData.get(player).getValue2() / 2
                 : lastBlockData.get(player).getValue2()) / 100 : 0;
 
         float moneyMulti = 1 + multi;
@@ -60,6 +59,7 @@ public class BlockBreakListener implements Listener {
         player.sendActionBar(Methods.cStr("&f+$" + Methods.rStr(money) + " &7(" + Methods.rStr(moneyMulti) + "x) &8| &f+" + Methods.rStr(xp) + "xp &7(" + Methods.rStr(xpMulti) + "x) &8| &6Streak&7: &f" + Methods.rStr((float) lastBlockData.get(player).getValue2())));
         EconomyManager.setBalance(player, EconomyManager.getBalance(player) + money);
         EconomyManager.setXp(player, EconomyManager.getXp(player) + xp);
+        LevelHandler.xp(player);
         ScoreboardHandler.updateBoard(player);
     }
 }

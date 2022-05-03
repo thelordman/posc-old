@@ -1,7 +1,6 @@
 package io.github.thelordman.costrength.listeners;
 
 import io.github.thelordman.costrength.discord.Discord;
-import io.github.thelordman.costrength.ranks.RankManager;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
 import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.utilities.Methods;
@@ -16,20 +15,16 @@ import java.awt.*;
 public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        String mid = RankManager.getPrefix(event.getPlayer()).isEmpty() ? "" : "&8| ";
-        event.getPlayer().setDisplayName(Methods.cStr(RankManager.getPrefix(event.getPlayer()) + mid + RankManager.getPlayerColor(event.getPlayer()) + event.getPlayer().getName() + "&r"));
+        Methods.updateDisplayName(event.getPlayer());
         event.getPlayer().setPlayerListHeaderFooter(Methods.cStr("\n  &6&lCoStrength.minehut.gg  \n"), Methods.cStr("\n&6/help &8| &6/dc &8| &6/buy"));
-        event.getPlayer().setPlayerListName(event.getPlayer().getDisplayName());
 
         String message = event.getPlayer().hasPlayedBefore() ? "&7[&a+&7] &7" + event.getPlayer().getDisplayName() : "&7[&a+&7] &7" + event.getPlayer().getDisplayName() + " &6#" + Bukkit.getServer().getOfflinePlayers().length;
         event.setJoinMessage(Methods.cStr(message));
 
-        if (EconomyManager.getBalance(event.getPlayer()) == null) {
-            EconomyManager.setBalance(event.getPlayer(), 0f);
-        }
-        if (EconomyManager.getKillstreak(event.getPlayer()) == null) {
-            EconomyManager.setKillstreak(event.getPlayer(), 0);
-        }
+        if (EconomyManager.getBalance(event.getPlayer()) == null) EconomyManager.setBalance(event.getPlayer(), 0f);
+        if (EconomyManager.getKillstreak(event.getPlayer()) == null) EconomyManager.setKillstreak(event.getPlayer(), 0);
+        if (EconomyManager.getLevel(event.getPlayer()) == null) EconomyManager.setLevel(event.getPlayer(), 1);
+        if (EconomyManager.getXp(event.getPlayer()) == null) EconomyManager.setXp(event.getPlayer(), 0f);
 
         ScoreboardHandler.updateBoard(event.getPlayer());
 
