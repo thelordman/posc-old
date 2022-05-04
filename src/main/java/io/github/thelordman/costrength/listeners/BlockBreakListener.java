@@ -25,7 +25,7 @@ public class BlockBreakListener implements Listener {
 
         Player player = event.getPlayer();
         Block block = event.getBlock();
-        if (List.of(Material.STONE, Material.COAL_ORE, Material.IRON_ORE, Material.LAPIS_ORE, Material.DIAMOND_ORE, Material.EMERALD_ORE, Material.BEACON).contains(block.getType())) return;
+        if (!List.of(Material.STONE, Material.COAL_ORE, Material.IRON_ORE, Material.LAPIS_ORE, Material.DIAMOND_ORE, Material.EMERALD_ORE, Material.BEACON).contains(block.getType())) return;
         event.setDropItems(false);
 
         if (block.getType().equals(Material.BEACON)) MineHandler.resetMine((byte) 1, player);

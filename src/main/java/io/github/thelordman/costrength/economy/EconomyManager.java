@@ -28,7 +28,9 @@ public final class EconomyManager {
     }
 
     public static Integer getLevel(Player player) {
-        return level.get(player.getUniqueId()) == null ? 1 : level.get(player.getUniqueId());
+        if (!level.containsKey(player.getUniqueId())) return 1;
+        if (level.get(player.getUniqueId()) == 0) return 1;
+        return level.get(player.getUniqueId());
     }
 
     public static void setLevel(Player player, Integer amount) {

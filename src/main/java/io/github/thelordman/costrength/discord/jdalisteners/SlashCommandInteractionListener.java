@@ -9,7 +9,6 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.Collection;
@@ -20,43 +19,40 @@ public class SlashCommandInteractionListener extends ListenerAdapter {
         if (!Discord.slashCommands.contains(event.getName())) return;
 
         switch (event.getName()) {
-            case "online":
+            case "online" -> {
                 StringBuilder onlinePlayers = new StringBuilder("**Online Players:** ");
                 int averagePing = 0;
                 double[] tpsRaw = Bukkit.getTPS();
-                long tps = Math.round(tpsRaw[0]);
+                String tps = Methods.rStr((float) tpsRaw[0]);
                 Collection<? extends Player> list = Bukkit.getOnlinePlayers();
                 for (Player player : list) {
                     onlinePlayers.append(Methods.replaceColorCodes(player.getDisplayName(), '§')).append(", ");
                     averagePing += player.getPing();
                 }
-                averagePing /= list.size();
-
+                averagePing = averagePing == 0 ? 0 : averagePing / list.size();
                 EmbedBuilder builder = new EmbedBuilder()
                         .setAuthor("CoStrength", null, "https://cdn.discordapp.com/attachments/950090391535890442/955545141467287552/CoStrength.png")
                         .setDescription(onlinePlayers)
                         .setColor(Color.BLUE)
                         .setFooter("CoStrength.minehut.gg | Average Ping: " + averagePing + "ms | TPS: " + tps);
-
                 event.replyEmbeds(builder.build()).queue();
-                break;
-            case "cmd":
+            }
+            case "cmd" -> {
                 if (!event.getMember().hasPermission(Permission.ADMINISTRATOR)) {
                     event.reply("You lack the permission needed for this command('Administrator').\nPlease contact either b4nter cl4us#6866 or The Lord#8349 if you believe this is a mistake.").setEphemeral(true).queue();
                     break;
                 }
-
                 Bukkit.getScheduler().callSyncMethod(CoStrength.get(), () ->
                         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), event.getOption("command").getAsString()));
                 event.reply("Successfully executed the console command `/" + event.getOption("command").getAsString() + "`").queue();
-                break;
-            case "ping":
+            }
+            case "ping" -> {
                 long time = System.currentTimeMillis();
                 event.reply("Pong!")
                         .flatMap(v ->
                                 event.getHook().editOriginalFormat("Pong: `%dms`", System.currentTimeMillis() - time)
                         ).queue();
-                break;
+            }
         }
     }
 }
