@@ -1,6 +1,5 @@
 package io.github.thelordman.costrength.listeners;
 
-import io.github.thelordman.costrength.commands.BountyCommand;
 import io.github.thelordman.costrength.discord.Discord;
 import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.economy.LevelHandler;
@@ -11,6 +10,7 @@ import io.github.thelordman.costrength.utilities.Methods;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -76,8 +76,11 @@ public class PlayerDeathListener implements Listener {
         float reward = 10f + killerKillstreak + EconomyManager.getKillstreak(victim);
 
         float levelBonus = EconomyManager.getLevel(victim) - EconomyManager.getLevel(killer) < -0.75f ? -0.75f : (EconomyManager.getLevel(victim) - EconomyManager.getLevel(killer)) / 10f;
+        float kdrBonus = levelBonus > 0 ? 1 + Methods.getKdr(killer) + Methods.getKdr(victim) : Methods.getKdr(killer) + Methods.getKdr(victim);
+        float killBonus = victim.getStatistic(Statistic.PLAYER_KILLS) > killer.getStatistic(Statistic.PLAYER_KILLS)
+                ? (float) victim.getStatistic(Statistic.PLAYER_KILLS) / (float) killer.getStatistic(Statistic.PLAYER_KILLS) / 10 : 0;
 
-        float multi = 1 + levelBonus;
+        float multi = 1 + levelBonus + kdrBonus + killBonus;
         float moneyMulti = 1 + multi;
         float xpMulti = 1 + multi;
 

@@ -1,7 +1,10 @@
 package io.github.thelordman.costrength.discord;
 
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import org.bukkit.ChatColor;
+
+import java.awt.*;
 
 public class Utilities {
     public static ChatColor memberChatColor(Member member, String type) {
