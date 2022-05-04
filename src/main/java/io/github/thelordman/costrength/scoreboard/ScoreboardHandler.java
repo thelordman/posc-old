@@ -1,6 +1,7 @@
 package io.github.thelordman.costrength.scoreboard;
 
 import io.github.thelordman.costrength.economy.EconomyManager;
+import io.github.thelordman.costrength.economy.LevelHandler;
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.Statistic;
@@ -13,12 +14,13 @@ public class ScoreboardHandler {
     public static HashMap<UUID, FastBoard> scoreboard = new HashMap<>();
 
     public static void updateBoard(Player player) {
-        FastBoard scoreboard = new FastBoard(player);
+        FastBoard scoreboard = ScoreboardHandler.scoreboard.containsKey(player) ? ScoreboardHandler.scoreboard.get(player) : new FastBoard(player);
         scoreboard.updateTitle(Methods.cStr("&6&lCoStrength &7(" + Bukkit.getOnlinePlayers().size() + "&7/" + Bukkit.getMaxPlayers() + "&7)"));
         scoreboard.updateLines(
                 "",
                 Methods.cStr("&6Balance&7: &f$" + Methods.rStr(EconomyManager.getBalance(player))),
                 Methods.cStr("&6Blocks&7: &f" + Methods.rStr(Methods.getBlocks(player))),
+                Methods.cStr("&6Level&7: &f" + Methods.rStr((float) EconomyManager.getLevel(player)) + " &7(" + Methods.rStr(EconomyManager.getXp(player)) + "xp/" + Methods.rStr(LevelHandler.xpRequirement(player)) + "xp)"),
                 "",
                 Methods.cStr("&6Kills&7: &f" + Methods.rStr((float) player.getStatistic(Statistic.PLAYER_KILLS))),
                 Methods.cStr("&6Deaths&7: &f" + Methods.rStr((float) player.getStatistic(Statistic.DEATHS))),

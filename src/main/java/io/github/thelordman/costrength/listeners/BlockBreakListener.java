@@ -14,6 +14,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.javatuples.Triplet;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class BlockBreakListener implements Listener {
     private final HashMap<Player, Triplet<Material, Long, Integer>> lastBlockData = new HashMap<>();
@@ -24,9 +25,7 @@ public class BlockBreakListener implements Listener {
 
         Player player = event.getPlayer();
         Block block = event.getBlock();
-        if (block.getType() != Material.STONE && block.getType() != Material.COAL_ORE && block.getType() != Material.IRON_ORE && block.getType() != Material.LAPIS_ORE && block.getType() != Material.DIAMOND_ORE && block.getType() != Material.EMERALD_ORE && block.getType() != Material.BEACON) {
-            return;
-        }
+        if (List.of(Material.STONE, Material.COAL_ORE, Material.IRON_ORE, Material.LAPIS_ORE, Material.DIAMOND_ORE, Material.EMERALD_ORE, Material.BEACON).contains(block.getType())) return;
         event.setDropItems(false);
 
         if (block.getType().equals(Material.BEACON)) MineHandler.resetMine((byte) 1, player);
