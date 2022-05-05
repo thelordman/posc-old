@@ -21,10 +21,10 @@ public class PlayerJoinListener implements Listener {
         String message = event.getPlayer().hasPlayedBefore() ? "&7[&a+&7] &7" + event.getPlayer().getDisplayName() : "&7[&a+&7] &7" + event.getPlayer().getDisplayName() + " &6#" + Bukkit.getServer().getOfflinePlayers().length;
         event.setJoinMessage(Methods.cStr(message));
 
-        if (EconomyManager.getBalance(event.getPlayer()) == null) EconomyManager.setBalance(event.getPlayer(), 0f);
-        if (EconomyManager.getKillstreak(event.getPlayer()) == null) EconomyManager.setKillstreak(event.getPlayer(), 0);
-        if (EconomyManager.getLevel(event.getPlayer()) == null) EconomyManager.setLevel(event.getPlayer(), 1);
-        if (EconomyManager.getXp(event.getPlayer()) == null) EconomyManager.setXp(event.getPlayer(), 0f);
+        if (EconomyManager.getBalance(event.getPlayer().getUniqueId()) == null) EconomyManager.setBalance(event.getPlayer().getUniqueId(), 0f);
+        if (EconomyManager.getKillstreak(event.getPlayer().getUniqueId()) == null) EconomyManager.setKillstreak(event.getPlayer().getUniqueId(), 0);
+        if (EconomyManager.getLevel(event.getPlayer().getUniqueId()) == null) EconomyManager.setLevel(event.getPlayer().getUniqueId(), 1);
+        if (EconomyManager.getXp(event.getPlayer().getUniqueId()) == null) EconomyManager.setXp(event.getPlayer().getUniqueId(), 0f);
 
         ScoreboardHandler.updateBoard(event.getPlayer());
 

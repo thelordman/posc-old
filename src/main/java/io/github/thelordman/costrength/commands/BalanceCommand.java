@@ -15,12 +15,12 @@ public class BalanceCommand implements CommandExecutor {
 
         if (args.length == 0) {
             if (player == null) return false;
-            sender.sendMessage(Methods.cStr("&6Your balance: &f$" + Methods.rStr(EconomyManager.getBalance(player))));
+            sender.sendMessage(Methods.cStr("&6Your balance: &f$" + Methods.rStr(EconomyManager.getBalance(player.getUniqueId()))));
         }
         else {
             Player target = Bukkit.getOfflinePlayer(args[0]).getPlayer();
             if (target == null) return false;
-            sender.sendMessage(Methods.cStr("&6" + target.getDisplayName() + "&6's balance: &f$" + Methods.rStr(EconomyManager.getBalance(target))));
+            sender.sendMessage(Methods.cStr("&6" + target.getDisplayName() + "&6's balance: &f$" + Methods.rStr(EconomyManager.getBalance(target.getUniqueId()))));
         }
         return true;
     }

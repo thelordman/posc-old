@@ -3,15 +3,11 @@ package io.github.thelordman.costrength.utilities;
 import io.github.thelordman.costrength.CoStrength;
 import io.github.thelordman.costrength.ranks.RankManager;
 import org.bukkit.*;
-import org.bukkit.boss.BarColor;
-import org.bukkit.boss.BarStyle;
-import org.bukkit.boss.BossBar;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
-import org.javatuples.Pair;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
@@ -39,12 +35,12 @@ public class Methods {
         return extra ? location.getWorld().getName() + "," + x + "," + y + "," + z + "," + yaw + "," + pitch : "X: " + x + ", Y: " + y + ", Z: " + z;
     }
 
-    public static Float getKdr(Player player) {
+    public static Float getKdr(OfflinePlayer player) {
         return !(player.getStatistic(Statistic.PLAYER_KILLS) == 0) | !(player.getStatistic(Statistic.DEATHS) == 0) ?
                 ((float) player.getStatistic(Statistic.PLAYER_KILLS)) / (float) player.getStatistic(Statistic.DEATHS) : 0f;
     }
 
-    public static Float getBlocks(Player player) {
+    public static Float getBlocks(OfflinePlayer player) {
         return (float) player.getStatistic(Statistic.USE_ITEM, Material.IRON_PICKAXE) + player.getStatistic(Statistic.USE_ITEM, Material.DIAMOND_PICKAXE) + player.getStatistic(Statistic.USE_ITEM, Material.NETHERITE_PICKAXE) + player.getStatistic(Statistic.USE_ITEM, Material.GOLDEN_PICKAXE);
     }
 

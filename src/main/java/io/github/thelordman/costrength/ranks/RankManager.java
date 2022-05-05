@@ -45,7 +45,7 @@ public class RankManager {
     }
 
     public static String levelPrefix(OfflinePlayer player) {
-        int i = EconomyManager.getLevel(player.getPlayer());
+        int i = EconomyManager.getLevel(player.getUniqueId());
         String s = "&8[&7" + i + "&8]";
         if (i >= 1) s = "&8[&7" + i + "&8]";
         if (i >= 10) s = "&7[&f" + i + "&7]";

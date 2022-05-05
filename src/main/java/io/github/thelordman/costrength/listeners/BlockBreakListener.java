@@ -37,7 +37,7 @@ public class BlockBreakListener implements Listener {
             case LAPIS_ORE -> reward = 3f;
             case DIAMOND_ORE -> reward = 5f;
             case EMERALD_ORE -> reward = 8f;
-            case BEACON -> reward = EconomyManager.getBalance(player) / 100f + 1000f;
+            case BEACON -> reward = EconomyManager.getBalance(player.getUniqueId()) / 100f + 1000f;
         }
 
         Material m = !lastBlockData.containsKey(player) ? Material.AIR : lastBlockData.get(player).getValue0();
@@ -56,8 +56,8 @@ public class BlockBreakListener implements Listener {
         float money = reward * moneyMulti, xp = reward * xpMulti;
 
         player.sendActionBar(Methods.cStr("&f+$" + Methods.rStr(money) + " &7(" + Methods.rStr(moneyMulti) + "x) &8| &f+" + Methods.rStr(xp) + "xp &7(" + Methods.rStr(xpMulti) + "x) &8| &6Streak&7: &f" + Methods.rStr((float) lastBlockData.get(player).getValue2())));
-        EconomyManager.setBalance(player, EconomyManager.getBalance(player) + money);
-        EconomyManager.setXp(player, EconomyManager.getXp(player) + xp);
+        EconomyManager.setBalance(player.getUniqueId(), EconomyManager.getBalance(player.getUniqueId()) + money);
+        EconomyManager.setXp(player.getUniqueId(), EconomyManager.getXp(player.getUniqueId()) + xp);
         LevelHandler.xp(player);
         ScoreboardHandler.updateBoard(player);
     }

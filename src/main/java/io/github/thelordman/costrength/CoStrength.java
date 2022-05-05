@@ -52,10 +52,10 @@ public final class CoStrength extends JavaPlugin {
 
         if (!Bukkit.getOnlinePlayers().isEmpty()) {
             for (Player online : Bukkit.getOnlinePlayers()) {
-                if (EconomyManager.getBalance(online) == null) EconomyManager.setBalance(online, 0f);
-                if (EconomyManager.getKillstreak(online) == null) EconomyManager.setKillstreak(online, 0);
-                if (EconomyManager.getXp(online) == null) EconomyManager.setXp(online, 0f);
-                if (EconomyManager.getLevel(online) == null) EconomyManager.setLevel(online, 1);
+                if (EconomyManager.getBalance(online.getUniqueId()) == null) EconomyManager.setBalance(online.getUniqueId(), 0f);
+                if (EconomyManager.getKillstreak(online.getUniqueId()) == null) EconomyManager.setKillstreak(online.getUniqueId(), 0);
+                if (EconomyManager.getXp(online.getUniqueId()) == null) EconomyManager.setXp(online.getUniqueId(), 0f);
+                if (EconomyManager.getLevel(online.getUniqueId()) == null) EconomyManager.setLevel(online.getUniqueId(), 1);
                 ScoreboardHandler.updateBoard(online);
                 ScoreboardHandler.scoreboard.get(online.getUniqueId()).updateTitle(Methods.cStr("&6&lCoStrength &7(" + Bukkit.getOnlinePlayers().size() + "&7/" + Bukkit.getMaxPlayers() + "&7)"));
             }

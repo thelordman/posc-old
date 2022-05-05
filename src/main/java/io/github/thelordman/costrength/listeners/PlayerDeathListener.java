@@ -31,10 +31,10 @@ public class PlayerDeathListener implements Listener {
             if (RankManager.hasPermission(Bukkit.getOfflinePlayer(killer.getName()), (byte) 1)) event.setDeathMessage(Methods.cStr("&cDeath &8| &f" + event.getDeathMessage()));
             else event.setDeathMessage(Methods.cStr("&7Death &8| &7" + event.getDeathMessage()));
 
-            if (Data.bounty.containsKey(victim)) {
-                EconomyManager.setBalance(killer, EconomyManager.getBalance(killer) + Data.bounty.get(victim));
-                Data.bounty.remove(victim);
-                Bukkit.broadcastMessage(Methods.cStr(killer.getDisplayName() + " &6collected the bounty of &f$" + Data.bounty.get(victim) + " &6on " + victim.getDisplayName() + "&6."));
+            if (EconomyManager.getBounty(victim.getUniqueId()) != 0) {
+                EconomyManager.setBalance(killer.getUniqueId(), EconomyManager.getBalance(killer.getUniqueId()) + EconomyManager.getBounty(victim.getUniqueId()));
+                EconomyManager.setBounty(victim.getUniqueId(), 0f);
+                Bukkit.broadcastMessage(Methods.cStr(killer.getDisplayName() + " &6collected the bounty of &f$" + EconomyManager.getBounty(victim.getUniqueId()) + " &6on " + victim.getDisplayName() + "&6."));
             }
 
             ScoreboardHandler.updateBoard(killer);
@@ -43,7 +43,7 @@ public class PlayerDeathListener implements Listener {
             victim.sendTitle(ChatColor.RED + "You Died", "");
             event.setDeathMessage(Methods.cStr("&7Death &8| &7" + event.getDeathMessage()));
         }
-        EconomyManager.setKillstreak(victim, 0);
+        EconomyManager.setKillstreak(victim.getUniqueId(), 0);
 
         ScoreboardHandler.updateBoard(victim);
         
@@ -63,19 +63,19 @@ public class PlayerDeathListener implements Listener {
 
     private void killRewards(Player killer, Player victim) {
         //Victim
-        Integer killerKillstreak = EconomyManager.getKillstreak(killer);
-        Float victimBalance = EconomyManager.getBalance(victim);
+        Integer killerKillstreak = EconomyManager.getKillstreak(killer.getUniqueId());
+        Float victimBalance = EconomyManager.getBalance(victim.getUniqueId());
 
         Float takeFromVictim = victimBalance == 0f ? 0f : victimBalance / 100;
 
-        EconomyManager.setBalance(victim, victimBalance - takeFromVictim);
+        EconomyManager.setBalance(victim.getUniqueId(), victimBalance - takeFromVictim);
 
         victim.sendTitle(ChatColor.RED + "You Died", ChatColor.GOLD + killer.getDisplayName() + " stole " + ChatColor.WHITE + "$" + Methods.rStr(takeFromVictim));
 
         //Killer Rewards
-        float reward = 10f + killerKillstreak + EconomyManager.getKillstreak(victim);
+        float reward = 10f + killerKillstreak + EconomyManager.getKillstreak(victim.getUniqueId());
 
-        float levelBonus = EconomyManager.getLevel(victim) - EconomyManager.getLevel(killer) < -0.75f ? -0.75f : (EconomyManager.getLevel(victim) - EconomyManager.getLevel(killer)) / 10f;
+        float levelBonus = EconomyManager.getLevel(victim.getUniqueId()) - EconomyManager.getLevel(killer.getUniqueId()) < -0.75f ? -0.75f : (EconomyManager.getLevel(victim.getUniqueId()) - EconomyManager.getLevel(killer.getUniqueId())) / 10f;
         float kdrBonus = levelBonus > 0 ? 1 + Methods.getKdr(killer) + Methods.getKdr(victim) : Methods.getKdr(killer) + Methods.getKdr(victim);
         float killBonus = victim.getStatistic(Statistic.PLAYER_KILLS) > killer.getStatistic(Statistic.PLAYER_KILLS)
                 ? (float) victim.getStatistic(Statistic.PLAYER_KILLS) / (float) killer.getStatistic(Statistic.PLAYER_KILLS) / 10 : 0;
@@ -88,9 +88,9 @@ public class PlayerDeathListener implements Listener {
 
         killer.sendMessage(Methods.cStr("&6You killed " + victim.getDisplayName() + " &6."));
         killer.sendActionBar(Methods.cStr("&f+$" + Methods.rStr(money) + " &7(" + Methods.rStr(moneyMulti) + "x) &8| &f+" + Methods.rStr(xp) + "xp &7(" + Methods.rStr(xpMulti) + "x) &8| &6Streak&7: &f" + Methods.rStr((float) killerKillstreak)));
-        EconomyManager.setBalance(killer, EconomyManager.getBalance(killer) + money);
-        EconomyManager.setXp(killer, EconomyManager.getXp(killer) + xp);
-        EconomyManager.setKillstreak(killer, killerKillstreak + 1);
+        EconomyManager.setBalance(killer.getUniqueId(), EconomyManager.getBalance(killer.getUniqueId()) + money);
+        EconomyManager.setXp(killer.getUniqueId(), EconomyManager.getXp(killer.getUniqueId()) + xp);
+        EconomyManager.setKillstreak(killer.getUniqueId(), killerKillstreak + 1);
         LevelHandler.xp(killer);
     }
 }

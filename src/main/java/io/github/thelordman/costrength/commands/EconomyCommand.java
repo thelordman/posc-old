@@ -23,14 +23,14 @@ public class EconomyCommand implements CommandExecutor {
 
         if (args.length < 3) {
             if (args[1].equals("reset")) {
-                EconomyManager.setBalance(target, 0f);
+                EconomyManager.setBalance(target.getUniqueId(), 0f);
                 target.sendMessage(Methods.cStr("&6Your balance was reset by " + executor + "&6."));
                 if (!(target == sender)) sender.sendMessage(Methods.cStr("&6You reset " + target.getDisplayName() + "&6's balance."));
                 ScoreboardHandler.updateBoard(target);
                 return true;
             }
             if (args[1].equals("get")) {
-                sender.sendMessage(EconomyManager.getBalance(target).toString());
+                sender.sendMessage(EconomyManager.getBalance(target.getUniqueId()).toString());
                 ScoreboardHandler.updateBoard(target);
                 return true;
             }
@@ -39,7 +39,7 @@ public class EconomyCommand implements CommandExecutor {
 
         String targetMsg;
         String senderMsg;
-        Float bal = EconomyManager.getBalance(target);
+        Float bal = EconomyManager.getBalance(target.getUniqueId());
         Float amount;
         Float math;
         DecimalFormat df = new DecimalFormat("###,###.##");
@@ -86,7 +86,7 @@ public class EconomyCommand implements CommandExecutor {
                 break;
             default: return false;
         }
-        EconomyManager.setBalance(target, math);
+        EconomyManager.setBalance(target.getUniqueId(), math);
         target.sendMessage(Methods.cStr(targetMsg));
         if (!(target == sender)) sender.sendMessage(Methods.cStr(senderMsg));
         ScoreboardHandler.updateBoard(target);
