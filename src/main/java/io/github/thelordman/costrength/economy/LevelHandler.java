@@ -17,10 +17,10 @@ public class LevelHandler {
         return (float) l * 1000;
     }
     public static void xp(Player player) {
+        player.setLevel(EconomyManager.getLevel(player.getUniqueId()));
         if (EconomyManager.getXp(player.getUniqueId()) >= xpRequirement(player.getUniqueId())) {
             EconomyManager.setLevel(player.getUniqueId(), EconomyManager.getLevel(player.getUniqueId()) + 1);
             EconomyManager.setXp(player.getUniqueId(), 0f);
-            player.setLevel(EconomyManager.getLevel(player.getUniqueId()));
             player.setExp(0);
             Methods.updateDisplayName(player);
 

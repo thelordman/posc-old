@@ -1,20 +1,16 @@
 package io.github.thelordman.costrength.scoreboard;
 
 import io.github.thelordman.costrength.economy.EconomyManager;
-import io.github.thelordman.costrength.economy.LevelHandler;
+import io.github.thelordman.costrength.utilities.Data;
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.UUID;
-
 public class ScoreboardHandler {
-    public static HashMap<UUID, FastBoard> scoreboard = new HashMap<>();
 
     public static void updateBoard(Player player) {
-        FastBoard scoreboard = ScoreboardHandler.scoreboard.containsKey(player.getUniqueId()) ? ScoreboardHandler.scoreboard.get(player.getUniqueId()) : new FastBoard(player);
+        FastBoard scoreboard = Data.scoreboard.containsKey(player.getUniqueId()) ? Data.scoreboard.get(player.getUniqueId()) : new FastBoard(player);
         scoreboard.updateTitle(Methods.cStr("&6&lCoStrength &7(" + Bukkit.getOnlinePlayers().size() + "&7/" + Bukkit.getMaxPlayers() + "&7)"));
         scoreboard.updateLines(
                 "",
@@ -28,6 +24,6 @@ public class ScoreboardHandler {
                 "",
                 Methods.cStr("&f&nCoStrength.minehut.gg")
         );
-        ScoreboardHandler.scoreboard.put(player.getUniqueId(), scoreboard);
+        Data.scoreboard.put(player.getUniqueId(), scoreboard);
     }
 }

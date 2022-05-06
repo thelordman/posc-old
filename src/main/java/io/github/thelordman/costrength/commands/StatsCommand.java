@@ -21,7 +21,7 @@ public class StatsCommand implements CommandExecutor {
                     " &6Balance&7: &f$" + Methods.rStr(EconomyManager.getBalance(player.getUniqueId())) + "\n" +
                     " &6Blocks&7: &f" + Methods.rStr(Methods.getBlocks(player)) + "\n" +
                     " &6Level&7: &f" + Methods.rStr((float) EconomyManager.getLevel(player.getUniqueId())) + "\n" +
-                    " &6Xp&7: &f" + Methods.rStr(EconomyManager.getXp(player.getUniqueId())) + "&7/&f" + Methods.rStr(LevelHandler.xpRequirement(player.getUniqueId())) + "\n" +
+                    " &6XP&7: &f" + Methods.rStr(EconomyManager.getXp(player.getUniqueId())) + "&7/&f" + Methods.rStr(LevelHandler.xpRequirement(player.getUniqueId())) + "\n" +
                     " &6Kills&7: &f" + Methods.rStr((float) player.getStatistic(Statistic.PLAYER_KILLS)) + "\n" +
                     " &6Deaths&7: &f" + Methods.rStr((float) player.getStatistic(Statistic.DEATHS)) + "\n" +
                     " &6K/D ratio&7: &f" + Methods.rStr(Methods.getKdr(player)) + "\n" +
@@ -34,7 +34,7 @@ public class StatsCommand implements CommandExecutor {
                     " &6Balance&7: &f$" + Methods.rStr(EconomyManager.getBalance(target.getUniqueId())) + "\n" +
                     " &6Blocks&7: &f" + Methods.rStr(Methods.getBlocks(target)) + "\n" +
                     " &6Level&7: &f" + Methods.rStr((float) EconomyManager.getLevel(target.getUniqueId())) + "\n" +
-                    " &6Xp&7: &f" + Methods.rStr(EconomyManager.getXp(target.getUniqueId())) + "&7/&f" + Methods.rStr(LevelHandler.xpRequirement(target.getUniqueId())) + "\n" +
+                    " &6XP&7: &f" + Methods.rStr(EconomyManager.getXp(target.getUniqueId())) + "&7/&f" + Methods.rStr(LevelHandler.xpRequirement(target.getUniqueId())) + "\n" +
                     " &6Kills&7: &f" + Methods.rStr((float) target.getStatistic(Statistic.PLAYER_KILLS)) + "\n" +
                     " &6Deaths&7: &f" + Methods.rStr((float) target.getStatistic(Statistic.DEATHS)) + "\n" +
                     " &6K/D ratio&7: &f" + Methods.rStr(Methods.getKdr(target)) + "\n" +

@@ -1,11 +1,13 @@
 package io.github.thelordman.costrength.listeners;
 
-import io.github.thelordman.costrength.CoStrength;
 import io.github.thelordman.costrength.discord.Discord;
-import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
+import io.github.thelordman.costrength.economy.EconomyManager;
+import io.github.thelordman.costrength.utilities.Data;
 import io.github.thelordman.costrength.utilities.Methods;
 import io.github.thelordman.costrength.scoreboard.FastBoard;
 import net.dv8tion.jda.api.EmbedBuilder;
+import org.bukkit.Material;
+import org.bukkit.Statistic;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -16,9 +18,15 @@ import java.awt.*;
 public class PlayerQuitListener implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
+        event.getPlayer().setStatistic(Statistic.USE_ITEM, Material.GOLD_NUGGET, EconomyManager.getBalance(event.getPlayer().getUniqueId()).intValue());
+        event.getPlayer().setStatistic(Statistic.USE_ITEM, Material.SPYGLASS, EconomyManager.getBounty(event.getPlayer().getUniqueId()).intValue());
+        event.getPlayer().setStatistic(Statistic.USE_ITEM, Material.EXPERIENCE_BOTTLE, EconomyManager.getXp(event.getPlayer().getUniqueId()).intValue());
+        event.getPlayer().setStatistic(Statistic.USE_ITEM, Material.FIREWORK_ROCKET, EconomyManager.getLevel(event.getPlayer().getUniqueId()));
+        event.getPlayer().setStatistic(Statistic.USE_ITEM, Material.WOODEN_SWORD, EconomyManager.getKillstreak(event.getPlayer().getUniqueId()));
+
         event.setQuitMessage(Methods.cStr("&7[&c-&7] &7" + event.getPlayer().getDisplayName()));
 
-        FastBoard scoreboard = ScoreboardHandler.scoreboard.remove(event.getPlayer().getUniqueId());
+        FastBoard scoreboard = Data.scoreboard.remove(event.getPlayer().getUniqueId());
 
         if (scoreboard != null) {
             scoreboard.delete();

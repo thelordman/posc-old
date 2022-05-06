@@ -4,8 +4,11 @@ import io.github.thelordman.costrength.discord.Discord;
 import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
 import io.github.thelordman.costrength.utilities.CommandHandler;
+import io.github.thelordman.costrength.utilities.Data;
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -28,6 +31,7 @@ public final class CoStrength extends JavaPlugin {
     @Override
     public void onEnable() {
         getLogger().info("Executing onEnable method");
+
         saveDefaultConfig();
 
         instance = this;
@@ -52,19 +56,32 @@ public final class CoStrength extends JavaPlugin {
 
         if (!Bukkit.getOnlinePlayers().isEmpty()) {
             for (Player online : Bukkit.getOnlinePlayers()) {
-                if (EconomyManager.getBalance(online.getUniqueId()) == null) EconomyManager.setBalance(online.getUniqueId(), 0f);
-                if (EconomyManager.getKillstreak(online.getUniqueId()) == null) EconomyManager.setKillstreak(online.getUniqueId(), 0);
-                if (EconomyManager.getXp(online.getUniqueId()) == null) EconomyManager.setXp(online.getUniqueId(), 0f);
-                if (EconomyManager.getLevel(online.getUniqueId()) == null) EconomyManager.setLevel(online.getUniqueId(), 1);
+                EconomyManager.setBalance(online.getUniqueId(), (float) online.getStatistic(Statistic.USE_ITEM, Material.GOLD_NUGGET));
+                EconomyManager.setBounty(online.getUniqueId(), (float) online.getStatistic(Statistic.USE_ITEM, Material.SPYGLASS));
+                EconomyManager.setXp(online.getUniqueId(), (float) online.getStatistic(Statistic.USE_ITEM, Material.EXPERIENCE_BOTTLE));
+                EconomyManager.setLevel(online.getUniqueId(), online.getStatistic(Statistic.USE_ITEM, Material.FIREWORK_ROCKET));
+                EconomyManager.setKillstreak(online.getUniqueId(), online.getStatistic(Statistic.USE_ITEM, Material.WOODEN_SWORD));
+
                 ScoreboardHandler.updateBoard(online);
-                ScoreboardHandler.scoreboard.get(online.getUniqueId()).updateTitle(Methods.cStr("&6&lCoStrength &7(" + Bukkit.getOnlinePlayers().size() + "&7/" + Bukkit.getMaxPlayers() + "&7)"));
+                Data.scoreboard.get(online.getUniqueId()).updateTitle(Methods.cStr("&6&lCoStrength &7(" + Bukkit.getOnlinePlayers().size() + "&7/" + Bukkit.getMaxPlayers() + "&7)"));
             }
+            getLogger().info("Data loaded");
         }
     }
 
     @Override
     public void onDisable() {
         getLogger().info("Executing onDisable method");
+
+        if (!Bukkit.getOnlinePlayers().isEmpty()) {
+            for (Player online : Bukkit.getOnlinePlayers()) {
+                online.setStatistic(Statistic.USE_ITEM, Material.GOLD_NUGGET, EconomyManager.getBalance(online.getUniqueId()).intValue());
+                online.setStatistic(Statistic.USE_ITEM, Material.SPYGLASS, EconomyManager.getBounty(online.getUniqueId()).intValue());
+                online.setStatistic(Statistic.USE_ITEM, Material.EXPERIENCE_BOTTLE, EconomyManager.getXp(online.getUniqueId()).intValue());
+                online.setStatistic(Statistic.USE_ITEM, Material.FIREWORK_ROCKET, EconomyManager.getLevel(online.getUniqueId()));
+                online.setStatistic(Statistic.USE_ITEM, Material.WOODEN_SWORD, EconomyManager.getKillstreak(online.getUniqueId()));
+            }
+        }
         getLogger().info("Data saved");
 
         Discord.shutdownJDA();

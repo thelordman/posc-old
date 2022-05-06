@@ -8,7 +8,7 @@ public final class EconomyManager {
     static Data data = new Data();
 
     public static Float getBalance(UUID uuid) {
-        return data.balance.containsKey(uuid) ? 0f : data.balance.get(uuid);
+        return data.balance.getOrDefault(uuid, 0f);
     }
 
     public static void setBalance(UUID uuid, Float amount) {
@@ -16,7 +16,7 @@ public final class EconomyManager {
     }
 
     public static Float getXp(UUID uuid) {
-        return data.xp.containsKey(uuid) ? 0f : data.xp.get(uuid);
+        return data.xp.getOrDefault(uuid, 0f);
     }
 
     public static void setXp(UUID uuid, Float amount) {
@@ -34,7 +34,7 @@ public final class EconomyManager {
     }
 
     public static Integer getKillstreak(UUID uuid) {
-        return data.killstreak.containsKey(uuid) ? 0 : data.killstreak.get(uuid);
+        return data.killstreak.getOrDefault(uuid, 0);
     }
 
     public static void setKillstreak(UUID uuid, Integer amount) {
@@ -42,7 +42,7 @@ public final class EconomyManager {
     }
 
     public static Float getBounty(UUID uuid) {
-        return data.bounty.containsKey(uuid) ? 0f : data.bounty.get(uuid);
+        return data.bounty.getOrDefault(uuid, 0f);
     }
 
     public static void setBounty(UUID uuid, Float amount) {
