@@ -53,9 +53,7 @@ public class Methods {
     }
 
     public static String rStr(Float number) {
-        String pattern = "###,###.##";
-        DecimalFormat df = new DecimalFormat(pattern);
-        return df.format(number);
+        return new DecimalFormat("###,###.##").format(number);
     }
 
     public static String arrayToString(String[] array) {

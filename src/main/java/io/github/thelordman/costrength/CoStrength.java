@@ -3,10 +3,7 @@ package io.github.thelordman.costrength;
 import io.github.thelordman.costrength.discord.Discord;
 import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
-import io.github.thelordman.costrength.utilities.CommandHandler;
-import io.github.thelordman.costrength.utilities.Data;
-import io.github.thelordman.costrength.utilities.GUIHandler;
-import io.github.thelordman.costrength.utilities.Methods;
+import io.github.thelordman.costrength.utilities.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
@@ -40,6 +37,7 @@ public final class CoStrength extends JavaPlugin {
         Discord.loadJDA();
 
         GUIHandler.registerInventories();
+        RecipeHandler.registerRecipes();
 
         String pack = getClass().getPackageName();
         for (Class<?> c : new Reflections(pack + ".listeners")

@@ -16,7 +16,8 @@ import org.bukkit.inventory.ItemStack;
 public class InventoryClickListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (!event.getInventory().equals(Data.kitchenGUI) | !event.getInventory().equals(Data.foodShopGUI) | event.getCurrentItem() == null) return;
+        if (!event.getView().getTitle().equals("Food Shop") && !event.getView().getTitle().equals("Kitchen")) return;
+        if (event.getCurrentItem() == null) return;
         event.setCancelled(true);
         Player player = (Player) event.getWhoClicked();
 
@@ -28,7 +29,7 @@ public class InventoryClickListener implements Listener {
             switch (event.getCurrentItem().getType()) {
                 case BREAD:
                     m = event.getClick().isRightClick() ? 640f : 10f;
-                    item = GUIHandler.quickItem(Material.BREAD, Methods.cStr("&fBread"), i, Methods.cStr("&6Restores &f2.5 hunger &6and &f3 saturation&6."));
+                    item = GUIHandler.quickItem(Material.BREAD, Methods.cStr("&fFresh Bread"), i, Methods.cStr("&6Restores &f2.5 hunger &6and &f3 saturation&6."));
                     message = Methods.cStr("&6Successfully bought &f" + i + " Fresh Bread&6.");
                     break;
                 case COOKED_CHICKEN:
@@ -46,7 +47,13 @@ public class InventoryClickListener implements Listener {
                     item = GUIHandler.quickItem(Material.HONEY_BOTTLE, Methods.cStr("&6Beer"), i, Methods.cStr("&6Restores &f3 hunger &6and &f0.5 saturation&6."), Methods.cStr("&6Can be drunk even when full to restore saturation."), Methods.cStr("&6Stats can be modified from the kitchen menu."));
                     message = Methods.cStr("&6Successfully bought &f" + i + " &4Beer&6.");
                     break;
+                case RABBIT_STEW:
+                    m = event.getClick().isRightClick() ? 320000f : 5000f;
+                    item = GUIHandler.quickItem(Material.HONEY_BOTTLE, Methods.cStr("&3Thick Stew"), i, Methods.cStr("&6Restores &f20 hunger &6and &f20 saturation&6."));
+                    message = Methods.cStr("&6Successfully bought &f" + i + " &3Thick Stew&6.");
+                    break;
                 case CAULDRON:
+                    GUIHandler.openGUI(Data.kitchenGUI, player);
                     player.sendMessage(Methods.cStr("&6Entered kitchen menu."));
                     return;
                 case BARRIER:
@@ -60,28 +67,24 @@ public class InventoryClickListener implements Listener {
             switch (event.getCurrentItem().getType()) {
                 case MELON:
                     m = event.getClick().isRightClick() ? 32000f : 500f;
-                    item = GUIHandler.quickItem(Material.MELON, Methods.cStr("&2Melon"), 1, Methods.cStr("&6Restores &f+2 hunger &6after drinking."), "", Methods.cStr("&6Usage&7: &fCraft this with &6Beer&f."));
+                    item = GUIHandler.quickItem(Material.MELON, Methods.cStr("&2Melon"), i, Methods.cStr("&6Restores &f+2 hunger &6after drinking."), "", Methods.cStr("&6Usage&7: &fCraft this with &6Beer&f."));
                     message = Methods.cStr("&6Successfully bought &f" + i + " &2Melon&6.");
                     break;
                 case SWEET_BERRIES:
                     m = event.getClick().isRightClick() ? 64000f : 1000f;
-                    item = GUIHandler.quickItem(Material.SWEET_BERRIES, Methods.cStr("&cBerries"), 1, Methods.cStr("&6Restores &f+7 saturation &6after drinking."), "", Methods.cStr("&6Usage&7: &fCraft this with &6Beer&f."));
+                    item = GUIHandler.quickItem(Material.SWEET_BERRIES, Methods.cStr("&cBerries"), i, Methods.cStr("&6Restores &f+7 saturation &6after drinking."), "", Methods.cStr("&6Usage&7: &fCraft this with &6Beer&f."));
                     message = Methods.cStr("&6Successfully bought &f" + i + " &cBerries&6.");
                     break;
                 case SUGAR:
                     m = event.getClick().isRightClick() ? 128000f : 2000f;
-                    item = GUIHandler.quickItem(Material.SUGAR, Methods.cStr("&fSugar"), 1, Methods.cStr("&6Gives &fspeed 1 for 20 seconds &6after drinking."), "", Methods.cStr("&6Usage&7: &fCraft this with &6Beer&f."));
+                    item = GUIHandler.quickItem(Material.SUGAR, Methods.cStr("&fSugar"), i, Methods.cStr("&6Gives &fspeed 1 for 20 seconds &6after drinking."), "", Methods.cStr("&6Usage&7: &fCraft this with &6Beer&f."));
                     message = Methods.cStr("&6Successfully bought &f" + i + " Sugar&6.");
                     break;
                 case POTION:
                     m = event.getClick().isRightClick() ? 256000f : 4000f;
-                    item = GUIHandler.quickItem(Material.POTION, Methods.cStr("&eAlcohol"), 1, Methods.cStr("&6Gives &fstrength 1 for 20 seconds &6after drinking."), "", Methods.cStr("&6Usage&7: &fCraft this with &6Beer&f."));
+                    item = GUIHandler.quickItem(Material.POTION, Methods.cStr("&eAlcohol"), i, Methods.cStr("&6Gives &fstrength 1 for 20 seconds &6after drinking."), "", Methods.cStr("&6Usage&7: &fCraft this with &6Beer&f."));
                     message = Methods.cStr("&6Successfully bought &f" + i + " &eAlcohol&6.");
                     break;
-                case CAULDRON:
-                    GUIHandler.openGUI(Data.kitchenGUI, player);
-                    player.sendMessage(Methods.cStr("&6Entered kitchen menu."));
-                    return;
                 case BARRIER:
                     player.sendMessage(Methods.cStr("&cYour level isn't high enough."));
                     return;

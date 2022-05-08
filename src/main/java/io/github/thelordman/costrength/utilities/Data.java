@@ -2,8 +2,10 @@ package io.github.thelordman.costrength.utilities;
 
 import io.github.thelordman.costrength.scoreboard.FastBoard;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -12,6 +14,8 @@ import java.util.UUID;
 public class Data implements Serializable {
     public static final Inventory foodShopGUI = Bukkit.createInventory(null, 27, "Food Shop");
     public static final Inventory kitchenGUI = Bukkit.createInventory(null, 27, "Kitchen");
+
+    public static final ItemStack beer = GUIHandler.quickItem(Material.HONEY_BOTTLE, Methods.cStr("&6Beer"), 1, Methods.cStr("&6Restores &f3 hunger &6and &f0.5 saturation&6."), Methods.cStr("&6Can be drunk even when full to restore saturation."), Methods.cStr("&6Stats can be modified from the kitchen menu."));
 
     public static final HashMap<UUID, FastBoard> scoreboard = new HashMap<>();
     public static final HashMap<Player, Byte> combatTag = new HashMap<>();

@@ -7,6 +7,6 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 public class InventoryDragListener implements Listener {
     @EventHandler
     public void onInventoryDrag(InventoryDragEvent event) {
-        if (event.getView().getTitle().equals("Food Shop")) event.setCancelled(true);
+        if (event.getView().getTitle().equals("Food Shop") | event.getView().getTitle().equals("Kitchen")) event.setCancelled(true);
     }
 }
