@@ -5,7 +5,6 @@ import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.economy.LevelHandler;
 import io.github.thelordman.costrength.ranks.RankManager;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
-import io.github.thelordman.costrength.utilities.Data;
 import io.github.thelordman.costrength.utilities.Methods;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.bukkit.Bukkit;
@@ -33,8 +32,8 @@ public class PlayerDeathListener implements Listener {
 
             if (EconomyManager.getBounty(victim.getUniqueId()) != 0) {
                 EconomyManager.setBalance(killer.getUniqueId(), EconomyManager.getBalance(killer.getUniqueId()) + EconomyManager.getBounty(victim.getUniqueId()));
-                EconomyManager.setBounty(victim.getUniqueId(), 0f);
                 Bukkit.broadcastMessage(Methods.cStr(killer.getDisplayName() + " &6collected the bounty of &f$" + EconomyManager.getBounty(victim.getUniqueId()) + " &6on " + victim.getDisplayName() + "&6."));
+                EconomyManager.setBounty(victim.getUniqueId(), 0f);
             }
 
             ScoreboardHandler.updateBoard(killer);
