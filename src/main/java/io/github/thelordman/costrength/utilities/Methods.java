@@ -92,7 +92,7 @@ public class Methods {
     }
 
     public static boolean inSpawn(Player player) {
-        return player.getLocation().getX() < 13 && player.getLocation().getY() > -13;
+        return player.getLocation().getX() < 13 && player.getLocation().getZ() > -13;
     }
 
     public static boolean inCombat(Player player) {
@@ -117,7 +117,7 @@ public class Methods {
     public static void removePlayer(Player player) {
         Data.combatTag.remove(player);
         player.sendActionBar(Methods.cStr("&cCombat tag &6over"));
-        player.sendMessage(Methods.cStr("&cYou are no longer combat tagged."));
+        player.sendMessage(Methods.cStr("&6You are no longer combat tagged."));
     }
 
     public static boolean errorMessage(String error, Player player) {

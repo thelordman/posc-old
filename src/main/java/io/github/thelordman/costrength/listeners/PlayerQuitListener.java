@@ -6,6 +6,7 @@ import io.github.thelordman.costrength.utilities.Data;
 import io.github.thelordman.costrength.utilities.Methods;
 import io.github.thelordman.costrength.scoreboard.FastBoard;
 import net.dv8tion.jda.api.EmbedBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
 import org.bukkit.event.EventHandler;
@@ -18,6 +19,12 @@ import java.awt.*;
 public class PlayerQuitListener implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
+        if (Methods.inCombat(event.getPlayer())) {
+            event.getPlayer().setHealth(0);
+            EconomyManager.setBalance(event.getPlayer().getUniqueId(), EconomyManager.getBalance(event.getPlayer().getUniqueId()) / 2f);
+            Bukkit.broadcastMessage(Methods.cStr(event.getPlayer().getDisplayName() + " &6chickened and combat logged!"));
+        }
+
         event.getPlayer().setStatistic(Statistic.USE_ITEM, Material.GOLD_NUGGET, EconomyManager.getBalance(event.getPlayer().getUniqueId()).intValue());
         event.getPlayer().setStatistic(Statistic.USE_ITEM, Material.SPYGLASS, EconomyManager.getBounty(event.getPlayer().getUniqueId()).intValue());
         event.getPlayer().setStatistic(Statistic.USE_ITEM, Material.EXPERIENCE_BOTTLE, EconomyManager.getXp(event.getPlayer().getUniqueId()).intValue());

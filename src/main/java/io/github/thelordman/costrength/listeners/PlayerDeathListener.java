@@ -25,6 +25,9 @@ public class PlayerDeathListener implements Listener {
         String originalMsg = event.getDeathMessage();
 
         if (killer != null && killer != victim) {
+            Methods.removePlayer(killer);
+            Methods.removePlayer(victim);
+
             killRewards(killer, victim);
 
             if (RankManager.hasPermission(Bukkit.getOfflinePlayer(killer.getName()), (byte) 1)) event.setDeathMessage(Methods.cStr("&cDeath &8| &f" + event.getDeathMessage()));
