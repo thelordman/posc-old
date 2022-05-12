@@ -34,6 +34,7 @@ public class CommandHandler {
         registerCommand("mine", new MineCommand());
         registerCommand("bounty", new BountyCommand());
         registerCommand("stal", new StalCommand());
+        registerCommand("enderchest", new StalCommand());
     }
 
     private void registerCommand(String command, CommandExecutor executor) {

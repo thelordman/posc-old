@@ -13,14 +13,14 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 
 public class Methods {
-    public static ChatColor playerChatColor(Player player, Byte type) {
+    public static ChatColor playerChatColor(Player player, byte type) {
         ChatColor color;
 
         if (type == 0) {
-            color = RankManager.hasPermission(Bukkit.getOfflinePlayer(player.getName()), (byte) 1) ? ChatColor.WHITE : ChatColor.GRAY;
+            color = RankManager.hasDonatorPermission(player, (byte) 1) ? ChatColor.WHITE : ChatColor.GRAY;
         }
         else {
-            color = RankManager.hasPermission(Bukkit.getOfflinePlayer(player.getName()), (byte) 1) ? ChatColor.GRAY : ChatColor.DARK_GRAY;
+            color = RankManager.hasDonatorPermission(player, (byte) 1) ? ChatColor.GRAY : ChatColor.DARK_GRAY;
         }
 
         return color;
@@ -91,6 +91,18 @@ public class Methods {
         return false;
     }
 
+    public static boolean checkDonatorCommandPermission(CommandSender sender, byte level) {
+        if (sender instanceof Player) {
+            OfflinePlayer player = ((OfflinePlayer) sender);
+            if (!(RankManager.hasDonatorPermission(player, level) | player.isOp())) {
+                player.getPlayer().sendMessage(Methods.cStr("&cInsufficient permissions.\n&6Please contact an admin or developer of &fCoStrength &6if you believe this shouldn't happen."));
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
     public static boolean inSpawn(Player player) {
         return player.getLocation().getX() < 13 && player.getLocation().getZ() > -13;
     }
@@ -133,5 +145,6 @@ public class Methods {
         String mid = RankManager.getPrefix(player).isEmpty() ? "" : "&8| ";
         player.setDisplayName(Methods.cStr(RankManager.levelPrefix(player) + " " + RankManager.getPrefix(player) + mid + RankManager.getPlayerColor(player) + player.getName() + "&r"));
         player.setPlayerListName(player.getDisplayName());
+        player.setCustomName(player.getDisplayName());
     }
 }

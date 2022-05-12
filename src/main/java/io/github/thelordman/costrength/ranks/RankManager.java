@@ -24,6 +24,18 @@ public class RankManager {
         } else return ChatColor.GRAY;
     }
 
+    public static byte donatorLevel(OfflinePlayer player) {
+        if (Bukkit.getScoreboardManager().getMainScoreboard().getPlayerTeam(player) == null) return 0;
+        if (permissionLevel(player) > 0) return 4;
+        return switch (Bukkit.getScoreboardManager().getMainScoreboard().getPlayerTeam(player).getName()) {
+            case "vip" -> 1;
+            case "mvp" -> 2;
+            case "elite" -> 3;
+            case "legend" -> 4;
+            default -> 0;
+        };
+    }
+
     public static byte permissionLevel(OfflinePlayer player) {
         if (Bukkit.getScoreboardManager().getMainScoreboard().getPlayerTeam(player) == null) return 0;
         return switch (Bukkit.getScoreboardManager().getMainScoreboard().getPlayerTeam(player).getName()) {
@@ -42,6 +54,10 @@ public class RankManager {
 
     public static boolean hasPermission(OfflinePlayer player, byte level) {
         return permissionLevel(player) >= level;
+    }
+
+    public static boolean hasDonatorPermission(OfflinePlayer player, byte level) {
+        return donatorLevel(player) >= level;
     }
 
     public static String levelPrefix(OfflinePlayer player) {

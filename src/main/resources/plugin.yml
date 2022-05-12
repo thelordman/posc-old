@@ -85,3 +85,7 @@ commands:
   stal:
     description: stal
     usage: /stal [player]
+  enderchest:
+    description: Access your's or someone else's enderchest.
+    aliases: ec
+    usage: /ec [player]

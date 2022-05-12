@@ -11,7 +11,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.awt.*;
-import java.util.Collection;
 
 public class SlashCommandInteractionListener extends ListenerAdapter {
     @Override
@@ -22,19 +21,16 @@ public class SlashCommandInteractionListener extends ListenerAdapter {
             case "online" -> {
                 StringBuilder onlinePlayers = new StringBuilder("**Online Players:** ");
                 int averagePing = 0;
-                double[] tpsRaw = Bukkit.getTPS();
-                String tps = Methods.rStr((float) tpsRaw[0]);
-                Collection<? extends Player> list = Bukkit.getOnlinePlayers();
-                for (Player player : list) {
+                for (Player player : Bukkit.getOnlinePlayers()) {
                     onlinePlayers.append(Methods.replaceColorCodes(player.getDisplayName(), '§')).append(", ");
                     averagePing += player.getPing();
                 }
-                averagePing = averagePing == 0 ? 0 : averagePing / list.size();
+                averagePing = averagePing == 0 ? 0 : averagePing / Bukkit.getOnlinePlayers().size();
                 EmbedBuilder builder = new EmbedBuilder()
                         .setAuthor("CoStrength", null, "https://cdn.discordapp.com/attachments/950090391535890442/955545141467287552/CoStrength.png")
                         .setDescription(onlinePlayers)
                         .setColor(Color.BLUE)
-                        .setFooter("CoStrength.minehut.gg | Average Ping: " + averagePing + "ms | TPS: " + tps);
+                        .setFooter("CoStrength.minehut.gg | Average Ping: " + averagePing + "ms | TPS: " + Methods.rStr((float) Bukkit.getTPS()[0]));
                 event.replyEmbeds(builder.build()).queue();
             }
             case "cmd" -> {
