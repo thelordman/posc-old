@@ -28,7 +28,7 @@ public class PlayerItemConsumeListener implements Listener {
                     : player.getPotionEffect(PotionEffectType.FAST_DIGGING).getDuration() + 1200;
             if (h == 4) h = 3;
             player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, t, h));
-            player.sendMessage(Methods.cStr("&6The &cHot Wings &6you ate made you faster at mining.\n&fHaste " + h + " for " + Methods.rStr(((float) t) / 1200f) + " minutes &7(+1 haste)&f."));
+            player.sendMessage(Methods.cStr("&6The &cHot Wings &6you ate made you faster at mining.\n&fHaste " + h + " for " + Methods.rStr(((double) t) / 1200) + " minutes &7(+1 haste)&f."));
             return;
         }
         if (item.getLore().contains(Methods.cStr("&2Melon&7: &6Restores &f+2 hunger &6after drinking."))) {

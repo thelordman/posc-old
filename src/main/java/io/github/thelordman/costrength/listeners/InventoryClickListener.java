@@ -49,7 +49,7 @@ public class InventoryClickListener implements Listener {
                     break;
                 case RABBIT_STEW:
                     m = event.getClick().isRightClick() ? 320000f : 5000f;
-                    item = GUIHandler.quickItem(Material.HONEY_BOTTLE, Methods.cStr("&3Thick Stew"), i, Methods.cStr("&6Restores &f20 hunger &6and &f20 saturation&6."));
+                    item = GUIHandler.quickItem(Material.RABBIT_STEW, Methods.cStr("&3Thick Stew"), i, Methods.cStr("&6Restores &f20 hunger &6and &f20 saturation&6."));
                     message = Methods.cStr("&6Successfully bought &f" + i + " &3Thick Stew&6.");
                     break;
                 case CAULDRON:

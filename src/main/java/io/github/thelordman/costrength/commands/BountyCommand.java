@@ -22,9 +22,9 @@ public class BountyCommand implements CommandExecutor {
         }
 
         Player target = Bukkit.getPlayer(args[0]);
-        Float amount;
+        Double amount;
         try {
-            amount = Float.valueOf(args[1]);
+            amount = Double.valueOf(args[1]);
         } catch (NumberFormatException e) {
             return Methods.errorMessage("notaNumber", player);
         }

@@ -8,6 +8,8 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
@@ -37,9 +39,7 @@ public class GUIHandler {
         Data.kitchenGUI.setItem(10, quickItem(Material.MELON, Methods.cStr("&2Melon"), 1, Methods.cStr("&6Restores &f+2 hunger &6after drinking."), "", Methods.cStr("&f$500 &7(1x) &8| &f$32,000 &7(64x)"), "", "Left click to buy one", "Right click to buy stack"));
         Data.kitchenGUI.setItem(11, quickItem(Material.SWEET_BERRIES, Methods.cStr("&cBerries"), 1, Methods.cStr("&6Restores &f+7 saturation &6after drinking."), "", Methods.cStr("&f$1,000 &7(1x) &8| &f$64,000 &7(64x)"), "", "Left click to buy one", "Right click to buy stack"));
         Data.kitchenGUI.setItem(12, quickItem(Material.SUGAR, Methods.cStr("&fSugar"), 1, Methods.cStr("&6Gives &fspeed 1 for 20 seconds &6after drinking."), "", Methods.cStr("&f$2,000 &7(1x) &8| &f$128,000 &7(64x)"), "", "Left click to buy one", "Right click to buy stack"));
-        ItemStack item = quickItem(Material.POTION, Methods.cStr("&eAlcohol"), 1, Methods.cStr("&6Gives &fstrength 1 for 20 seconds &6after drinking."), "", Methods.cStr("&f$4,000 &7(1x) &8| &f$256,000 &7(64x)"), "", "Left click to buy one", "Right click to buy stack");
-        item.removeItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-        Data.kitchenGUI.setItem(13, item);
+        Data.kitchenGUI.setItem(13, quickItem(Material.POTION, Methods.cStr("&eAlcohol"), 1, Methods.cStr("&6Gives &fstrength 1 for 20 seconds &6after drinking."), "", Methods.cStr("&f$4,000 &7(1x) &8| &f$256,000 &7(64x)"), "", "Left click to buy one", "Right click to buy stack"));
     }
 
     public static ItemStack quickItem(final Material material, final String name, final int amount, final String... lore) {

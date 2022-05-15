@@ -57,9 +57,9 @@ public final class CoStrength extends JavaPlugin {
 
         if (!Bukkit.getOnlinePlayers().isEmpty()) {
             for (Player online : Bukkit.getOnlinePlayers()) {
-                EconomyManager.setBalance(online.getUniqueId(), (float) online.getStatistic(Statistic.USE_ITEM, Material.GOLD_NUGGET));
-                EconomyManager.setBounty(online.getUniqueId(), (float) online.getStatistic(Statistic.USE_ITEM, Material.SPYGLASS));
-                EconomyManager.setXp(online.getUniqueId(), (float) online.getStatistic(Statistic.USE_ITEM, Material.EXPERIENCE_BOTTLE));
+                EconomyManager.setBalance(online.getUniqueId(), (double) online.getStatistic(Statistic.USE_ITEM, Material.GOLD_NUGGET));
+                EconomyManager.setBounty(online.getUniqueId(), (double) online.getStatistic(Statistic.USE_ITEM, Material.SPYGLASS));
+                EconomyManager.setXp(online.getUniqueId(), (double) online.getStatistic(Statistic.USE_ITEM, Material.EXPERIENCE_BOTTLE));
                 EconomyManager.setLevel(online.getUniqueId(), online.getStatistic(Statistic.USE_ITEM, Material.FIREWORK_ROCKET));
                 EconomyManager.setKillstreak(online.getUniqueId(), online.getStatistic(Statistic.USE_ITEM, Material.WOODEN_SWORD));
 

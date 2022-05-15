@@ -28,7 +28,7 @@ public class BroadcastCommand implements CommandExecutor {
         builder.setAuthor("Broadcast", null, "https://cdn.discordapp.com/attachments/950090391535890442/955545141467287552/CoStrength.png");
         builder.setColor(Color.CYAN);
         builder.setDescription(Methods.replaceColorCodes(Methods.arrayToString(args), '&'));
-        builder.setFooter("CoStrength.minehut.gg | Average Ping: " + averagePing + "ms | TPS: " + Methods.rStr((float) Bukkit.getTPS()[0]));
+        builder.setFooter("CoStrength.minehut.gg | Average Ping: " + averagePing + "ms | TPS: " + Methods.rStr(Bukkit.getTPS()[0]));
 
         Discord.minecraftChatChannel.sendMessageEmbeds(builder.build()).queue();
 

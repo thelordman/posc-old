@@ -30,7 +30,7 @@ public class SlashCommandInteractionListener extends ListenerAdapter {
                         .setAuthor("CoStrength", null, "https://cdn.discordapp.com/attachments/950090391535890442/955545141467287552/CoStrength.png")
                         .setDescription(onlinePlayers)
                         .setColor(Color.BLUE)
-                        .setFooter("CoStrength.minehut.gg | Average Ping: " + averagePing + "ms | TPS: " + Methods.rStr((float) Bukkit.getTPS()[0]));
+                        .setFooter("CoStrength.minehut.gg | Average Ping: " + averagePing + "ms | TPS: " + Methods.rStr(Bukkit.getTPS()[0]));
                 event.replyEmbeds(builder.build()).queue();
             }
             case "cmd" -> {

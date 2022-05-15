@@ -29,15 +29,15 @@ public class BlockBreakListener implements Listener {
         event.setDropItems(false);
 
         if (block.getType().equals(Material.BEACON)) MineHandler.resetMine((byte) 1, player);
-        float reward = 0;
+        double reward = 0;
         switch (block.getType()) {
-            case STONE -> reward = 1f;
-            case COAL_ORE -> reward = 1.5f;
-            case IRON_ORE -> reward = 2.25f;
-            case LAPIS_ORE -> reward = 3f;
-            case DIAMOND_ORE -> reward = 5f;
-            case EMERALD_ORE -> reward = 8f;
-            case BEACON -> reward = EconomyManager.getBalance(player.getUniqueId()) / 100f + 1000f;
+            case STONE -> reward = 1;
+            case COAL_ORE -> reward = 1.5;
+            case IRON_ORE -> reward = 2.25;
+            case LAPIS_ORE -> reward = 3;
+            case DIAMOND_ORE -> reward = 5;
+            case EMERALD_ORE -> reward = 8;
+            case BEACON -> reward = EconomyManager.getBalance(player.getUniqueId()) / 100 + 1000;
         }
 
         Material m = !lastBlockData.containsKey(player) ? Material.AIR : lastBlockData.get(player).getValue0();
@@ -45,17 +45,17 @@ public class BlockBreakListener implements Listener {
         lastBlockData.put(player, new Triplet<>(block.getType(), System.currentTimeMillis(),
                 !lastBlockData.containsKey(player) | m != block.getType() | 5000 < System.currentTimeMillis() - l
                         ? 0 : lastBlockData.get(player).getValue2() + 1));
-        float multi = lastBlockData.containsKey(player)
+        double multi = lastBlockData.containsKey(player)
                 ? (float) (block.getType().equals(Material.STONE)
                 ? lastBlockData.get(player).getValue2() / 2
                 : lastBlockData.get(player).getValue2()) / 100 : 0;
 
-        float moneyMulti = 1 + multi;
-        float xpMulti = 1 + multi;
+        double moneyMulti = 1 + multi;
+        double xpMulti = 1 + multi;
 
-        float money = reward * moneyMulti, xp = reward * xpMulti;
+        double money = reward * moneyMulti, xp = reward * xpMulti;
 
-        player.sendActionBar(Methods.cStr("&f+$" + Methods.rStr(money) + " &7(" + Methods.rStr(moneyMulti) + "x) &8| &f+" + Methods.rStr(xp) + "xp &7(" + Methods.rStr(xpMulti) + "x) &8| &6Streak&7: &f" + Methods.rStr((float) lastBlockData.get(player).getValue2())));
+        player.sendActionBar(Methods.cStr("&f+$" + Methods.rStr(money) + " &7(" + Methods.rStr(moneyMulti) + "x) &8| &f+" + Methods.rStr(xp) + "xp &7(" + Methods.rStr(xpMulti) + "x) &8| &6Streak&7: &f" + Methods.rStr((double) lastBlockData.get(player).getValue2())));
         EconomyManager.setBalance(player.getUniqueId(), EconomyManager.getBalance(player.getUniqueId()) + money);
         EconomyManager.setXp(player.getUniqueId(), EconomyManager.getXp(player.getUniqueId()) + xp);
         LevelHandler.xp(player);

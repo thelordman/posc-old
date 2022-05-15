@@ -1,6 +1,7 @@
 package io.github.thelordman.costrength.utilities;
 
 import io.github.thelordman.costrength.CoStrength;
+import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.ranks.RankManager;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
@@ -27,21 +28,22 @@ public class Methods {
     }
 
     public static String locToString(Location location, Boolean extra) {
-        String x = rStr((float) location.getX());
-        String y = rStr((float) location.getY());
-        String z = rStr((float) location.getZ());
-        String yaw = rStr(location.getYaw());
-        String pitch = rStr(location.getPitch());
+        String x = rStr(location.getX());
+        String y = rStr(location.getY());
+        String z = rStr(location.getZ());
+        String yaw = rStr((double) location.getYaw());
+        String pitch = rStr((double) location.getPitch());
         return extra ? location.getWorld().getName() + "," + x + "," + y + "," + z + "," + yaw + "," + pitch : "X: " + x + ", Y: " + y + ", Z: " + z;
     }
 
-    public static Float getKdr(OfflinePlayer player) {
-        return !(player.getStatistic(Statistic.PLAYER_KILLS) == 0) | !(player.getStatistic(Statistic.DEATHS) == 0) ?
-                ((float) player.getStatistic(Statistic.PLAYER_KILLS)) / (float) player.getStatistic(Statistic.DEATHS) : 0f;
+    public static Double getKdr(OfflinePlayer player) {
+        return !(player.getStatistic(Statistic.PLAYER_KILLS) == 0) | !(player.getStatistic(Statistic.DEATHS) == 0)
+                ? ((double) player.getStatistic(Statistic.PLAYER_KILLS)) / (double) player.getStatistic(Statistic.DEATHS)
+                : (double) player.getStatistic(Statistic.PLAYER_KILLS);
     }
 
-    public static Float getBlocks(OfflinePlayer player) {
-        return (float) player.getStatistic(Statistic.USE_ITEM, Material.IRON_PICKAXE) + player.getStatistic(Statistic.USE_ITEM, Material.DIAMOND_PICKAXE) + player.getStatistic(Statistic.USE_ITEM, Material.NETHERITE_PICKAXE) + player.getStatistic(Statistic.USE_ITEM, Material.GOLDEN_PICKAXE);
+    public static Double getBlocks(OfflinePlayer player) {
+        return (double) player.getStatistic(Statistic.USE_ITEM, Material.IRON_PICKAXE) + player.getStatistic(Statistic.USE_ITEM, Material.DIAMOND_PICKAXE) + player.getStatistic(Statistic.USE_ITEM, Material.NETHERITE_PICKAXE) + player.getStatistic(Statistic.USE_ITEM, Material.GOLDEN_PICKAXE);
     }
 
     public static String cStr(String message) {
@@ -52,7 +54,7 @@ public class Methods {
         return string.substring(0, 1).toUpperCase() + string.substring(1).toLowerCase();
     }
 
-    public static String rStr(Float number) {
+    public static String rStr(Double number) {
         return new DecimalFormat("###,###.##").format(number);
     }
 
@@ -83,7 +85,7 @@ public class Methods {
         if (sender instanceof Player) {
             OfflinePlayer player = ((OfflinePlayer) sender);
             if (!(RankManager.hasPermission(player, level) | player.isOp())) {
-                player.getPlayer().sendMessage(Methods.cStr("&cInsufficient permissions.\n&6Please contact an admin or developer of &fCoStrength &6if you believe this shouldn't happen."));
+                player.getPlayer().sendMessage(cStr("&cInsufficient permissions.\n&6Please contact an admin or developer of &fCoStrength &6if you believe this shouldn't happen."));
                 return false;
             }
             return true;
@@ -95,7 +97,7 @@ public class Methods {
         if (sender instanceof Player) {
             OfflinePlayer player = ((OfflinePlayer) sender);
             if (!(RankManager.hasDonatorPermission(player, level) | player.isOp())) {
-                player.getPlayer().sendMessage(Methods.cStr("&cInsufficient permissions.\n&6Please contact an admin or developer of &fCoStrength &6if you believe this shouldn't happen."));
+                player.getPlayer().sendMessage(cStr("&cInsufficient permissions.\n&6Please contact an admin or developer of &fCoStrength &6if you believe this shouldn't happen."));
                 return false;
             }
             return true;
@@ -117,7 +119,7 @@ public class Methods {
             @Override
             public void run() {
                 Data.combatTag.put(player, (byte) (Data.combatTag.get(player) - 1));
-                player.sendActionBar(Methods.cStr("&cCombat tag: &6" + Data.combatTag.get(player) + " seconds"));
+                player.sendActionBar(cStr("&cCombat tag: &6" + Data.combatTag.get(player) + " seconds"));
                 if (Data.combatTag.get(player) <= 0) {
                     removePlayer(player);
                     cancel();
@@ -128,15 +130,15 @@ public class Methods {
 
     public static void removePlayer(Player player) {
         Data.combatTag.remove(player);
-        player.sendActionBar(Methods.cStr("&cCombat tag &6over"));
-        player.sendMessage(Methods.cStr("&6You are no longer combat tagged."));
+        player.sendActionBar(cStr("&cCombat tag &6over"));
+        player.sendMessage(cStr("&6You are no longer combat tagged."));
     }
 
     public static boolean errorMessage(String error, Player player) {
         switch (error) {
-            case "insufficientFunds" -> player.sendMessage(Methods.cStr("&cYou don't have enough money for that."));
-            case "requires100" -> player.sendMessage(Methods.cStr("&cAmount must be at least $100."));
-            case "notaNumber" -> player.sendMessage(Methods.cStr("&cAmount must be a number."));
+            case "insufficientFunds" -> player.sendMessage(cStr("&cYou don't have enough money for that."));
+            case "requires100" -> player.sendMessage(cStr("&cAmount must be at least $100."));
+            case "notaNumber" -> player.sendMessage(cStr("&cAmount must be a number."));
         }
         return true;
     }
@@ -144,7 +146,8 @@ public class Methods {
     public static void updateDisplayName(Player player) {
         String mid = RankManager.getPrefix(player).isEmpty() ? "" : "&8| ";
         player.setDisplayName(Methods.cStr(RankManager.levelPrefix(player) + " " + RankManager.getPrefix(player) + mid + RankManager.getPlayerColor(player) + player.getName() + "&r"));
-        player.setPlayerListName(player.getDisplayName());
+        if (EconomyManager.getBounty(player.getUniqueId()) == 0) player.setPlayerListName(player.getDisplayName() + cStr(" &6[&f$" + rStr(EconomyManager.getBounty(player.getUniqueId())) + "&6]"));
+        else player.setPlayerListName(player.getDisplayName());
         player.setCustomName(player.getDisplayName());
     }
 }

@@ -12,15 +12,15 @@ import java.util.List;
 import java.util.UUID;
 
 public class LevelHandler {
-    public static Float xpRequirement(UUID uuid) {
+    public static Double xpRequirement(UUID uuid) {
         int l = EconomyManager.getLevel(uuid);
-        return (float) l * 1000;
+        return (double) l * 1000;
     }
     public static void xp(Player player) {
         player.setLevel(EconomyManager.getLevel(player.getUniqueId()));
         if (EconomyManager.getXp(player.getUniqueId()) >= xpRequirement(player.getUniqueId())) {
             EconomyManager.setLevel(player.getUniqueId(), EconomyManager.getLevel(player.getUniqueId()) + 1);
-            EconomyManager.setXp(player.getUniqueId(), 0f);
+            EconomyManager.setXp(player.getUniqueId(), (double) 0);
             player.setExp(0);
             Methods.updateDisplayName(player);
 
@@ -37,7 +37,7 @@ public class LevelHandler {
             else player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
         }
         else {
-            player.setExp(EconomyManager.getXp(player.getUniqueId()) / xpRequirement(player.getUniqueId()));
+            player.setExp((float) (EconomyManager.getXp(player.getUniqueId()) / xpRequirement(player.getUniqueId())));
         }
     }
 }

@@ -18,9 +18,9 @@ import java.awt.*;
 public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        EconomyManager.setBalance(event.getPlayer().getUniqueId(), (float) event.getPlayer().getStatistic(Statistic.USE_ITEM, Material.GOLD_NUGGET));
-        EconomyManager.setBounty(event.getPlayer().getUniqueId(), (float) event.getPlayer().getStatistic(Statistic.USE_ITEM, Material.SPYGLASS));
-        EconomyManager.setXp(event.getPlayer().getUniqueId(), (float) event.getPlayer().getStatistic(Statistic.USE_ITEM, Material.EXPERIENCE_BOTTLE));
+        EconomyManager.setBalance(event.getPlayer().getUniqueId(), (double) event.getPlayer().getStatistic(Statistic.USE_ITEM, Material.GOLD_NUGGET));
+        EconomyManager.setBounty(event.getPlayer().getUniqueId(), (double) event.getPlayer().getStatistic(Statistic.USE_ITEM, Material.SPYGLASS));
+        EconomyManager.setXp(event.getPlayer().getUniqueId(), (double) event.getPlayer().getStatistic(Statistic.USE_ITEM, Material.EXPERIENCE_BOTTLE));
         EconomyManager.setLevel(event.getPlayer().getUniqueId(), event.getPlayer().getStatistic(Statistic.USE_ITEM, Material.FIREWORK_ROCKET));
         EconomyManager.setKillstreak(event.getPlayer().getUniqueId(), event.getPlayer().getStatistic(Statistic.USE_ITEM, Material.WOODEN_SWORD));
 
