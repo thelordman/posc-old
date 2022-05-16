@@ -12,11 +12,10 @@ public class EntityDamageByEntityListener implements Listener {
 
     @EventHandler
     public void onDamageByEntity(EntityDamageByEntityEvent event) {
+        if (event.isCancelled()) return;
         if (event.getEntity().getLastDamageCause() == null) return;
         Player victim = (Player) event.getEntity();
         Player attacker = (Player) event.getEntity().getLastDamageCause().getEntity();
-
-        if (event.isCancelled()) return;
 
         if (event.getCause().equals(EntityDamageEvent.DamageCause.SUFFOCATION)) {
             event.setCancelled(true);

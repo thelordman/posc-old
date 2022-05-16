@@ -6,9 +6,7 @@ import org.bukkit.command.CommandExecutor;
 
 import java.util.Objects;
 
-public class CommandHandler {
-    private final CoStrength plugin;
-
+public record CommandHandler(CoStrength plugin) {
     public CommandHandler(CoStrength plugin) {
         this.plugin = plugin;
 
@@ -35,6 +33,7 @@ public class CommandHandler {
         registerCommand("bounty", new BountyCommand());
         registerCommand("stal", new StalCommand());
         registerCommand("enderchest", new EnderchestCommand());
+        registerCommand("donator", new DonatorCommand());
     }
 
     private void registerCommand(String command, CommandExecutor executor) {

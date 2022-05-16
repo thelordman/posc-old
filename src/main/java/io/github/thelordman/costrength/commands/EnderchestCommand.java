@@ -23,8 +23,8 @@ public class EnderchestCommand implements CommandExecutor {
         }
 
         Player target = Bukkit.getPlayer(args[0]);
-        if (target == null) sender.sendMessage(Methods.cStr("&cThat player isn't online."));
-        sender.sendMessage(Methods.cStr("&6Opening &f" + target.getDisplayName() + "'s &6inventory."));
+        if (target == null) return false;
+        sender.sendMessage(Methods.cStr("&6Opening &f" + target.getDisplayName() + "'s &6enderchest."));
         player.openInventory(target.getEnderChest());
         return true;
     }

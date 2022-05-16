@@ -26,11 +26,11 @@ commands:
   balance:
     description: Check the balance of an offline or online player.
     aliases: bal
-    usage: /balance [offline-player]
+    usage: /bal [offline-player]
   economy:
     description: Change or get various values about the target's economy.
     aliases: [eco, econ]
-    usage: /economy <offline-player> <set, add, remove, reset, multiply, divide, get, pow> [<amount>]
+    usage: /eco <offline-player> <set, add, remove, reset, multiply, divide, get, pow> [<amount>]
   stats:
     description: Check the stats of an offline or online player.
     aliases: st
@@ -89,3 +89,7 @@ commands:
     description: Access your's or someone else's enderchest.
     aliases: ec
     usage: /ec [player]
+  donator:
+    description: View the permissions and commands of donator ranks.
+    aliases: donor
+    usage: /donor
