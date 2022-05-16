@@ -11,23 +11,23 @@ public class DonatorCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         sender.sendMessage(Methods.cStr("""
 
-                &r    &6&lYour Statistics
+                &r    &6&lRanks
                 &r
-                &aVIP&f:
+                &a&lVIP&f:
                 &6Bypass chat cooldown
                 &6/ec
                 &fWhite &6chat color
                 &aVIP &6prefix
                 &6VIP rank in Discord
                 &r
-                &eMVP&f:
+                &e&lMVP&f:
                 &6Everything from &aVIP
                 &6/pv 1
                 &6/food
                 &eMVP &6prefix
                 &6MVP rank in Discord
                 &r
-                &3ELITE&f:
+                &3&lELITE&f:
                 &6Everything from &eMVP &6and &aVIP
                 &6/pv 1 and 2
                 &6/mine
@@ -35,7 +35,7 @@ public class DonatorCommand implements CommandExecutor {
                 &3ELITE &6prefix
                 &6ELITE rank in Discord
                 &r
-                &6LEGEND&f:
+                &6&lLEGEND&f:
                 &6Everything from &eMVP &6and &aVIP
                 &6/pv 1, 2 and 3
                 &6Choose the color of the rank

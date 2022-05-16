@@ -12,7 +12,6 @@ import org.bukkit.scoreboard.Team;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
-import java.util.Locale;
 
 public class Methods {
     public static ChatColor playerChatColor(Player player, byte type) {
@@ -98,7 +97,7 @@ public class Methods {
         if (sender instanceof Player) {
             OfflinePlayer player = ((OfflinePlayer) sender);
             if (!(RankManager.hasDonatorPermission(player, level) | player.isOp())) {
-                player.getPlayer().sendMessage(cStr("&cInsufficient permissions.\n&6Please contact an admin or developer of &fCoStrength &6if you believe this shouldn't happen."));
+                player.getPlayer().sendMessage(cStr("&cInsufficient permissions.\n&cPlease contact an admin or developer of &fCoStrength &6if you believe this shouldn't happen."));
                 return false;
             }
             return true;
@@ -148,7 +147,7 @@ public class Methods {
         String mid = RankManager.getPrefix(player).isEmpty() ? "" : "&8| ";
         player.setDisplayName(Methods.cStr(RankManager.levelPrefix(player) + " " + RankManager.getPrefix(player) + mid + RankManager.getPlayerColor(player) + player.getName() + "&r"));
         player.setDisplayName(player.getDisplayName().replace("fastskating", "fatskating"));
-        if (EconomyManager.getBounty(player.getUniqueId()) == 0) player.setPlayerListName(player.getDisplayName() + cStr(" &6[&f$" + rStr(EconomyManager.getBounty(player.getUniqueId())) + "&6]"));
+        if (EconomyManager.getBounty(player.getUniqueId()) != 0) player.setPlayerListName(player.getDisplayName() + cStr(" &6[&f$" + rStr(EconomyManager.getBounty(player.getUniqueId())) + "&6]"));
         else player.setPlayerListName(player.getDisplayName());
         player.setCustomName(player.getDisplayName());
     }

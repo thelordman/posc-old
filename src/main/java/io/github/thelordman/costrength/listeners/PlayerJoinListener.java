@@ -4,6 +4,7 @@ import io.github.thelordman.costrength.discord.Discord;
 import io.github.thelordman.costrength.economy.LevelHandler;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
 import io.github.thelordman.costrength.economy.EconomyManager;
+import io.github.thelordman.costrength.utilities.Kit;
 import io.github.thelordman.costrength.utilities.Methods;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.bukkit.Bukkit;
@@ -18,6 +19,8 @@ import java.awt.*;
 public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
+        if (!event.getPlayer().hasPlayedBefore()) Kit.joinKit(event.getPlayer());
+
         EconomyManager.setBalance(event.getPlayer().getUniqueId(), (double) event.getPlayer().getStatistic(Statistic.USE_ITEM, Material.GOLD_NUGGET));
         EconomyManager.setBounty(event.getPlayer().getUniqueId(), (double) event.getPlayer().getStatistic(Statistic.USE_ITEM, Material.SPYGLASS));
         EconomyManager.setXp(event.getPlayer().getUniqueId(), (double) event.getPlayer().getStatistic(Statistic.USE_ITEM, Material.EXPERIENCE_BOTTLE));
@@ -40,6 +43,5 @@ public class PlayerJoinListener implements Listener {
         builder.setColor(Color.GREEN);
 
         Discord.minecraftChatChannel.sendMessageEmbeds(builder.build()).queue();
-
     }
 }

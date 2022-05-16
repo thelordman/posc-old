@@ -34,6 +34,7 @@ public record CommandHandler(CoStrength plugin) {
         registerCommand("stal", new StalCommand());
         registerCommand("enderchest", new EnderchestCommand());
         registerCommand("donator", new DonatorCommand());
+        registerCommand("joinkit", new JoinkitCommand());
     }
 
     private void registerCommand(String command, CommandExecutor executor) {

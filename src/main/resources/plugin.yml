@@ -93,3 +93,6 @@ commands:
     description: View the permissions and commands of donator ranks.
     aliases: donor
     usage: /donor
+  joinkit:
+    description: Give an online player the default kit.
+    usage: /joinkit [player]
