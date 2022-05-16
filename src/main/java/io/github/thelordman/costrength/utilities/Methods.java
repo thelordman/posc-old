@@ -12,6 +12,7 @@ import org.bukkit.scoreboard.Team;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class Methods {
     public static ChatColor playerChatColor(Player player, byte type) {
@@ -146,6 +147,7 @@ public class Methods {
     public static void updateDisplayName(Player player) {
         String mid = RankManager.getPrefix(player).isEmpty() ? "" : "&8| ";
         player.setDisplayName(Methods.cStr(RankManager.levelPrefix(player) + " " + RankManager.getPrefix(player) + mid + RankManager.getPlayerColor(player) + player.getName() + "&r"));
+        player.setDisplayName(player.getDisplayName().replace("fastskating", "fatskating"));
         if (EconomyManager.getBounty(player.getUniqueId()) == 0) player.setPlayerListName(player.getDisplayName() + cStr(" &6[&f$" + rStr(EconomyManager.getBounty(player.getUniqueId())) + "&6]"));
         else player.setPlayerListName(player.getDisplayName());
         player.setCustomName(player.getDisplayName());
