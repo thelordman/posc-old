@@ -4,7 +4,7 @@ import io.github.thelordman.costrength.discord.Discord;
 import io.github.thelordman.costrength.economy.LevelHandler;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
 import io.github.thelordman.costrength.economy.EconomyManager;
-import io.github.thelordman.costrength.utilities.Kit;
+import io.github.thelordman.costrength.items.Kit;
 import io.github.thelordman.costrength.utilities.Methods;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.bukkit.Bukkit;

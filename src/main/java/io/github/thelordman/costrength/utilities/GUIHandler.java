@@ -1,15 +1,14 @@
 package io.github.thelordman.costrength.utilities;
 
 import io.github.thelordman.costrength.economy.EconomyManager;
+import io.github.thelordman.costrength.items.ItemManager;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
@@ -39,7 +38,30 @@ public class GUIHandler {
         Data.kitchenGUI.setItem(10, quickItem(Material.MELON, Methods.cStr("&2Melon"), 1, Methods.cStr("&6Restores &f+2 hunger &6after drinking."), "", Methods.cStr("&f$500 &7(1x) &8| &f$32,000 &7(64x)"), "", "Left click to buy one", "Right click to buy stack"));
         Data.kitchenGUI.setItem(11, quickItem(Material.SWEET_BERRIES, Methods.cStr("&cBerries"), 1, Methods.cStr("&6Restores &f+7 saturation &6after drinking."), "", Methods.cStr("&f$1,000 &7(1x) &8| &f$64,000 &7(64x)"), "", "Left click to buy one", "Right click to buy stack"));
         Data.kitchenGUI.setItem(12, quickItem(Material.SUGAR, Methods.cStr("&fSugar"), 1, Methods.cStr("&6Gives &fspeed 1 for 20 seconds &6after drinking."), "", Methods.cStr("&f$2,000 &7(1x) &8| &f$128,000 &7(64x)"), "", "Left click to buy one", "Right click to buy stack"));
-        Data.kitchenGUI.setItem(13, quickItem(Material.POTION, Methods.cStr("&eAlcohol"), 1, Methods.cStr("&6Gives &fstrength 1 for 20 seconds &6after drinking."), "", Methods.cStr("&f$4,000 &7(1x) &8| &f$256,000 &7(64x)"), "", "Left click to buy one", "Right click to buy stack"));
+        Data.kitchenGUI.setItem(13, quickItem(Material.HONEY_BOTTLE, Methods.cStr("&eIrn Bru"), 1, Methods.cStr("&6Gives &fstrength 1 for 20 seconds &6after drinking."), "", Methods.cStr("&f$4,000 &7(1x) &8| &f$256,000 &7(64x)"), "", "Left click to buy one", "Right click to buy stack"));
+
+        //Tool Menu
+        for (int i = 0; i < 3; i++) {
+            Data.toolGUI.setItem(i, quickItem(Material.WHITE_STAINED_GLASS_PANE, Methods.cStr("&r"), 1, ""));
+        }
+        Data.toolGUI.setItem(9, quickItem(Material.WHITE_STAINED_GLASS_PANE, Methods.cStr("&r"), 1, ""));
+        Data.toolGUI.setItem(11, quickItem(Material.WHITE_STAINED_GLASS_PANE, Methods.cStr("&r"), 1, ""));
+        for (int i = 18; i < 21; i++) {
+            Data.toolGUI.setItem(i, quickItem(Material.WHITE_STAINED_GLASS_PANE, Methods.cStr("&r"), 1, ""));
+        }
+        Data.toolGUI.setItem(13, quickItem(Material.ENCHANTED_BOOK, Methods.cStr("&eEnchantments"), 1, Methods.cStr("&6Enchantments are tiered, usually simple but effective upgrades."), Methods.cStr("&6They don't need much strategising and are straight forward.")));
+        Data.toolGUI.setItem(14, quickItem(Material.FIREWORK_ROCKET, Methods.cStr("&eUpgrades"), 1, Methods.cStr("&6Upgrades are complex additions that can be turned off or on."), Methods.cStr("&6Experiment to find a combination of upgrades that best fit your play-style.")));
+        Data.toolGUI.setItem(15, quickItem(Material.COMPARATOR, Methods.cStr("&eConfiguration"), 1, Methods.cStr("&6Here you can configure your tool and its upgrades."), Methods.cStr("&6This is useful for maximizing efficiency, profits and deadliness.")));
+
+        //Enchantment Menu
+        for (int i = 0; i < 3; i++) {
+            Data.enchantmentGUI.setItem(i, quickItem(Material.WHITE_STAINED_GLASS_PANE, Methods.cStr("&r"), 1, ""));
+        }
+        Data.enchantmentGUI.setItem(9, quickItem(Material.WHITE_STAINED_GLASS_PANE, Methods.cStr("&r"), 1, ""));
+        Data.enchantmentGUI.setItem(11, quickItem(Material.WHITE_STAINED_GLASS_PANE, Methods.cStr("&r"), 1, ""));
+        for (int i = 18; i < 21; i++) {
+            Data.enchantmentGUI.setItem(i, quickItem(Material.WHITE_STAINED_GLASS_PANE, Methods.cStr("&r"), 1, ""));
+        }
     }
 
     public static ItemStack quickItem(final Material material, final String name, final int amount, final String... lore) {
@@ -52,6 +74,7 @@ public class GUIHandler {
     }
 
     public static void openGUI(Inventory inventory, Player player) {
+        inventory.setContents(inventory.getContents());
         if (inventory.equals(Data.foodShopGUI)) {
             if (EconomyManager.getLevel(player.getUniqueId()) < 25) {
                 inventory.setItem(13, quickItem(Material.BARRIER, Methods.cStr("&cLocked"), 1, Methods.cStr("&cUnlocks at &flevel 25&c.")));
@@ -66,6 +89,28 @@ public class GUIHandler {
             if (EconomyManager.getLevel(player.getUniqueId()) < 50) {
                 inventory.setItem(12, quickItem(Material.BARRIER, Methods.cStr("&cLocked"), 1, Methods.cStr("&cUnlocks at &flevel 50&c.")));
                 inventory.setItem(13, quickItem(Material.BARRIER, Methods.cStr("&cLocked"), 1, Methods.cStr("&cUnlocks at &flevel 50&c.")));
+            }
+            player.openInventory(inventory);
+        }
+        if (inventory.equals(Data.toolGUI)) {
+            inventory.setItem(10, player.getInventory().getItemInMainHand());
+            if (EconomyManager.getLevel(player.getUniqueId()) < 15) {
+                inventory.setItem(14, quickItem(Material.BARRIER, Methods.cStr("&cLocked"), 1, Methods.cStr("&cUnlocks at &flevel 15&c.")));
+            }
+            if (EconomyManager.getLevel(player.getUniqueId()) < 75) {
+                inventory.setItem(15, quickItem(Material.BARRIER, Methods.cStr("&cLocked"), 1, Methods.cStr("&cUnlocks at &flevel 75&c.")));
+            }
+            player.openInventory(inventory);
+        }
+        if (inventory.equals(Data.enchantmentGUI)) {
+            ItemStack item = player.getInventory().getItemInMainHand();
+            inventory.setItem(10, item);
+            if (item.getType().equals(Material.IRON_PICKAXE) | player.getInventory().getItemInMainHand().getType().equals(Material.DIAMOND_PICKAXE) | player.getInventory().getItemInMainHand().getType().equals(Material.NETHERITE_PICKAXE) | player.getInventory().getItemInMainHand().getType().equals(Material.GOLDEN_PICKAXE)) {
+                ItemManager.setGUIEnchant(item, inventory, 3, Methods.cStr("&eEfficiency"), Enchantment.DIG_SPEED, (byte) 0, Methods.cStr("&6Increases mining speed."));
+                if (EconomyManager.getLevel(player.getUniqueId()) < 5) inventory.setItem(4, quickItem(Material.BARRIER, Methods.cStr("&cLocked"), 1, Methods.cStr("&cUnlocks at &flevel 5&c.")));
+                else ItemManager.setGUIEnchant(item, inventory, 4, Methods.cStr("&eSilk Touch"), Enchantment.SILK_TOUCH, (byte) 1, Methods.cStr("&6Diamond and emerald rewards are multiplied"), Methods.cStr("&6by the level of this enchantment."), item.getEnchantmentLevel(Enchantment.SILK_TOUCH) == ItemManager.getEnchantmentMaxLevel(Enchantment.SILK_TOUCH) ? Methods.cStr("&6Multiplier&8: &f" + item.getEnchantmentLevel(Enchantment.SILK_TOUCH) + "x") : Methods.cStr("&6Multiplier&8: &7" + item.getEnchantmentLevel(Enchantment.SILK_TOUCH) + "x &f→ &e" + (item.getEnchantmentLevel(Enchantment.SILK_TOUCH) + 1) + "x"));
+                if (EconomyManager.getLevel(player.getUniqueId()) < 10) inventory.setItem(5, quickItem(Material.BARRIER, Methods.cStr("&cLocked"), 1, Methods.cStr("&cUnlocks at &flevel 10&c.")));
+                else ItemManager.setGUIEnchant(item, inventory, 5, Methods.cStr("&eFortune"), Enchantment.LOOT_BONUS_BLOCKS, (byte) 2, Methods.cStr("&6Has a &f5% chance &6per level to double rewards."), item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) == ItemManager.getEnchantmentMaxLevel(Enchantment.LOOT_BONUS_BLOCKS) ? Methods.cStr("&6Chance&8: &f" + item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) * 5 + "%") : Methods.cStr("&6Chance&8: &7" + item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) * 5 + "% &f→ &e" + (item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 1) * 5 + "%"));
             }
             player.openInventory(inventory);
         }

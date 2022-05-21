@@ -1,6 +1,6 @@
 package io.github.thelordman.costrength.commands;
 
-import io.github.thelordman.costrength.utilities.Kit;
+import io.github.thelordman.costrength.items.Kit;
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

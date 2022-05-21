@@ -48,6 +48,7 @@ public class PlayerDeathListener implements Listener {
         EconomyManager.setKillstreak(victim.getUniqueId(), 0);
 
         ScoreboardHandler.updateBoard(victim);
+        LevelHandler.xp(victim);
         
         //Discord
         EmbedBuilder builder = new EmbedBuilder();

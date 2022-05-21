@@ -1,5 +1,6 @@
-package io.github.thelordman.costrength.utilities;
+package io.github.thelordman.costrength.items;
 
+import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
