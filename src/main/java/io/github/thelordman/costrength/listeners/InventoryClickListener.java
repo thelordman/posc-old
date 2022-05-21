@@ -126,6 +126,15 @@ public class InventoryClickListener implements Listener {
                         case 0 -> enchant = Enchantment.DIG_SPEED;
                         case 1 -> enchant = Enchantment.SILK_TOUCH;
                         case 2 -> enchant = Enchantment.LOOT_BONUS_BLOCKS;
+                        case 3 -> enchant = Enchantment.DAMAGE_ALL;
+                        case 4 -> enchant = Enchantment.KNOCKBACK;
+                        case 5 -> enchant = Enchantment.FIRE_ASPECT;
+                        case 6 -> enchant = Enchantment.SWEEPING_EDGE;
+                        case 7 -> enchant = Enchantment.PROTECTION_ENVIRONMENTAL;
+                        case 8 -> enchant = Enchantment.PROTECTION_FIRE;
+                        case 9 -> enchant = Enchantment.PROTECTION_PROJECTILE;
+                        case 10 -> enchant = Enchantment.PROTECTION_EXPLOSIONS;
+                        case 11 -> enchant = Enchantment.THORNS;
                     }
                     m = ItemManager.getEnchantmentPrice(event.getCurrentItem(), enchant);
                     message = Methods.cStr("&6Successfully upgraded tool.");

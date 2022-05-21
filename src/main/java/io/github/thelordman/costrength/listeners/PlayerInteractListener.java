@@ -15,8 +15,8 @@ public class PlayerInteractListener implements Listener {
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getItem() == null) return;
         if (!Objects.equals(event.getHand(), EquipmentSlot.HAND) | !event.getAction().isRightClick() | !event.getItem().getItemMeta().isUnbreakable()) return;
-
         if (event.getItem().getType().equals(Material.BOW) && !event.getPlayer().isSneaking()) return;
+        event.setCancelled(true);
         GUIHandler.openGUI(Data.toolGUI, event.getPlayer());
     }
 }

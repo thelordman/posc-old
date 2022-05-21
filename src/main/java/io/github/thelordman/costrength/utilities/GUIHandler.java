@@ -2,7 +2,6 @@ package io.github.thelordman.costrength.utilities;
 
 import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.items.ItemManager;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -105,12 +104,31 @@ public class GUIHandler {
         if (inventory.equals(Data.enchantmentGUI)) {
             ItemStack item = player.getInventory().getItemInMainHand();
             inventory.setItem(10, item);
-            if (item.getType().equals(Material.IRON_PICKAXE) | player.getInventory().getItemInMainHand().getType().equals(Material.DIAMOND_PICKAXE) | player.getInventory().getItemInMainHand().getType().equals(Material.NETHERITE_PICKAXE) | player.getInventory().getItemInMainHand().getType().equals(Material.GOLDEN_PICKAXE)) {
+            if (item.getType().toString().contains("PICKAXE")) {
                 ItemManager.setGUIEnchant(item, inventory, 3, Methods.cStr("&eEfficiency"), Enchantment.DIG_SPEED, (byte) 0, Methods.cStr("&6Increases mining speed."));
                 if (EconomyManager.getLevel(player.getUniqueId()) < 5) inventory.setItem(4, quickItem(Material.BARRIER, Methods.cStr("&cLocked"), 1, Methods.cStr("&cUnlocks at &flevel 5&c.")));
-                else ItemManager.setGUIEnchant(item, inventory, 4, Methods.cStr("&eSilk Touch"), Enchantment.SILK_TOUCH, (byte) 1, Methods.cStr("&6Diamond and emerald rewards are multiplied"), Methods.cStr("&6by the level of this enchantment."), item.getEnchantmentLevel(Enchantment.SILK_TOUCH) == ItemManager.getEnchantmentMaxLevel(Enchantment.SILK_TOUCH) ? Methods.cStr("&6Multiplier&8: &f" + item.getEnchantmentLevel(Enchantment.SILK_TOUCH) + "x") : Methods.cStr("&6Multiplier&8: &7" + item.getEnchantmentLevel(Enchantment.SILK_TOUCH) + "x &f→ &e" + (item.getEnchantmentLevel(Enchantment.SILK_TOUCH) + 1) + "x"));
+                else ItemManager.setGUIEnchant(item, inventory, 4, Methods.cStr("&eSilk Touch"), Enchantment.SILK_TOUCH, (byte) 1, Methods.cStr("&6Diamond and emerald rewards are multiplied"), Methods.cStr("&6by 0.5 for every level of this enchantment."), item.getEnchantmentLevel(Enchantment.SILK_TOUCH) == ItemManager.getEnchantmentMaxLevel(Enchantment.SILK_TOUCH) ? Methods.cStr("&6Multiplier&8: &f" + (0.5 * item.getEnchantmentLevel(Enchantment.SILK_TOUCH)) + "x") : Methods.cStr("&6Multiplier&8: &7" + (0.5 * item.getEnchantmentLevel(Enchantment.SILK_TOUCH)) + "x &f→ &e" + (0.5 * (item.getEnchantmentLevel(Enchantment.SILK_TOUCH) + 1)) + "x"));
                 if (EconomyManager.getLevel(player.getUniqueId()) < 10) inventory.setItem(5, quickItem(Material.BARRIER, Methods.cStr("&cLocked"), 1, Methods.cStr("&cUnlocks at &flevel 10&c.")));
                 else ItemManager.setGUIEnchant(item, inventory, 5, Methods.cStr("&eFortune"), Enchantment.LOOT_BONUS_BLOCKS, (byte) 2, Methods.cStr("&6Has a &f5% chance &6per level to double rewards."), item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) == ItemManager.getEnchantmentMaxLevel(Enchantment.LOOT_BONUS_BLOCKS) ? Methods.cStr("&6Chance&8: &f" + item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) * 5 + "%") : Methods.cStr("&6Chance&8: &7" + item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) * 5 + "% &f→ &e" + (item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) + 1) * 5 + "%"));
+            }
+            if (item.getType().toString().contains("SWORD")) {
+                ItemManager.setGUIEnchant(item, inventory, 3, Methods.cStr("&eSharpness"), Enchantment.DAMAGE_ALL, (byte) 3, Methods.cStr("&6Adds 0.5 attack damage per level + 0.5."));
+                ItemManager.setGUIEnchant(item, inventory, 4, Methods.cStr("&eKnockback"), Enchantment.KNOCKBACK, (byte) 4, Methods.cStr("&6Enemies are knocked back when hit."));
+                if (EconomyManager.getLevel(player.getUniqueId()) < 15) inventory.setItem(5, quickItem(Material.BARRIER, Methods.cStr("&cLocked"), 1, Methods.cStr("&cUnlocks at &flevel 15&c.")));
+                else ItemManager.setGUIEnchant(item, inventory, 5, Methods.cStr("&eFire Aspect"), Enchantment.FIRE_ASPECT, (byte) 5, Methods.cStr("&6Enemies receive 4 seconds"), Methods.cStr("&6of fire damage when hit per level."));
+                if (EconomyManager.getLevel(player.getUniqueId()) < 25) inventory.setItem(6, quickItem(Material.BARRIER, Methods.cStr("&cLocked"), 1, Methods.cStr("&cUnlocks at &flevel 25&c.")));
+                else ItemManager.setGUIEnchant(item, inventory, 6, Methods.cStr("&eSweeping Edge"), Enchantment.SWEEPING_EDGE, (byte) 6, Methods.cStr("&6Increased attack damage when standing still."));
+            }
+            if (item.getType().toString().contains("HELMET") | item.getType().toString().contains("CHESTPLATE") | item.getType().toString().contains("LEGGINGS") | item.getType().toString().contains("BOOTS")) {
+                ItemManager.setGUIEnchant(item, inventory, 3, Methods.cStr("&eProtection"), Enchantment.PROTECTION_ENVIRONMENTAL, (byte) 7, Methods.cStr("&6Reduces damage taken from most sources."));
+                if (EconomyManager.getLevel(player.getUniqueId()) < 15) inventory.setItem(4, quickItem(Material.BARRIER, Methods.cStr("&cLocked"), 1, Methods.cStr("&cUnlocks at &flevel 15&c.")));
+                else ItemManager.setGUIEnchant(item, inventory, 4, Methods.cStr("&eFire Protection"), Enchantment.PROTECTION_FIRE, (byte) 8, Methods.cStr("&6Reduces damage taken from fire."));
+                if (EconomyManager.getLevel(player.getUniqueId()) < 20) inventory.setItem(5, quickItem(Material.BARRIER, Methods.cStr("&cLocked"), 1, Methods.cStr("&cUnlocks at &flevel 20&c.")));
+                else ItemManager.setGUIEnchant(item, inventory, 5, Methods.cStr("&eProjectile Protection"), Enchantment.PROTECTION_PROJECTILE, (byte) 9, Methods.cStr("&6Reduces damage taken from arrows and fireworks."), Methods.cStr("&6of fire damage when hit per level."));
+                if (EconomyManager.getLevel(player.getUniqueId()) < 30) inventory.setItem(6, quickItem(Material.BARRIER, Methods.cStr("&cLocked"), 1, Methods.cStr("&cUnlocks at &flevel 30&c.")));
+                else ItemManager.setGUIEnchant(item, inventory, 6, Methods.cStr("&eBlast Protection"), Enchantment.PROTECTION_EXPLOSIONS, (byte) 10, Methods.cStr("&6Reduces damage taken from explosions."));
+                if (EconomyManager.getLevel(player.getUniqueId()) < 45) inventory.setItem(7, quickItem(Material.BARRIER, Methods.cStr("&cLocked"), 1, Methods.cStr("&cUnlocks at &flevel 45&c.")));
+                else ItemManager.setGUIEnchant(item, inventory, 7, Methods.cStr("&eThorns"), Enchantment.THORNS, (byte) 11, Methods.cStr("&6Has a 15% chance per level to"), Methods.cStr("&6reflect 1-4 damage to the attacker."));
             }
             player.openInventory(inventory);
         }

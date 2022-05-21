@@ -18,7 +18,7 @@ import java.util.List;
 public class ItemManager {
     public static final NamespacedKey[] pickaxeEnchantments = {new NamespacedKey(CoStrength.instance, "pickaxe-vein")};
 
-    public static byte getEnchantmentLevel(ItemStack item, NamespacedKey key) {
+    public static byte getCELevel(ItemStack item, NamespacedKey key) {
         PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
         if (container.has(key, PersistentDataType.BYTE)) {
             return container.get(key, PersistentDataType.BYTE);
@@ -26,17 +26,26 @@ public class ItemManager {
         return 0;
     }
 
-    public static void setEnchantmentLevel(ItemStack item, NamespacedKey key, byte level) {
+    public static void setCELevel(ItemStack item, NamespacedKey key, byte level) {
         item.getItemMeta().getPersistentDataContainer().set(key, PersistentDataType.BYTE, level);
         addLore(item, enchantmentNameFromKey(key));
     }
 
-
     public static byte getEnchantmentMaxLevel(Enchantment enchantment) {
         return switch (enchantment.getKey().getKey()) {
             case "efficiency" -> 6;
-            case "silk_touch" -> 3;
-            case "fortune" -> 5;
+            case "fortune", "sharpness" -> 5;
+            case "sweeping", "protection", "fire_protection", "projectile_protection", "blast_protection" -> 4;
+            case "silk_touch", "fire_aspect", "thorns" -> 3;
+            case "knockback" -> 2;
+            default -> 0;
+        };
+    }
+
+
+    public static byte getCEMaxLevel(NamespacedKey key) {
+        return switch (key.getKey()) {
+            case "vein" -> 7;
             default -> 0;
         };
     }
@@ -57,7 +66,7 @@ public class ItemManager {
     public static double getCEPrice(ItemStack item, NamespacedKey key) {
         switch (key.getKey()) {
             case "pickaxe-vein" -> {
-                return switch (getEnchantmentLevel(item, key)) {
+                return switch (getCELevel(item, key)) {
                     case 0 -> 50000d;
                     case 1 -> 100000d;
                     case 2 -> 175000d;
@@ -94,12 +103,90 @@ public class ItemManager {
                 };
             }
             case "fortune" -> {
-                return switch (item.getEnchantmentLevel(Enchantment.SILK_TOUCH)) {
+                return switch (item.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS)) {
                     case 0 -> 12500d;
                     case 1 -> 25000d;
                     case 2 -> 35000d;
                     case 3 -> 50000d;
                     case 4 -> 75000d;
+                    default -> 0d;
+                };
+            }
+            case "sharpness" -> {
+                return switch (item.getEnchantmentLevel(Enchantment.DAMAGE_ALL)) {
+                    case 0 -> 2000d;
+                    case 1 -> 5000d;
+                    case 2 -> 15000d;
+                    case 3 -> 45000d;
+                    case 4 -> 100000d;
+                    default -> 0d;
+                };
+            }
+            case "knockback" -> {
+                return switch (item.getEnchantmentLevel(Enchantment.KNOCKBACK)) {
+                    case 0 -> 2500d;
+                    case 1 -> 10000d;
+                    default -> 0d;
+                };
+            }
+            case "fire_aspect" -> {
+                return switch (item.getEnchantmentLevel(Enchantment.FIRE_ASPECT)) {
+                    case 0 -> 25000d;
+                    case 1 -> 50000d;
+                    case 2 -> 100000d;
+                    default -> 0d;
+                };
+            }
+            case "sweeping" -> {
+                return switch (item.getEnchantmentLevel(Enchantment.SWEEPING_EDGE)) {
+                    case 0 -> 50000d;
+                    case 1 -> 100000d;
+                    case 2 -> 250000d;
+                    case 3 -> 500000d;
+                    default -> 0d;
+                };
+            }
+            case "protection" -> {
+                return switch (item.getEnchantmentLevel(Enchantment.PROTECTION_ENVIRONMENTAL)) {
+                    case 0 -> 10000d;
+                    case 1 -> 25000d;
+                    case 2 -> 100000d;
+                    case 3 -> 250000d;
+                    default -> 0d;
+                };
+            }
+            case "fire_protection" -> {
+                return switch (item.getEnchantmentLevel(Enchantment.PROTECTION_FIRE)) {
+                    case 0 -> 75000d;
+                    case 1 -> 150000d;
+                    case 2 -> 500000d;
+                    case 3 -> 1000000d;
+                    default -> 0d;
+                };
+            }
+            case "projectile_protection" -> {
+                return switch (item.getEnchantmentLevel(Enchantment.PROTECTION_PROJECTILE)) {
+                    case 0 -> 90000d;
+                    case 1 -> 125000d;
+                    case 2 -> 300000d;
+                    case 3 -> 500000d;
+                    default -> 0d;
+                };
+            }
+            case "blast_protection" -> {
+                return switch (item.getEnchantmentLevel(Enchantment.PROTECTION_EXPLOSIONS)) {
+                    case 0 -> 95000d;
+                    case 1 -> 130000d;
+                    case 2 -> 350000d;
+                    case 3 -> 600000d;
+                    default -> 0d;
+                };
+            }
+            case "thorns" -> {
+                return switch (item.getEnchantmentLevel(Enchantment.THORNS)) {
+                    case 0 -> 100000d;
+                    case 1 -> 150000d;
+                    case 2 -> 400000d;
                     default -> 0d;
                 };
             }

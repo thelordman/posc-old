@@ -7,6 +7,7 @@ import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,6 +16,7 @@ import org.javatuples.Triplet;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class BlockBreakListener implements Listener {
     private final HashMap<Player, Triplet<Material, Long, Integer>> lastBlockData = new HashMap<>();
@@ -49,6 +51,13 @@ public class BlockBreakListener implements Listener {
                 ? (float) (block.getType().equals(Material.STONE)
                 ? lastBlockData.get(player).getValue2() / 2
                 : lastBlockData.get(player).getValue2()) / 100 : 0;
+
+        if (block.getType().equals(Material.DIAMOND_ORE) | block.getType().equals(Material.EMERALD_ORE)) {
+            multi += 0.5d * player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.SILK_TOUCH);
+        }
+        if (player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) != 0 && Math.random() <= ((double) player.getInventory().getItemInMainHand().getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS)) / 20d) {
+            multi++;
+        }
 
         double moneyMulti = 1 + multi;
         double xpMulti = 1 + multi;
