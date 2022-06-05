@@ -110,28 +110,11 @@ public class Methods {
     }
 
     public static boolean inCombat(Player player) {
-        return Data.combatTag.containsKey(player);
-    }
-
-    public static void addPlayer(Player player, byte seconds) {
-        Data.combatTag.put(player, seconds);
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Data.combatTag.put(player, (byte) (Data.combatTag.get(player) - 1));
-                player.sendActionBar(cStr("&cCombat tag: &6" + Data.combatTag.get(player) + " seconds"));
-                if (Data.combatTag.get(player) <= 0) {
-                    removePlayer(player);
-                    cancel();
-                }
-            }
-        }.runTaskTimer(CoStrength.instance, 0, 20);
-    }
-
-    public static void removePlayer(Player player) {
-        Data.combatTag.remove(player);
-        player.sendActionBar(cStr("&cCombat tag &6over"));
-        player.sendMessage(cStr("&6You are no longer combat tagged."));
+        if (Data.combatTag.getOrDefault(player, 0L) < System.currentTimeMillis() - 20000L) {
+            Data.combatTag.remove(player);
+            return true;
+        }
+        return false;
     }
 
     public static boolean errorMessage(String error, Player player) {

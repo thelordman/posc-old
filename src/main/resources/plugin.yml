@@ -96,3 +96,6 @@ commands:
   joinkit:
     description: Give an online player the default kit.
     usage: /joinkit [player]
+  level:
+    description: Change or get various values about the target's level.
+    usage: /level <offline-player> <set, add, remove, reset, multiply, divide, get, pow> [<amount>]

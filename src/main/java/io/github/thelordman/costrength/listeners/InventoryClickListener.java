@@ -31,7 +31,8 @@ public class InventoryClickListener implements Listener {
         ItemStack item = null;
         String message = null;
         Enchantment enchant = null;
-        if (event.getInventory().equals(Data.foodShopGUI)) {
+        byte CE = -1;
+        if (event.getView().getTitle().equals("Food Shop")) {
             switch (event.getCurrentItem().getType()) {
                 case BREAD:
                     m = event.getClick().isRightClick() ? 640d : 10d;
@@ -59,7 +60,7 @@ public class InventoryClickListener implements Listener {
                     message = Methods.cStr("&6Successfully bought &f" + i + " &3Thick Stew&6.");
                     break;
                 case CAULDRON:
-                    GUIHandler.openGUI(Data.kitchenGUI, player);
+                    GUIHandler.openGUI(Data.GUIs[1], player);
                     player.sendMessage(Methods.cStr("&6Entered kitchen menu."));
                     return;
                 case BARRIER:
@@ -69,7 +70,7 @@ public class InventoryClickListener implements Listener {
                     return;
             }
         }
-        else if (event.getInventory().equals(Data.kitchenGUI)) {
+        else if (event.getView().getTitle().equals("Kitchen")) {
             switch (event.getCurrentItem().getType()) {
                 case MELON:
                     m = event.getClick().isRightClick() ? 32000d : 500d;
@@ -98,18 +99,18 @@ public class InventoryClickListener implements Listener {
                     return;
             }
         }
-        else if (event.getInventory().equals(Data.toolGUI)) {
+        else if (event.getView().getTitle().equals("Tool Menu")) {
             switch (event.getCurrentItem().getType()) {
                 case ENCHANTED_BOOK:
-                    GUIHandler.openGUI(Data.enchantmentGUI, player);
+                    GUIHandler.openGUI(Data.GUIs[3], player);
                     player.sendMessage(Methods.cStr("&6Entered enchantment menu."));
                     return;
                 case FIREWORK_ROCKET:
-                    GUIHandler.openGUI(Data.kitchenGUI, player);
+                    GUIHandler.openGUI(Data.GUIs[0], player);
                     player.sendMessage(Methods.cStr("&6Entered upgrade menu."));
                     return;
                 case COMPARATOR:
-                    GUIHandler.openGUI(Data.kitchenGUI, player);
+                    GUIHandler.openGUI(Data.GUIs[0], player);
                     player.sendMessage(Methods.cStr("&6Entered configuration menu."));
                     return;
                 case BARRIER:
@@ -119,7 +120,7 @@ public class InventoryClickListener implements Listener {
                     return;
             }
         }
-        else if (event.getInventory().equals(Data.enchantmentGUI)) {
+        else if (event.getView().getTitle().equals("Enchantment Menu")) {
             switch (event.getCurrentItem().getType()) {
                 case ENCHANTED_BOOK:
                     switch (event.getCurrentItem().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(CoStrength.instance, "gui-item"), PersistentDataType.BYTE)) {
@@ -139,12 +140,42 @@ public class InventoryClickListener implements Listener {
                     m = ItemManager.getEnchantmentPrice(event.getCurrentItem(), enchant);
                     message = Methods.cStr("&6Successfully upgraded tool.");
                     break;
+                case GOLD_ORE, POISONOUS_POTATO:
+                    CE = 0;
+                    break;
+                case TNT:
+                    CE = 1;
+                    break;
+                case GOLDEN_BOOTS:
+                    CE = 2;
+                    break;
+                case GOLDEN_PICKAXE:
+                    if (event.getCurrentItem().getItemMeta().isUnbreakable()) return;
+                    CE = 3;
+                    break;
+                case EXPERIENCE_BOTTLE:
+                    CE = 4;
+                    break;
+                case GOLDEN_AXE:
+                    CE = 5;
+                    break;
+                case LIGHTNING_ROD:
+                    CE = 6;
+                    break;
+                case TARGET:
+                    CE = 7;
+                    break;
                 case BARRIER:
                     player.sendMessage(Methods.cStr("&cYour level isn't high enough."));
                     return;
                 default:
                     return;
             }
+        }
+        ItemStack itemInHand = event.getWhoClicked().getInventory().getItemInMainHand();
+        if (CE != -1) {
+            m = ItemManager.getCEPrice(itemInHand, itemInHand.getType().toString().contains("PICKAXE") ? ItemManager.pickaxeEnchantments[CE] : ItemManager.swordEnchantments[CE]);
+            message = Methods.cStr("&6Successfully upgraded tool.");
         }
         if (event.getCurrentItem().getLore().contains(Methods.cStr("&6&lMAX LEVEL"))) {
             player.sendMessage(Methods.cStr("&cThat enchantment is maxed."));
@@ -154,12 +185,13 @@ public class InventoryClickListener implements Listener {
             Methods.errorMessage("insufficientFunds", player);
             return;
         }
-        if (enchant != null) ItemManager.setEnchant(event.getWhoClicked().getInventory().getItemInMainHand(), enchant, (byte) (event.getWhoClicked().getInventory().getItemInMainHand().getEnchantmentLevel(enchant) + 1));
+        if (enchant != null) ItemManager.setEnchant(itemInHand, enchant, (byte) (itemInHand.getEnchantmentLevel(enchant) + 1));
+        if (CE != -1) ItemManager.setCELevel(itemInHand, itemInHand.getType().toString().contains("PICKAXE") ? ItemManager.pickaxeEnchantments[CE] : ItemManager.swordEnchantments[CE], (byte) (ItemManager.getCELevel(itemInHand, itemInHand.getType().toString().contains("PICKAXE") ? ItemManager.pickaxeEnchantments[CE] : ItemManager.swordEnchantments[CE]) + 1));
         player.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1f, 1f);
         EconomyManager.setBalance(player.getUniqueId(), EconomyManager.getBalance(player.getUniqueId()) - m);
         if (item != null) player.getInventory().addItem(item);
         player.sendMessage(message);
-        if (event.getInventory().equals(Data.enchantmentGUI)) GUIHandler.openGUI(Data.enchantmentGUI, player);
+        if (event.getView().getTitle().equals("Enchantment Menu")) GUIHandler.openGUI(Data.GUIs[3], player);
         ScoreboardHandler.updateBoard(player);
     }
 }

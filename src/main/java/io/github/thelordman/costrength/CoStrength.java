@@ -2,17 +2,21 @@ package io.github.thelordman.costrength;
 
 import io.github.thelordman.costrength.discord.Discord;
 import io.github.thelordman.costrength.economy.EconomyManager;
+import io.github.thelordman.costrength.mining.MineHandler;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
 import io.github.thelordman.costrength.utilities.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Locale;
+import java.util.Objects;
 
 public final class CoStrength extends JavaPlugin {
 
@@ -38,21 +42,7 @@ public final class CoStrength extends JavaPlugin {
 
         GUIHandler.registerInventories();
         RecipeHandler.registerRecipes();
-
-        String pack = getClass().getPackageName();
-        for (Class<?> c : new Reflections(pack + ".listeners")
-                .getSubTypesOf(Listener.class)
-        ) {
-            try {
-                Listener listener = (Listener) c
-                        .getDeclaredConstructor()
-                        .newInstance();
-                getServer().getPluginManager().registerEvents(listener, this);
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-        }
-
+        registerListeners();
         new CommandHandler(this);
 
         if (!Bukkit.getOnlinePlayers().isEmpty()) {
@@ -68,6 +58,8 @@ public final class CoStrength extends JavaPlugin {
             }
             getLogger().info("Data loaded");
         }
+
+        MineHandler.registerRandomPattern();
     }
 
     @Override
@@ -86,5 +78,22 @@ public final class CoStrength extends JavaPlugin {
         getLogger().info("Data saved");
 
         Discord.shutdownJDA();
+    }
+
+    private void registerListeners() {
+        String pack = getClass().getPackageName();
+        for (Class<?> c : new Reflections(pack + ".listeners")
+                .getSubTypesOf(Listener.class)
+        ) {
+            try {
+                Listener listener = (Listener) c
+                        .getDeclaredConstructor()
+                        .newInstance();
+                getServer().getPluginManager().registerEvents(listener, this);
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+        }
+        getLogger().info("Listeners registered");
     }
 }

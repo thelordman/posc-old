@@ -12,15 +12,12 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class Data implements Serializable {
-    public static final Inventory foodShopGUI = Bukkit.createInventory(null, 27, "Food Shop");
-    public static final Inventory kitchenGUI = Bukkit.createInventory(null, 27, "Kitchen");
-    public static final Inventory toolGUI = Bukkit.createInventory(null, 27, "Tool Menu");
-    public static final Inventory enchantmentGUI = Bukkit.createInventory(null, 27, "Enchantment Menu");
+    public static final Inventory[] GUIs = {Bukkit.createInventory(null, 27, "Food Shop"), Bukkit.createInventory(null, 27, "Kitchen"), Bukkit.createInventory(null, 27, "Tool Menu"), Bukkit.createInventory(null, 27, "Enchantment Menu")};
 
     public static final ItemStack beer = GUIHandler.quickItem(Material.HONEY_BOTTLE, Methods.cStr("&6Beer"), 1, Methods.cStr("&6Restores &f3 hunger &6and &f0.5 saturation&6."), Methods.cStr("&6Can be drunk even when full to restore saturation."), Methods.cStr("&6Stats can be modified from the kitchen menu."));
 
     public static final HashMap<UUID, FastBoard> scoreboard = new HashMap<>();
-    public static final HashMap<Player, Byte> combatTag = new HashMap<>();
+    public static final HashMap<Player, Long> combatTag = new HashMap<>();
 
     public final HashMap<UUID, Double> balance = new HashMap<>();
     public final HashMap<UUID, Double> bounty = new HashMap<>();

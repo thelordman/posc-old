@@ -1,42 +1,39 @@
 package io.github.thelordman.costrength.listeners;
 
+import io.github.thelordman.costrength.items.ItemManager;
 import io.github.thelordman.costrength.utilities.Data;
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class EntityDamageByEntityListener implements Listener {
 
     @EventHandler
-    public void onDamageByEntity(EntityDamageByEntityEvent event) {
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         if (event.isCancelled()) return;
-        if (event.getEntity().getLastDamageCause() == null) return;
         Player victim = (Player) event.getEntity();
-        Player attacker = (Player) event.getEntity().getLastDamageCause().getEntity();
+        Player attacker = (Player) event.getDamager();
+        ItemStack item = attacker.getActiveItem();
 
-        if (event.getCause().equals(EntityDamageEvent.DamageCause.SUFFOCATION)) {
-            event.setCancelled(true);
-            return;
-        }
-
-        Player[] players = {attacker, victim};
-        if (!Methods.inCombat(victim)) victim.sendMessage(Methods.cStr("&cYou are in combat with &6" + attacker.getName() + " &cfor 20 seconds!"));
-        if (!Methods.inCombat(attacker)) attacker.sendMessage(Methods.cStr("&cYou are in combat with &6" + victim.getName() + " &cfor 20 seconds!"));
-        if (Methods.inSpawn(attacker) | Methods.inSpawn(victim)) {
-            if (Methods.inCombat(victim)) {
-                Data.combatTag.put(victim, (byte) 20);
+        if (Methods.inSpawn(victim) | Methods.inSpawn(attacker)) {
+            if (!Methods.inCombat(victim)) {
+                event.setCancelled(true);
                 return;
             }
-            event.setCancelled(true);
         }
-        else {
-            for (Player player : players) {
-                if (Methods.inCombat(player)) Data.combatTag.put(player, (byte) 20);
-                else Methods.addPlayer(player, (byte) 20);
+
+        if (ItemManager.getCELevel(item, ItemManager.swordEnchantments[0]) != 0) {
+            if (Math.random() < ((double) ItemManager.getCELevel(item, ItemManager.swordEnchantments[0])) / 50) {
+                victim.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 10000, 0));
             }
         }
+
+        Data.combatTag.put(attacker, System.currentTimeMillis());
+        Data.combatTag.put(victim, System.currentTimeMillis());
     }
 }

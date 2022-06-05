@@ -5,6 +5,7 @@ import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.economy.LevelHandler;
 import io.github.thelordman.costrength.ranks.RankManager;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
+import io.github.thelordman.costrength.utilities.Data;
 import io.github.thelordman.costrength.utilities.Methods;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.bukkit.Bukkit;
@@ -25,8 +26,8 @@ public class PlayerDeathListener implements Listener {
         String originalMsg = event.getDeathMessage();
 
         if (killer != null && killer != victim) {
-            Methods.removePlayer(killer);
-            Methods.removePlayer(victim);
+            Data.combatTag.remove(killer);
+            Data.combatTag.remove(victim);
 
             killRewards(killer, victim);
 

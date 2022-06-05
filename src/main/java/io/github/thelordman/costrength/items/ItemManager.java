@@ -12,28 +12,42 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ItemManager {
-    public static final NamespacedKey[] pickaxeEnchantments = {new NamespacedKey(CoStrength.instance, "pickaxe-vein")};
+    public static final NamespacedKey[] pickaxeEnchantments = {new NamespacedKey(CoStrength.instance, "pickaxe-vein"), new NamespacedKey(CoStrength.instance, "pickaxe-bomb"), new NamespacedKey(CoStrength.instance, "pickaxe-speed"), new NamespacedKey(CoStrength.instance, "pickaxe-haste"), new NamespacedKey(CoStrength.instance, "pickaxe-experience"), new NamespacedKey(CoStrength.instance, "pickaxe-jackhammer"), new NamespacedKey(CoStrength.instance, "pickaxe-drill"), new NamespacedKey(CoStrength.instance, "pickaxe-counter")};
+    public static final NamespacedKey pickaxeCounter = new NamespacedKey(CoStrength.instance, "counter-pickaxe");
+
+    public static final NamespacedKey[] swordEnchantments = {new NamespacedKey(CoStrength.instance, "sword-viper")};
 
     public static byte getCELevel(ItemStack item, NamespacedKey key) {
+        if (item == null) return 0;
+        if (item.getItemMeta() == null) return 0;
         PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
-        if (container.has(key, PersistentDataType.BYTE)) {
-            return container.get(key, PersistentDataType.BYTE);
-        }
-        return 0;
+        if (container.isEmpty()) return 0;
+        return container.getOrDefault(key, PersistentDataType.BYTE, (byte) 0);
     }
 
     public static void setCELevel(ItemStack item, NamespacedKey key, byte level) {
-        item.getItemMeta().getPersistentDataContainer().set(key, PersistentDataType.BYTE, level);
-        addLore(item, enchantmentNameFromKey(key));
+        List<String> lore = item.getLore() == null ? new ArrayList<>() : item.getLore();
+        if (getCELevel(item, key) == 0) lore.add(Methods.cStr("&9" + CENameFromKey(key) + " I"));
+        else {
+            lore.set(lore.indexOf(Methods.cStr("&9" + CENameFromKey(key) + " " + Methods.toRomanNumeral((getCELevel(item, key))))),
+                    Methods.cStr("&9" + CENameFromKey(key) + " " + Methods.toRomanNumeral((byte) (getCELevel(item, key) + 1))));
+        }
+        item.setLore(lore);
+
+        ItemMeta meta = item.getItemMeta();
+        meta.getPersistentDataContainer().set(key, PersistentDataType.BYTE, level);
+        if (key == pickaxeEnchantments[7]) {
+            updateCounterAmount(item, false);
+        }
+        item.setItemMeta(meta);
     }
 
     public static byte getEnchantmentMaxLevel(Enchantment enchantment) {
         return switch (enchantment.getKey().getKey()) {
-            case "efficiency" -> 6;
+            case "efficiency" -> 10;
             case "fortune", "sharpness" -> 5;
             case "sweeping", "protection", "fire_protection", "projectile_protection", "blast_protection" -> 4;
             case "silk_touch", "fire_aspect", "thorns" -> 3;
@@ -45,35 +59,108 @@ public class ItemManager {
 
     public static byte getCEMaxLevel(NamespacedKey key) {
         return switch (key.getKey()) {
-            case "vein" -> 7;
+            case "pickaxe-jackhammer" -> 10;
+            case "pickaxe-vein" -> 7;
+            case "pickaxe-drill" -> 6;
+            case "sword-viper" -> 5;
+            case "pickaxe-experience" -> 4;
+            case "pickaxe-bomb", "pickaxe-haste", "pickaxe-counter" -> 3;
+            case "pickaxe-speed" -> 2;
             default -> 0;
         };
     }
 
-    public static void addLore(ItemStack item, String... strings) {
-        List<String> lore = item.getLore() == null ? new ArrayList<>() : item.getLore();
-        Collections.addAll(lore, strings);
-        item.setLore(lore);
-    }
-
-    public static String enchantmentNameFromKey(NamespacedKey key) {
-        return switch (key.getKey()) {
-            case "pickaxe-vein" -> Methods.cStr("&9Vein");
-            default -> "";
-        };
+    public static String CENameFromKey(NamespacedKey key) {
+        return Methods.rfStr(key.getKey().split("-")[1]);
     }
 
     public static double getCEPrice(ItemStack item, NamespacedKey key) {
         switch (key.getKey()) {
             case "pickaxe-vein" -> {
                 return switch (getCELevel(item, key)) {
-                    case 0 -> 50000d;
-                    case 1 -> 100000d;
-                    case 2 -> 175000d;
-                    case 3 -> 300000d;
-                    case 4 -> 450000d;
-                    case 5 -> 750000d;
-                    case 6 -> 1000000d;
+                    case 0 -> 10000d;
+                    case 1 -> 25000d;
+                    case 2 -> 50000d;
+                    case 3 -> 75000d;
+                    case 4 -> 100000d;
+                    case 5 -> 250000d;
+                    case 6 -> 500000d;
+                    default -> 0d;
+                };
+            }
+            case "pickaxe-bomb" -> {
+                return switch (getCELevel(item, key)) {
+                    case 0 -> 100000d;
+                    case 1 -> 200000d;
+                    case 2 -> 500000d;
+                    default -> 0d;
+                };
+            }
+            case "pickaxe-speed" -> {
+                return switch (getCELevel(item, key)) {
+                    case 0 -> 25000d;
+                    case 1 -> 50000d;
+                    default -> 0d;
+                };
+            }
+            case "pickaxe-haste" -> {
+                return switch (getCELevel(item, key)) {
+                    case 0 -> 150000d;
+                    case 1 -> 250000d;
+                    case 2 -> 450000d;
+                    default -> 0d;
+                };
+            }
+            case "pickaxe-experience" -> {
+                return switch (getCELevel(item, key)) {
+                    case 0 -> 200000d;
+                    case 1 -> 300000d;
+                    case 2 -> 500000d;
+                    case 3 -> 1000000d;
+                    default -> 0d;
+                };
+            }
+            case "pickaxe-jackhammer" -> {
+                return switch (getCELevel(item, key)) {
+                    case 0 -> 100000d;
+                    case 1 -> 200000d;
+                    case 2 -> 300000d;
+                    case 3 -> 500000d;
+                    case 4 -> 750000d;
+                    case 5 -> 1000000d;
+                    case 6 -> 1500000d;
+                    case 7 -> 2000000d;
+                    case 8 -> 2750000d;
+                    case 9 -> 5000000d;
+                    default -> 0d;
+                };
+            }
+            case "pickaxe-drill" -> {
+                return switch (getCELevel(item, key)) {
+                    case 0 -> 100000d;
+                    case 1 -> 200000d;
+                    case 2 -> 300000d;
+                    case 3 -> 500000d;
+                    case 4 -> 750000d;
+                    case 5 -> 1000000d;
+                    default -> 0d;
+                };
+            }
+            case "pickaxe-counter" -> {
+                return switch (getCELevel(item, key)) {
+                    case 0 -> 250000d;
+                    case 1 -> 500000d;
+                    case 2 -> 1000000d;
+                    default -> 0d;
+                };
+            }
+            case "sword-viper" -> {
+                return switch (getCELevel(item, key)) {
+                    case 0 -> 25000d;
+                    case 1 -> 50000d;
+                    case 2 -> 100000d;
+                    case 3 -> 200000d;
+                    case 4 -> 300000d;
                     default -> 0d;
                 };
             }
@@ -88,9 +175,13 @@ public class ItemManager {
                     case 0 -> 1000d;
                     case 1 -> 2500d;
                     case 2 -> 7500d;
-                    case 3 -> 15000d;
-                    case 4 -> 25000d;
-                    case 5 -> 50000d;
+                    case 3 -> 10000d;
+                    case 4 -> 15000d;
+                    case 5 -> 40000d;
+                    case 6 -> 75000d;
+                    case 7 -> 100000d;
+                    case 8 -> 200000d;
+                    case 9 -> 500000d;
                     default -> 0d;
                 };
             }
@@ -194,13 +285,19 @@ public class ItemManager {
         return 0d;
     }
 
+    public static void addLore(ItemStack item, String... strings) {
+        List<String> lore = item.getLore() == null ? new ArrayList<>() : item.getLore();
+        lore.addAll(List.of(strings));
+        item.setLore(lore);
+    }
+
     public static void setGUIEnchant(ItemStack item, Inventory inventory, int index, String name, Enchantment enchant, byte key, String... lore) {
         ItemStack GUIItem = new ItemStack(Material.ENCHANTED_BOOK);
         ItemMeta meta = GUIItem.getItemMeta();
         meta.setDisplayName(item.getEnchantmentLevel(enchant) == 0
                 ? Methods.cStr(name + " &eI")
                 : Methods.cStr(name + " &7" + Methods.toRomanNumeral((byte) item.getEnchantmentLevel(enchant)) + " &f→ &e" + Methods.toRomanNumeral((byte) (item.getEnchantmentLevel(enchant) + 1))));
-        if (item.getEnchantmentLevel(enchant) == getEnchantmentMaxLevel(enchant)) meta.setDisplayName(Methods.cStr(name + " &6" + Methods.toRomanNumeral((byte)item.getEnchantmentLevel(enchant))));
+        if (item.getEnchantmentLevel(enchant) == getEnchantmentMaxLevel(enchant)) meta.setDisplayName(Methods.cStr(name + " &6" + Methods.toRomanNumeral((byte) item.getEnchantmentLevel(enchant))));
         meta.setLore(List.of(lore));
         meta.getPersistentDataContainer().set(new NamespacedKey(CoStrength.instance, "gui-item"), PersistentDataType.BYTE, key);
         GUIItem.setItemMeta(meta);
@@ -209,9 +306,42 @@ public class ItemManager {
         inventory.setItem(index, GUIItem);
     }
 
+    public static void setGUICE(ItemStack item, Inventory inventory, int index, NamespacedKey key, Material material, String... lore) {
+        ItemStack GUIItem = new ItemStack(material);
+        ItemMeta meta = GUIItem.getItemMeta();
+        meta.setDisplayName(getCELevel(item, key) == 0
+                ? Methods.cStr("&e" + CENameFromKey(key) + " I")
+                : Methods.cStr("&e" + CENameFromKey(key) + " &7" + Methods.toRomanNumeral(getCELevel(item, key)) + " &f→ &e" + Methods.toRomanNumeral((byte) (getCELevel(item, key) + 1))));
+        if (getCELevel(item, key) == getCEMaxLevel(key)) meta.setDisplayName(Methods.cStr("&e" + CENameFromKey(key) + " &6" + Methods.toRomanNumeral(getCELevel(item, key))));
+        meta.setLore(List.of(lore));
+        GUIItem.setItemMeta(meta);
+        String addendum = getCELevel(item, key) >= getCEMaxLevel(key) ? Methods.cStr("&6&lMAX LEVEL") : Methods.cStr("&eCost&8: &f$" + Methods.rStr(getCEPrice(item, key)));
+        addLore(GUIItem, "", addendum);
+        inventory.setItem(index, GUIItem);
+    }
+
     public static void setEnchant(ItemStack item, Enchantment enchant, byte level) {
         ItemMeta meta = item.getItemMeta();
         meta.addEnchant(enchant, level, true);
+        item.setItemMeta(meta);
+    }
+
+    public static double getCounterMulti(ItemStack item) {
+        if (item == null) return 0;
+        if (item.getItemMeta() == null) return 0;
+        PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
+        if (container.isEmpty()) return 0;
+        int counter = container.getOrDefault(pickaxeCounter, PersistentDataType.INTEGER, 0);
+        byte level = getCELevel(item, pickaxeEnchantments[7]);
+        return Math.floor(Math.log10(Math.max(counter, 1))) * (level * 0.1);
+    }
+
+    public static void updateCounterAmount(ItemStack item, boolean addition) {
+        ItemMeta meta = item.getItemMeta();
+        int amount = meta.getPersistentDataContainer().getOrDefault(pickaxeCounter, PersistentDataType.INTEGER, 0);
+        if (addition) amount++;
+        meta.getPersistentDataContainer().set(pickaxeCounter, PersistentDataType.INTEGER, amount);
+        meta.setDisplayName(Methods.cStr("&b" + Methods.rfStr(item.getType().name().split("_")[0]) + " " + Methods.rfStr(item.getType().name().split("_")[1]) + " &7[&f" + Methods.rStr((double) amount) + "&7]"));
         item.setItemMeta(meta);
     }
 }
