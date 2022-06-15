@@ -73,31 +73,29 @@ public class PlayerDeathListener implements Listener {
 
     private void killRewards(Player killer, Player victim) {
         //Victim
-        Integer killerKillstreak = EconomyManager.getKillstreak(killer.getUniqueId());
+        int killerKillstreak = EconomyManager.getKillstreak(killer.getUniqueId());
         double victimBalance = EconomyManager.getBalance(victim.getUniqueId());
-
-        double takeFromVictim = ItemManager.getCELevel(killer.getInventory().getItemInMainHand(), ItemManager.swordEnchantments[1]) == 1 && EconomyManager.getLevel(victim.getUniqueId()) > EconomyManager.getLevel(killer.getUniqueId()) ? victimBalance == 0f ? 0f : victimBalance / 5 : victimBalance == 0f ? 0f : victimBalance / 100;
+        double takeFromVictim = ItemManager.getCELevel(killer.getInventory().getItemInMainHand(), ItemManager.swordEnchantments[1]) == 1 && EconomyManager.getLevel(victim.getUniqueId()) > EconomyManager.getLevel(killer.getUniqueId())
+                ? victimBalance == 0d ? 0d : victimBalance / 5d : victimBalance == 0d ? 0d : victimBalance / 100d;
 
         EconomyManager.setBalance(victim.getUniqueId(), victimBalance - takeFromVictim);
 
         victim.sendTitle(ChatColor.RED + "You Died", ChatColor.GOLD + killer.getDisplayName() + " stole " + ChatColor.WHITE + "$" + Methods.rStr(takeFromVictim));
 
         //Killer Rewards
-        float reward = 10 + killerKillstreak + EconomyManager.getKillstreak(victim.getUniqueId());
+        double reward = 1000d + killerKillstreak * 100 + EconomyManager.getKillstreak(victim.getUniqueId()) * 100;
 
-        double levelBonus = EconomyManager.getLevel(victim.getUniqueId()) - EconomyManager.getLevel(killer.getUniqueId()) < -0.75 ? -0.75 : (EconomyManager.getLevel(victim.getUniqueId()) - EconomyManager.getLevel(killer.getUniqueId())) / (double) 10;
+        double levelBonus = Math.max((EconomyManager.getLevel(victim.getUniqueId()) - EconomyManager.getLevel(killer.getUniqueId())) / 10d, -0.75);
         double kdrBonus = levelBonus > 0 ? 1 + Methods.getKdr(killer) + Methods.getKdr(victim) : Methods.getKdr(killer) + Methods.getKdr(victim);
         double killBonus = victim.getStatistic(Statistic.PLAYER_KILLS) > killer.getStatistic(Statistic.PLAYER_KILLS)
-                ? (float) victim.getStatistic(Statistic.PLAYER_KILLS) / (float) killer.getStatistic(Statistic.PLAYER_KILLS) / 10 : 0;
+                ? ((double) victim.getStatistic(Statistic.PLAYER_KILLS)) / ((double) killer.getStatistic(Statistic.PLAYER_KILLS)) / 10d : 0d;
 
         double multi = 1 + levelBonus + kdrBonus + killBonus;
-        double moneyMulti = 1 + multi;
-        double xpMulti = 1 + multi;
 
-        double money = reward * moneyMulti + takeFromVictim, xp = reward * xpMulti;
+        double money = reward * multi + takeFromVictim, xp = reward * multi;
 
         killer.sendMessage(Methods.cStr("&6You killed " + victim.getDisplayName() + " &6."));
-        killer.sendActionBar(Methods.cStr("&f+$" + Methods.rStr(money) + " &7(" + Methods.rStr(moneyMulti) + "x) &8| &f+" + Methods.rStr(xp) + "xp &7(" + Methods.rStr(xpMulti) + "x) &8| &6Streak&7: &f" + Methods.rStr((double) killerKillstreak)));
+        killer.sendActionBar(Methods.cStr("&f+$" + Methods.rStr(money) + " &7(" + Methods.rStr(multi) + "x) &8| &f+" + Methods.rStr(xp) + "xp &7(" + Methods.rStr(multi) + "x) &8| &6Streak&7: &f" + Methods.rStr((double) killerKillstreak)));
         EconomyManager.setBalance(killer.getUniqueId(), EconomyManager.getBalance(killer.getUniqueId()) + money);
         EconomyManager.setXp(killer.getUniqueId(), EconomyManager.getXp(killer.getUniqueId()) + xp);
         EconomyManager.setKillstreak(killer.getUniqueId(), killerKillstreak + 1);

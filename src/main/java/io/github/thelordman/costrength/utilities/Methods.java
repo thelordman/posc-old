@@ -35,7 +35,7 @@ public class Methods {
     }
 
     public static Double getKdr(OfflinePlayer player) {
-        return !(player.getStatistic(Statistic.PLAYER_KILLS) == 0) | !(player.getStatistic(Statistic.DEATHS) == 0)
+        return !(player.getStatistic(Statistic.PLAYER_KILLS) == 0) && !(player.getStatistic(Statistic.DEATHS) == 0)
                 ? ((double) player.getStatistic(Statistic.PLAYER_KILLS)) / (double) player.getStatistic(Statistic.DEATHS)
                 : (double) player.getStatistic(Statistic.PLAYER_KILLS);
     }
