@@ -35,7 +35,10 @@ public class BountyCommand implements CommandExecutor {
         EconomyManager.setBalance(player.getUniqueId(), EconomyManager.getBalance(player.getUniqueId()) - amount);
         EconomyManager.setBounty(target.getUniqueId(), EconomyManager.getBounty(target.getUniqueId()) + amount);
         ScoreboardHandler.updateBoard(player);
-        if (target.isOnline()) ScoreboardHandler.updateBoard(target.getPlayer());
+        if (target.isOnline()) {
+            ScoreboardHandler.updateBoard(target.getPlayer());
+            Methods.updateDisplayName(target.getPlayer());
+        }
         Bukkit.broadcastMessage(Methods.cStr(player.getDisplayName() + " &6has added a bounty of &f$" + Methods.rStr(amount) + " &6on " + target.getName() + "&6.\n&f$" + Methods.rStr(EconomyManager.getBounty(target.getUniqueId())) + " &6total."));
         return true;
     }

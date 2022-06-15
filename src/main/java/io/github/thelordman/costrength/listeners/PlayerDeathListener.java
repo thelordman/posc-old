@@ -37,8 +37,9 @@ public class PlayerDeathListener implements Listener {
 
             if (EconomyManager.getBounty(victim.getUniqueId()) != 0) {
                 EconomyManager.setBalance(killer.getUniqueId(), EconomyManager.getBalance(killer.getUniqueId()) + EconomyManager.getBounty(victim.getUniqueId()));
-                Bukkit.broadcastMessage(Methods.cStr(killer.getDisplayName() + " &6collected the bounty of &f$" + EconomyManager.getBounty(victim.getUniqueId()) + " &6on " + victim.getDisplayName() + "&6."));
+                Bukkit.broadcastMessage(Methods.cStr(killer.getDisplayName() + " &6collected the bounty of &f$" + Methods.rStr(EconomyManager.getBounty(victim.getUniqueId())) + " &6on " + victim.getDisplayName() + "&6."));
                 EconomyManager.setBounty(victim.getUniqueId(), (double) 0);
+                Methods.updateDisplayName(victim);
             }
 
             ScoreboardHandler.updateBoard(killer);
