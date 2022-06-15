@@ -40,7 +40,7 @@ public class PlayerItemConsumeListener implements Listener {
         if (item.getLore().contains(Methods.cStr("&fSugar&7: &6Gives &fspeed 1 for 20 seconds &6after drinking."))) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 400, 0));
         }
-        if (item.getLore().contains(Methods.cStr("&eIrn Bru&7: &6Gives &fstrength 1 for 20 seconds &6after drinking."))) {
+        if (item.getLore().contains(Methods.cStr("&eIrn Bru&7: &6Gives &fstrength 1 for 20 seconds &6after drinking.")) | item.getItemMeta().getDisplayName().equals(Methods.cStr("&eIrn Bru"))) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 400, 0));
         }
     }

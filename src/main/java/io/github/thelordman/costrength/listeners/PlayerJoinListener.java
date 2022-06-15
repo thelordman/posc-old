@@ -33,7 +33,7 @@ public class PlayerJoinListener implements Listener {
         Methods.updateDisplayName(event.getPlayer());
         event.getPlayer().setPlayerListHeaderFooter(Methods.cStr("\n  &6&lCoStrength.minehut.gg  \n"), Methods.cStr("\n&6/help &8| &6/dc &8| &6/buy"));
 
-        String message = event.getPlayer().hasPlayedBefore() ? "&7[&a+&7] &7" + event.getPlayer().getDisplayName() : "&7[&a+&7] &7" + event.getPlayer().getDisplayName() + " &6#" + Bukkit.getServer().getOfflinePlayers().length;
+        String message = event.getPlayer().hasPlayedBefore() ? "&7[&a+&7] &7" + event.getPlayer().getDisplayName() : "&7[&a+&7] &7" + event.getPlayer().getDisplayName() + " &6#" + Methods.rStr((double) Bukkit.getServer().getOfflinePlayers().length);
         event.setJoinMessage(Methods.cStr(message));
 
         ScoreboardHandler.updateBoard(event.getPlayer());

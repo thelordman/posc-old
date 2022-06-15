@@ -143,26 +143,26 @@ public class InventoryClickListener implements Listener {
                 case GOLD_ORE, POISONOUS_POTATO:
                     CE = 0;
                     break;
-                case TNT:
+                case TNT, PLAYER_HEAD:
                     CE = 1;
                     break;
-                case GOLDEN_BOOTS:
+                case GOLDEN_BOOTS, SHIELD:
                     CE = 2;
                     break;
-                case GOLDEN_PICKAXE:
+                case GOLDEN_PICKAXE, ENDER_EYE:
                     if (event.getCurrentItem().getItemMeta().isUnbreakable()) return;
                     CE = 3;
                     break;
-                case EXPERIENCE_BOTTLE:
+                case EXPERIENCE_BOTTLE, BREAD:
                     CE = 4;
                     break;
-                case GOLDEN_AXE:
+                case GOLDEN_AXE, REDSTONE:
                     CE = 5;
                     break;
-                case LIGHTNING_ROD:
+                case LIGHTNING_ROD, WITHER_ROSE:
                     CE = 6;
                     break;
-                case TARGET:
+                case TARGET, MILK_BUCKET:
                     CE = 7;
                     break;
                 case BARRIER:

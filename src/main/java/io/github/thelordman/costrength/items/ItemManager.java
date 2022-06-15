@@ -18,7 +18,7 @@ public class ItemManager {
     public static final NamespacedKey[] pickaxeEnchantments = {new NamespacedKey(CoStrength.instance, "pickaxe-vein"), new NamespacedKey(CoStrength.instance, "pickaxe-bomb"), new NamespacedKey(CoStrength.instance, "pickaxe-speed"), new NamespacedKey(CoStrength.instance, "pickaxe-haste"), new NamespacedKey(CoStrength.instance, "pickaxe-experience"), new NamespacedKey(CoStrength.instance, "pickaxe-jackhammer"), new NamespacedKey(CoStrength.instance, "pickaxe-drill"), new NamespacedKey(CoStrength.instance, "pickaxe-counter")};
     public static final NamespacedKey pickaxeCounter = new NamespacedKey(CoStrength.instance, "counter-pickaxe");
 
-    public static final NamespacedKey[] swordEnchantments = {new NamespacedKey(CoStrength.instance, "sword-viper")};
+    public static final NamespacedKey[] swordEnchantments = {new NamespacedKey(CoStrength.instance, "sword-viper"), new NamespacedKey(CoStrength.instance, "sword-bandit"), new NamespacedKey(CoStrength.instance, "sword-block"), new NamespacedKey(CoStrength.instance, "sword-blinding"), new NamespacedKey(CoStrength.instance, "sword-feast"), new NamespacedKey(CoStrength.instance, "sword-hulk"), new NamespacedKey(CoStrength.instance, "sword-lifesteal"), new NamespacedKey(CoStrength.instance, "sword-milk")};
 
     public static byte getCELevel(ItemStack item, NamespacedKey key) {
         if (item == null) return 0;
@@ -47,7 +47,7 @@ public class ItemManager {
 
     public static byte getEnchantmentMaxLevel(Enchantment enchantment) {
         return switch (enchantment.getKey().getKey()) {
-            case "efficiency" -> 10;
+            case "efficiency" -> 6;
             case "fortune", "sharpness" -> 5;
             case "sweeping", "protection", "fire_protection", "projectile_protection", "blast_protection" -> 4;
             case "silk_touch", "fire_aspect", "thorns" -> 3;
@@ -56,16 +56,16 @@ public class ItemManager {
         };
     }
 
-
     public static byte getCEMaxLevel(NamespacedKey key) {
         return switch (key.getKey()) {
             case "pickaxe-jackhammer" -> 10;
-            case "pickaxe-vein" -> 7;
-            case "pickaxe-drill" -> 6;
-            case "sword-viper" -> 5;
+            case "pickaxe-vein", "sword-blinding" -> 7;
+            case "pickaxe-drill", "sword-milk" -> 6;
+            case "sword-viper", "sword-hulk", "sword-lifesteal" -> 5;
             case "pickaxe-experience" -> 4;
-            case "pickaxe-bomb", "pickaxe-haste", "pickaxe-counter" -> 3;
-            case "pickaxe-speed" -> 2;
+            case "pickaxe-bomb", "pickaxe-haste", "pickaxe-counter", "sword-block" -> 3;
+            case "pickaxe-speed", "sword-feast" -> 2;
+            case "sword-bandit" -> 1;
             default -> 0;
         };
     }
@@ -164,6 +164,67 @@ public class ItemManager {
                     default -> 0d;
                 };
             }
+            case "sword-bandit" -> {
+                return 50000d;
+            }
+            case "sword-block" -> {
+                return switch (getCELevel(item, key)) {
+                    case 0 -> 100000d;
+                    case 1 -> 200000d;
+                    case 2 -> 300000d;
+                    default -> 0d;
+                };
+            }
+            case "sword-blinding" -> {
+                return switch (getCELevel(item, key)) {
+                    case 0 -> 20000d;
+                    case 1 -> 60000d;
+                    case 2 -> 100000d;
+                    case 3 -> 200000d;
+                    case 4 -> 300000d;
+                    case 5 -> 400000d;
+                    case 6 -> 500000d;
+                    default -> 0d;
+                };
+            }
+            case "sword-feast" -> {
+                return switch (getCELevel(item, key)) {
+                    case 0 -> 250000d;
+                    case 1 -> 500000d;
+                    default -> 0d;
+                };
+            }
+            case "sword-hulk" -> {
+                return switch (getCELevel(item, key)) {
+                    case 0 -> 50000d;
+                    case 1 -> 100000d;
+                    case 2 -> 250000d;
+                    case 3 -> 450000d;
+                    case 4 -> 750000d;
+                    default -> 0d;
+                };
+            }
+            case "sword-lifesteal" -> {
+                return switch (getCELevel(item, key)) {
+                    case 0 -> 100000d;
+                    case 1 -> 250000d;
+                    case 2 -> 500000d;
+                    case 3 -> 1000000d;
+                    case 4 -> 2500000d;
+                    default -> 0d;
+                };
+            }
+            case "sword-milk" -> {
+                return switch (getCELevel(item, key)) {
+                    case 0 -> 100000d;
+                    case 1 -> 200000d;
+                    case 2 -> 300000d;
+                    case 3 -> 500000d;
+                    case 4 -> 750000d;
+                    case 5 -> 1500000d;
+                    default -> 0d;
+                };
+            }
         }
         return 0d;
     }
@@ -178,10 +239,6 @@ public class ItemManager {
                     case 3 -> 10000d;
                     case 4 -> 15000d;
                     case 5 -> 40000d;
-                    case 6 -> 75000d;
-                    case 7 -> 100000d;
-                    case 8 -> 200000d;
-                    case 9 -> 500000d;
                     default -> 0d;
                 };
             }

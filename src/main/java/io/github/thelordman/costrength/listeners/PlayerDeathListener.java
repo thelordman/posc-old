@@ -3,6 +3,7 @@ package io.github.thelordman.costrength.listeners;
 import io.github.thelordman.costrength.discord.Discord;
 import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.economy.LevelHandler;
+import io.github.thelordman.costrength.items.ItemManager;
 import io.github.thelordman.costrength.ranks.RankManager;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
 import io.github.thelordman.costrength.utilities.Data;
@@ -46,10 +47,15 @@ public class PlayerDeathListener implements Listener {
             victim.sendTitle(ChatColor.RED + "You Died", "");
             event.setDeathMessage(Methods.cStr("&7Death &8| &7" + event.getDeathMessage()));
         }
-        EconomyManager.setKillstreak(victim.getUniqueId(), 0);
 
+        EconomyManager.setKillstreak(victim.getUniqueId(), 0);
         ScoreboardHandler.updateBoard(victim);
         LevelHandler.xp(victim);
+
+        Data.lastHitData.remove(victim);
+        Data.lastHitData.forEach((p, o) -> {
+            if (o.getValue0() == victim) Data.lastHitData.remove(p);
+        });
         
         //Discord
         EmbedBuilder builder = new EmbedBuilder();
@@ -59,7 +65,7 @@ public class PlayerDeathListener implements Listener {
             builder.setDescription(Methods.replaceColorCodes(originalMsg, '&'));
         }
         else {
-            builder.setDescription("He just died");
+            builder.setDescription("They just died");
         }
 
         Discord.minecraftChatChannel.sendMessageEmbeds(builder.build()).queue();
@@ -70,7 +76,7 @@ public class PlayerDeathListener implements Listener {
         Integer killerKillstreak = EconomyManager.getKillstreak(killer.getUniqueId());
         double victimBalance = EconomyManager.getBalance(victim.getUniqueId());
 
-        double takeFromVictim = victimBalance == 0f ? 0f : victimBalance / 100;
+        double takeFromVictim = ItemManager.getCELevel(killer.getInventory().getItemInMainHand(), ItemManager.swordEnchantments[1]) == 1 && EconomyManager.getLevel(victim.getUniqueId()) > EconomyManager.getLevel(killer.getUniqueId()) ? victimBalance == 0f ? 0f : victimBalance / 5 : victimBalance == 0f ? 0f : victimBalance / 100;
 
         EconomyManager.setBalance(victim.getUniqueId(), victimBalance - takeFromVictim);
 

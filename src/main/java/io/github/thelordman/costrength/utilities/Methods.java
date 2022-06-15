@@ -1,13 +1,11 @@
 package io.github.thelordman.costrength.utilities;
 
-import io.github.thelordman.costrength.CoStrength;
 import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.ranks.RankManager;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 
 import java.text.DecimalFormat;
@@ -110,7 +108,8 @@ public class Methods {
     }
 
     public static boolean inCombat(Player player) {
-        if (Data.combatTag.getOrDefault(player, 0L) < System.currentTimeMillis() - 20000L) {
+        if (!Data.combatTag.containsKey(player)) return false;
+        if (Data.combatTag.get(player) < System.currentTimeMillis() - 20000L) {
             Data.combatTag.remove(player);
             return true;
         }
