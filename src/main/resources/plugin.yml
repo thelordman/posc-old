@@ -99,3 +99,6 @@ commands:
   level:
     description: Change or get various values about the target's level.
     usage: /level <offline-player> <set, add, remove, reset, multiply, divide, get, pow> [<amount>]
+  glow:
+    description: Add or remove glowing to yourself.
+    usage: /glow

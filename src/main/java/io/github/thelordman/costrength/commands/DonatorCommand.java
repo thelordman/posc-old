@@ -15,30 +15,27 @@ public class DonatorCommand implements CommandExecutor {
                 &r
                 &a&lVIP&f:
                 &6Bypass chat cooldown
-                &6/ec
+                &6/ec (opens your enderchest)
                 &fWhite &6chat color
                 &aVIP &6prefix
                 &6VIP rank in Discord
                 &r
                 &e&lMVP&f:
                 &6Everything from &aVIP
-                &6/pv 1
-                &6/food
+                &6Shortcut commands for GUIs
                 &eMVP &6prefix
                 &6MVP rank in Discord
                 &r
                 &3&lELITE&f:
                 &6Everything from &eMVP &6and &aVIP
-                &6/pv 1 and 2
-                &6/mine
+                &6/mine (resets mine)
                 &65% discount on block shop
                 &3ELITE &6prefix
                 &6ELITE rank in Discord
                 &r
                 &6&lLEGEND&f:
                 &6Everything from &eMVP &6and &aVIP
-                &6/pv 1, 2 and 3
-                &6Choose the color of the rank
+                &6/glow (make yourself glow)
                 &r
                 &6&lBuy a rank here&f&l:
                 &6&nLink Here"""));

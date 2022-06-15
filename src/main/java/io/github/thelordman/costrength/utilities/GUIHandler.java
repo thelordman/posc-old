@@ -14,7 +14,7 @@ import java.util.List;
 
 public class GUIHandler {
     public static void registerInventories() {
-        //Food Shop and Kitchen Menu
+        //Food Shop and Kitchen
         for (int i = 0; i < 2; i++) {
             for (int i1 = 0; i1 < 10; i1++) {
                 Data.GUIs[i].setItem(i1, quickItem(Material.WHITE_STAINED_GLASS_PANE, "", 1, ""));
