@@ -109,10 +109,8 @@ public class Methods {
 
     public static boolean inCombat(Player player) {
         if (!Data.combatTag.containsKey(player)) return false;
-        if (Data.combatTag.get(player) < System.currentTimeMillis() - 20000L) {
-            Data.combatTag.remove(player);
-            return true;
-        }
+        if (Data.combatTag.get(player) < System.currentTimeMillis() - 20000L) return true;
+        Data.combatTag.remove(player);
         return false;
     }
 

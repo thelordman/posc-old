@@ -21,7 +21,7 @@ public class PlayerQuitListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         if (Methods.inCombat(event.getPlayer())) {
             event.getPlayer().setHealth(0);
-            EconomyManager.setBalance(event.getPlayer().getUniqueId(), EconomyManager.getBalance(event.getPlayer().getUniqueId()) / 2f);
+            EconomyManager.setBalance(event.getPlayer().getUniqueId(), EconomyManager.getBalance(event.getPlayer().getUniqueId()) / 2d);
             Bukkit.broadcastMessage(Methods.cStr(event.getPlayer().getDisplayName() + " &6chickened and combat logged!"));
         }
 
