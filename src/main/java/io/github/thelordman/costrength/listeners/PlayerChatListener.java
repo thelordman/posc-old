@@ -16,7 +16,7 @@ public class PlayerChatListener implements Listener {
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         if (System.currentTimeMillis() - lastMessage.getOrDefault(event.getPlayer(), 0L) < 2000L && !RankManager.hasDonatorPermission(event.getPlayer(), (byte) 1)) {
-            event.getPlayer().sendMessage("&cYou must wait at least 2 seconds before chatting\n&6Bypass with /buy\n&6You still need to wait &f" + (2000L - (System.currentTimeMillis() - lastMessage.getOrDefault(event.getPlayer(), 0L))) * 1000 + " seconds");
+            event.getPlayer().sendMessage(Methods.cStr("&cYou must wait at least 2 seconds before chatting\n&6Bypass with /buy\n&6You still need to wait &f" + (2000L - (System.currentTimeMillis() - lastMessage.getOrDefault(event.getPlayer(), 0L))) * 1000 + " seconds"));
             event.setCancelled(true);
             return;
         }

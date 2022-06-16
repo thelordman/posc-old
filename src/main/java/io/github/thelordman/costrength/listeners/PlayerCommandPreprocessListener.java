@@ -20,7 +20,7 @@ public class PlayerCommandPreprocessListener implements Listener {
             Discord.commandLogChannel.sendMessage(Methods.replaceColorCodes("<t:" + System.currentTimeMillis() / 1000 + ":F> **" + event.getPlayer().getDisplayName() + "** executed the command `/I'm a fat bitch`", '§')).queue();
         }
         else {
-            Discord.commandLogChannel.sendMessage("<t:" + System.currentTimeMillis() / 1000 + ":F> **" + event.getPlayer().getDisplayName() + "** executed the command `" + event.getMessage() + "`").queue();
+            Discord.commandLogChannel.sendMessage("<t:" + System.currentTimeMillis() / 1000 + ":F> **" + Methods.replaceColorCodes(event.getPlayer().getDisplayName(), '§') + "** executed the command `" + event.getMessage() + "`").queue();
         }
     }
 }
