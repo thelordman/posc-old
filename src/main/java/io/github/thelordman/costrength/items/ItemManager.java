@@ -1,6 +1,7 @@
 package io.github.thelordman.costrength.items;
 
 import io.github.thelordman.costrength.CoStrength;
+import io.github.thelordman.costrength.utilities.GUIHandler;
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -363,7 +364,12 @@ public class ItemManager {
         inventory.setItem(index, GUIItem);
     }
 
-    public static void setGUICE(ItemStack item, Inventory inventory, int index, NamespacedKey key, Material material, String... lore) {
+    public static void setGUICE(ItemStack item, Inventory inventory, int index, NamespacedKey key, Material material, int level, int levelReq, String... lore) {
+        if (level < levelReq) {
+            inventory.setItem(index, GUIHandler.quickItem(Material.BARRIER, Methods.cStr("&cLocked"), 1, Methods.cStr("&cUnlocks at &flevel " + levelReq + "&c.")));
+            return;
+        }
+
         ItemStack GUIItem = new ItemStack(material);
         ItemMeta meta = GUIItem.getItemMeta();
         meta.setDisplayName(getCELevel(item, key) == 0
