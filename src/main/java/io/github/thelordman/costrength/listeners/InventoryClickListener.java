@@ -118,7 +118,7 @@ public class InventoryClickListener implements Listener {
         else if (event.getView().getTitle().equals("Tool Menu")) {
             switch (event.getCurrentItem().getType()) {
                 case ENCHANTED_BOOK:
-                    GUIHandler.openGUI(Data.GUIs[3], player);
+                    GUIHandler.openGUI(Data.GUIs[5], player);
                     player.sendMessage(Methods.cStr("&6Entered enchantment menu."));
                     return;
                 case FIREWORK_ROCKET:
@@ -207,7 +207,7 @@ public class InventoryClickListener implements Listener {
         EconomyManager.setBalance(player.getUniqueId(), EconomyManager.getBalance(player.getUniqueId()) - m);
         if (item != null) player.getInventory().addItem(item);
         player.sendMessage(message);
-        if (event.getView().getTitle().equals("Enchantment Menu")) GUIHandler.openGUI(Data.GUIs[3], player);
+        if (event.getView().getTitle().equals("Enchantment Menu")) GUIHandler.openGUI(Data.GUIs[5], player);
         ScoreboardHandler.updateBoard(player);
     }
 }

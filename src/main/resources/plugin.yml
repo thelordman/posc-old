@@ -102,3 +102,6 @@ commands:
   glow:
     description: Add or remove glowing to yourself.
     usage: /glow
+  pay:
+    description: Send someone a set amount of money from your balance.
+    usage: /pay <player> <amount>

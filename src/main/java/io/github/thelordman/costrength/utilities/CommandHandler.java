@@ -37,6 +37,7 @@ public record CommandHandler(CoStrength plugin) {
         registerCommand("joinkit", new JoinkitCommand());
         registerCommand("level", new LevelCommand());
         registerCommand("glow", new GlowCommand());
+        registerCommand("pay", new PayCommand());
     }
 
     private void registerCommand(String command, CommandExecutor executor) {
