@@ -1,8 +1,11 @@
-package io.github.thelordman.costrength.utilities;
+package io.github.thelordman.costrength.guis;
 
 import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.items.ItemManager;
+import io.github.thelordman.costrength.utilities.Data;
+import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -14,8 +17,8 @@ import java.util.List;
 
 public class GUIHandler {
     public static void registerInventories() {
-        //Food Shop and Kitchen
-        for (int i = 0; i < 2; i++) {
+        //Food Shop, Kitchen and Shop
+        for (int i = 0; i < 3; i++) {
             for (int i1 = 0; i1 < 10; i1++) {
                 Data.GUIs[i].setItem(i1, quickItem(Material.WHITE_STAINED_GLASS_PANE, "", 1, ""));
             }
@@ -24,8 +27,37 @@ public class GUIHandler {
             }
         }
 
+        //Shop
+        Data.GUIs[2].setItem(10, quickItem(Material.GRASS_BLOCK, Methods.cStr("&2Block Shop"), 1, Methods.cStr("&6Buy building blocks that you can place.")));
+
+        //Block Shop
+        for (int i = 0; i < 10; i++) {
+            Data.GUIs[3].setItem(i, quickItem(Material.WHITE_STAINED_GLASS_PANE, "", 1, ""));
+        }
+        for (int i = 17; i < 28; i++) {
+            if (i == 19) i = 26;
+            Data.GUIs[3].setItem(i, quickItem(Material.WHITE_STAINED_GLASS_PANE, "", 1, ""));
+        }
+        for (int i = 35; i < 45; i++) {
+            Data.GUIs[3].setItem(i, quickItem(Material.WHITE_STAINED_GLASS_PANE, "", 1, ""));
+        }
+
+        Material[] materials = {
+                Material.GRASS_BLOCK, Material.DIRT, Material.LADDER, Material.COBWEB, Material.OAK_LEAVES, Material.GRAVEL, Material.SAND,
+                Material.STONE, Material.COBBLESTONE, Material.BLACKSTONE, Material.DEEPSLATE, Material.GLASS, Material.MELON, Material.PUMPKIN,
+                Material.GLOWSTONE, Material.SEA_LANTERN, Material.OAK_LOG, Material.BIRCH_LOG, Material.DARK_OAK_LOG, Material.QUARTZ_BLOCK, Material.OBSIDIAN
+        };
+        int ii = 0;
+        for (int i = 10; i < 35; i++) {
+            if (Data.GUIs[3].getItem(i) != null) continue;
+            Material material = materials[ii];
+            double cost = material == Material.OBSIDIAN | material == Material.COBWEB ? 1000 : 100;
+            Data.GUIs[3].setItem(i, quickItem(material, ChatColor.WHITE + Methods.getMaterialName(material), 1, Methods.cStr("&f$" + Methods.rStr(cost) + " &7(1x) &8| &f$" + Methods.rStr(cost * 64) + " &7(64x)")));
+            ii++;
+        }
+
         //Tool Menu and Enchantment Menu
-        for (int i = 2; i < 4; i++) {
+        for (int i = 4; i < 6; i++) {
             for (int i1 = 0; i1 < 3; i1++) {
                 Data.GUIs[i].setItem(i1, quickItem(Material.WHITE_STAINED_GLASS_PANE, Methods.cStr("&r"), 1, ""));
             }
@@ -37,9 +69,9 @@ public class GUIHandler {
         }
 
         //Tool Menu
-        Data.GUIs[2].setItem(13, quickItem(Material.ENCHANTED_BOOK, Methods.cStr("&eEnchantments"), 1, Methods.cStr("&6Enchantments are tiered, usually simple but effective upgrades."), Methods.cStr("&6They don't need much strategising and are straight forward.")));
-        Data.GUIs[2].setItem(14, quickItem(Material.FIREWORK_ROCKET, Methods.cStr("&eUpgrades"), 1, Methods.cStr("&6Upgrades are complex additions that can be turned off or on."), Methods.cStr("&6Experiment to find a combination of upgrades that best fit your play-style.")));
-        Data.GUIs[2].setItem(15, quickItem(Material.COMPARATOR, Methods.cStr("&eConfiguration"), 1, Methods.cStr("&6Here you can configure your tool and its upgrades."), Methods.cStr("&6This is useful for maximizing efficiency, profits and deadliness.")));
+        Data.GUIs[4].setItem(13, quickItem(Material.ENCHANTED_BOOK, Methods.cStr("&eEnchantments"), 1, Methods.cStr("&6Enchantments are tiered, usually simple but effective upgrades."), Methods.cStr("&6They don't need much strategising and are straight forward.")));
+        Data.GUIs[4].setItem(14, quickItem(Material.FIREWORK_ROCKET, Methods.cStr("&eUpgrades"), 1, Methods.cStr("&6Upgrades are complex additions that can be turned off or on."), Methods.cStr("&6Experiment to find a combination of upgrades that best fit your play-style.")));
+        Data.GUIs[4].setItem(15, quickItem(Material.COMPARATOR, Methods.cStr("&eConfiguration"), 1, Methods.cStr("&6Here you can configure your tool and its upgrades."), Methods.cStr("&6This is useful for maximizing efficiency, profits and deadliness.")));
     }
 
     public static ItemStack quickItem(final Material material, final String name, final int amount, final String... lore) {
@@ -85,7 +117,10 @@ public class GUIHandler {
             player.openInventory(inventory);
             return;
         }
-        if (base.equals(Data.GUIs[2])) {
+        if (base.equals(Data.GUIs[2]) | base.equals(Data.GUIs[3])) {
+            player.openInventory(base);
+        }
+        if (base.equals(Data.GUIs[4])) {
             Inventory inventory = Bukkit.createInventory(player, base.getSize(), "Tool Menu");
             inventory.setContents(base.getContents());
             Data.GUIs[2].setItem(13, quickItem(Material.ENCHANTED_BOOK, Methods.cStr("&eEnchantments"), 1, Methods.cStr("&6Enchantments are tiered, usually simple but effective upgrades."), Methods.cStr("&6They don't need much strategising and are straight forward.")));
@@ -101,7 +136,7 @@ public class GUIHandler {
             player.openInventory(inventory);
             return;
         }
-        if (base.equals(Data.GUIs[3])) {
+        if (base.equals(Data.GUIs[5])) {
             int level = EconomyManager.getLevel(player.getUniqueId());
             Inventory inventory = Bukkit.createInventory(player, base.getSize(), "Enchantment Menu");
             inventory.setContents(base.getContents());

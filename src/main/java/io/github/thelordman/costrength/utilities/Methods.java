@@ -96,11 +96,11 @@ public class Methods {
             OfflinePlayer player = ((OfflinePlayer) sender);
             if (!(RankManager.hasDonatorPermission(player, level) | player.isOp())) {
                 player.getPlayer().sendMessage(cStr("&cInsufficient permissions.\n&cPlease contact an admin or developer of &fCoStrength &6if you believe this shouldn't happen."));
-                return false;
+                return true;
             }
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     public static boolean inSpawn(Player player) {
@@ -109,7 +109,7 @@ public class Methods {
 
     public static boolean inCombat(Player player) {
         if (!Data.combatTag.containsKey(player)) return false;
-        if (Data.combatTag.get(player) < System.currentTimeMillis() - 20000L) return true;
+        if (Data.combatTag.get(player) > System.currentTimeMillis() - 20000L) return true;
         Data.combatTag.remove(player);
         return false;
     }
@@ -146,5 +146,15 @@ public class Methods {
             case 10 -> "X";
             default -> null;
         };
+    }
+
+    public static String getMaterialName(Material material) {
+        String name = material.name();
+        StringBuilder builder = new StringBuilder();
+        for (String string : name.split("_")) {
+            builder.append(rfStr(string)).append(" ");
+        }
+        builder.deleteCharAt(builder.lastIndexOf(" "));
+        return builder.toString();
     }
 }

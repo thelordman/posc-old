@@ -5,7 +5,7 @@ import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.items.ItemManager;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
 import io.github.thelordman.costrength.utilities.Data;
-import io.github.thelordman.costrength.utilities.GUIHandler;
+import io.github.thelordman.costrength.guis.GUIHandler;
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -21,7 +21,7 @@ import org.bukkit.persistence.PersistentDataType;
 public class InventoryClickListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if (!event.getView().getTitle().equals("Food Shop") && !event.getView().getTitle().equals("Kitchen") && !event.getView().getTitle().equals("Tool Menu") && !event.getView().getTitle().equals("Enchantment Menu")) return;
+        if (!event.getView().getTitle().equals("Food Shop") && !event.getView().getTitle().equals("Kitchen") && !event.getView().getTitle().equals("Shop") && !event.getView().getTitle().equals("Block Shop") && !event.getView().getTitle().equals("Tool Menu") && !event.getView().getTitle().equals("Enchantment Menu")) return;
         if (event.getCurrentItem() == null) return;
         event.setCancelled(true);
         Player player = (Player) event.getWhoClicked();
@@ -98,6 +98,22 @@ public class InventoryClickListener implements Listener {
                 default:
                     return;
             }
+        }
+        else if (event.getView().getTitle().equals("Shop")) {
+            switch (event.getCurrentItem().getType()) {
+                case GRASS_BLOCK:
+                    GUIHandler.openGUI(Data.GUIs[3], player);
+                    player.sendMessage(Methods.cStr("&6Entered block shop."));
+                    return;
+                default:
+                    return;
+            }
+        }
+        else if (event.getView().getTitle().equals("Block Shop")) {
+            if (event.getCurrentItem() == null) return;
+            m = event.getCurrentItem().getType() == Material.OBSIDIAN | event.getCurrentItem().getType() == Material.COBWEB ? 1000d : 100d;
+            m *= i;
+            item = new ItemStack(event.getCurrentItem().getType(), i);
         }
         else if (event.getView().getTitle().equals("Tool Menu")) {
             switch (event.getCurrentItem().getType()) {

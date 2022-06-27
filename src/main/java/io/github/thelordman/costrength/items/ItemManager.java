@@ -1,7 +1,7 @@
 package io.github.thelordman.costrength.items;
 
 import io.github.thelordman.costrength.CoStrength;
-import io.github.thelordman.costrength.utilities.GUIHandler;
+import io.github.thelordman.costrength.guis.GUIHandler;
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -404,7 +404,7 @@ public class ItemManager {
         int amount = meta.getPersistentDataContainer().getOrDefault(pickaxeCounter, PersistentDataType.INTEGER, 0);
         if (addition) amount++;
         meta.getPersistentDataContainer().set(pickaxeCounter, PersistentDataType.INTEGER, amount);
-        meta.setDisplayName(Methods.cStr("&b" + Methods.rfStr(item.getType().name().split("_")[0]) + " " + Methods.rfStr(item.getType().name().split("_")[1]) + " &7[&f" + Methods.rStr((double) amount) + "&7]"));
+        meta.setDisplayName(Methods.cStr("&b" + Methods.getMaterialName(item.getType()) + " &7[&f" + Methods.rStr((double) amount) + "&7]"));
         item.setItemMeta(meta);
     }
 }

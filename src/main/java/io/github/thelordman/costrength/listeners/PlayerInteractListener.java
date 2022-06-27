@@ -1,7 +1,7 @@
 package io.github.thelordman.costrength.listeners;
 
 import io.github.thelordman.costrength.utilities.Data;
-import io.github.thelordman.costrength.utilities.GUIHandler;
+import io.github.thelordman.costrength.guis.GUIHandler;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

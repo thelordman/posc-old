@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 public class EnderchestCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!Methods.checkDonatorCommandPermission(sender, (byte) 1)) return true;
+        if (Methods.checkDonatorCommandPermission(sender, (byte) 1)) return true;
         if (sender instanceof ConsoleCommandSender) sender.sendMessage(Methods.cStr("&cThis command can only be used by players."));
 
         Player player = (Player) sender;

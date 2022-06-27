@@ -94,6 +94,7 @@ public class PlayerDeathListener implements Listener {
         double multi = 1 + levelBonus + kdrBonus + killBonus;
 
         double money = reward * multi + takeFromVictim, xp = reward * multi;
+        if (Double.isNaN(money) | Double.isInfinite(money)) money = 100d;
 
         killer.sendMessage(Methods.cStr("&6You killed " + victim.getDisplayName() + " &6."));
         killer.sendActionBar(Methods.cStr("&f+$" + Methods.rStr(money) + " &7(" + Methods.rStr(multi) + "x) &8| &f+" + Methods.rStr(xp) + "xp &7(" + Methods.rStr(multi) + "x) &8| &6Streak&7: &f" + Methods.rStr((double) killerKillstreak)));

@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 public class GlowCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!Methods.checkDonatorCommandPermission(sender, (byte) 4)) return true;
+        if (Methods.checkDonatorCommandPermission(sender, (byte) 4)) return true;
         Player player = (Player) sender;
 
         if (player.hasPotionEffect(PotionEffectType.GLOWING)) player.removePotionEffect(PotionEffectType.GLOWING);
