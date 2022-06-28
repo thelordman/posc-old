@@ -39,6 +39,7 @@ public record CommandHandler(CoStrength plugin) {
         registerCommand("glow", new GlowCommand());
         registerCommand("pay", new PayCommand());
         registerCommand("sc", new StaffChatCommand());
+        registerCommand("clearchat", new ClearChatCommand());
     }
 
     private void registerCommand(String command, CommandExecutor executor) {

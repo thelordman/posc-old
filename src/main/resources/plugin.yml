@@ -105,3 +105,9 @@ commands:
   pay:
     description: Send someone a set amount of money from your balance.
     usage: /pay <player> <amount>
+  sc:
+    aliases: staffchat
+    description: Sends a message to anyone who is staff on the server.
+  clearchat:
+    aliases: cc
+    description: Clears the chat.
