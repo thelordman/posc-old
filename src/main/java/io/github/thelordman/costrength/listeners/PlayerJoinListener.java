@@ -1,7 +1,10 @@
 package io.github.thelordman.costrength.listeners;
 
+import io.github.thelordman.costrength.CoStrength;
+import io.github.thelordman.costrength.commands.VanishCommand;
 import io.github.thelordman.costrength.discord.Discord;
 import io.github.thelordman.costrength.economy.LevelHandler;
+import io.github.thelordman.costrength.ranks.RankManager;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
 import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.items.Kit;
@@ -10,6 +13,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -19,6 +23,22 @@ import java.awt.*;
 public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
+        for (Player vanishedPlayer : VanishCommand.vanishedPlayers) {
+            if (event.getPlayer().equals(vanishedPlayer)) {
+                for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                    if (RankManager.permissionLevel(onlinePlayer) < RankManager.permissionLevel(event.getPlayer())) {
+                        onlinePlayer.hidePlayer(CoStrength.get(), event.getPlayer());
+                    }
+                }
+                event.joinMessage(null);
+                event.getPlayer().sendMessage(Methods.cStr("&6You are currently in vanish."));
+                continue;
+            }
+            if (RankManager.permissionLevel(event.getPlayer()) < RankManager.permissionLevel(vanishedPlayer)) {
+                event.getPlayer().hidePlayer(CoStrength.get(), vanishedPlayer);
+            }
+        }
+
         if (!event.getPlayer().hasPlayedBefore()) Kit.joinKit(event.getPlayer());
 
         EconomyManager.setBalance(event.getPlayer().getUniqueId(), (double) event.getPlayer().getStatistic(Statistic.USE_ITEM, Material.GOLD_NUGGET));

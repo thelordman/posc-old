@@ -8,12 +8,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.javatuples.Pair;
-
-import java.io.*;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class Data implements Serializable {
+public class Data {
     public static final Inventory[] GUIs = {Bukkit.createInventory(null, 27, "Food Shop"), Bukkit.createInventory(null, 27, "Kitchen"), Bukkit.createInventory(null, 27, "Shop"), Bukkit.createInventory(null, 45, "Block Shop"), Bukkit.createInventory(null, 27, "Tool Menu"), Bukkit.createInventory(null, 27, "Enchantment Menu")};
 
     public static final ItemStack beer = GUIHandler.quickItem(Material.HONEY_BOTTLE, Methods.cStr("&6Beer"), 1, Methods.cStr("&6Restores &f3 hunger &6and &f0.5 saturation&6."), Methods.cStr("&6Can be drunk even when full to restore saturation."), Methods.cStr("&6Stats can be modified from the kitchen menu."));

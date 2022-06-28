@@ -343,6 +343,15 @@ public class ItemManager {
         return 0d;
     }
 
+    public static double getMaterialPrice(Material material) {
+        return switch (material.name().split("_")[0]) {
+            case "DIAMOND" -> 1000000d;
+            case "NETHERITE" -> 5000000d;
+            case "GOLDEN" -> 10000000d;
+            default -> 0d;
+        };
+    }
+
     public static void addLore(ItemStack item, String... strings) {
         List<String> lore = item.getLore() == null ? new ArrayList<>() : item.getLore();
         lore.addAll(List.of(strings));

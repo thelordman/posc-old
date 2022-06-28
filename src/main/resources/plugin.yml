@@ -105,3 +105,11 @@ commands:
   pay:
     description: Send someone a set amount of money from your balance.
     usage: /pay <player> <amount>
+  vanish:
+    description: Go invisible to all players with a lower rank than you.
+    aliases: v
+    usage: /vanish [player]
+  clearchat:
+    description: Clear the chat.
+    aliases: cc
+    usage: /clearchat
