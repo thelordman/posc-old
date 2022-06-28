@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 public class ClearchatCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!Methods.checkCommandPermission(sender, (byte) 5)) return true;
+        if (!Methods.checkCommandPermission(sender, (byte) 4)) return true;
         String executor = sender instanceof Player ? ((Player) sender).getDisplayName() : "Console";
 
         for (int i = 0; i < 200; i++) {
