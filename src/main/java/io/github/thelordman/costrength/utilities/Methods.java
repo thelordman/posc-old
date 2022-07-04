@@ -1,8 +1,10 @@
 package io.github.thelordman.costrength.utilities;
 
 import io.github.thelordman.costrength.economy.EconomyManager;
-import io.github.thelordman.costrength.ranks.RankManager;
+import io.github.thelordman.costrength.utilities.data.Data;
+import io.github.thelordman.costrength.utilities.data.Rank;
 import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -10,16 +12,17 @@ import org.bukkit.scoreboard.Team;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.UUID;
 
 public class Methods {
     public static ChatColor playerChatColor(Player player, byte type) {
         ChatColor color;
 
         if (type == 0) {
-            color = RankManager.hasDonatorPermission(player, (byte) 1) ? ChatColor.WHITE : ChatColor.GRAY;
+            color = hasDonatorPermission(player.getUniqueId(), 1) ? ChatColor.WHITE : ChatColor.GRAY;
         }
         else {
-            color = RankManager.hasDonatorPermission(player, (byte) 1) ? ChatColor.GRAY : ChatColor.DARK_GRAY;
+            color = hasDonatorPermission(player.getUniqueId(), 1) ? ChatColor.GRAY : ChatColor.DARK_GRAY;
         }
 
         return color;
@@ -79,10 +82,17 @@ public class Methods {
                 .replace(type + "k", "").replace(type + "l", "").replace(type + "m", "").replace(type + "n", "").replace(type + "o", "").replace(type + "r", "");
     }
 
-    public static boolean checkCommandPermission(CommandSender sender, byte level) {
-        if (sender instanceof Player) {
-            OfflinePlayer player = ((OfflinePlayer) sender);
-            if (!(RankManager.hasPermission(player, level) | player.isOp())) {
+    public static boolean hasPermission(UUID uuid, int level) {
+        return Rank.getRank(uuid).permissionLevel >= level;
+    }
+
+    public static boolean hasDonatorPermission(UUID uuid, int level) {
+        return Rank.getRank(uuid).donatorLevel >= level;
+    }
+
+    public static boolean checkCommandPermission(CommandSender sender, int level) {
+        if (sender instanceof Player player) {
+            if (!(hasPermission(player.getUniqueId(), level) | player.isOp())) {
                 player.getPlayer().sendMessage(cStr("&cInsufficient permissions.\n&6Please contact an admin or developer of &fCoStrength &6if you believe this shouldn't happen."));
                 return false;
             }
@@ -91,10 +101,9 @@ public class Methods {
         return false;
     }
 
-    public static boolean checkDonatorCommandPermission(CommandSender sender, byte level) {
-        if (sender instanceof Player) {
-            OfflinePlayer player = ((OfflinePlayer) sender);
-            if (!(RankManager.hasDonatorPermission(player, level) | player.isOp())) {
+    public static boolean checkDonatorCommandPermission(CommandSender sender, int level) {
+        if (sender instanceof Player player) {
+            if (!(hasDonatorPermission(player.getUniqueId(), level) | player.isOp())) {
                 player.getPlayer().sendMessage(cStr("&cInsufficient permissions.\n&cPlease contact an admin or developer of &fCoStrength &6if you believe this shouldn't happen."));
                 return true;
             }
@@ -105,6 +114,10 @@ public class Methods {
 
     public static boolean inSpawn(Player player) {
         return player.getLocation().getX() < 13 && player.getLocation().getZ() > -13;
+    }
+
+    public static boolean inSpawn(Block block) {
+        return block.getLocation().getX() < 13 && block.getLocation().getZ() > -13;
     }
 
     public static boolean inCombat(Player player) {
@@ -123,9 +136,24 @@ public class Methods {
         return true;
     }
 
+    public static String levelPrefix(OfflinePlayer player) {
+        int i = EconomyManager.getLevel(player.getUniqueId());
+        String s = "&8[&7" + i + "&8]";
+        if (i >= 1) s = "&8[&7" + i + "&8]";
+        if (i >= 10) s = "&7[&f" + i + "&7]";
+        if (i >= 25) s = "&f[&a" + i + "&f]";
+        if (i >= 50) s = "&f[&e" + i + "&f]";
+        if (i >= 75) s = "&f[&6" + i + "&f]";
+        if (i >= 100) s = "&f[&4" + i + "&f]";
+
+        return s;
+    }
+
     public static void updateDisplayName(Player player) {
-        String mid = RankManager.getPrefix(player).isEmpty() ? "" : "&8| ";
-        player.setDisplayName(Methods.cStr(RankManager.levelPrefix(player) + " " + RankManager.getPrefix(player) + mid + RankManager.getPlayerColor(player) + player.getName() + "&r"));
+        Rank rank = Rank.getRank(player.getUniqueId());
+        String mid = rank == Rank.DEFAULT ? "" : " &8| ";
+        player.setDisplayName(Methods.cStr(levelPrefix(player) + " " + rank.name + mid
+                + rank.color + player.getName() + "&r"));
         player.setDisplayName(player.getDisplayName().replace("fastskating", "fatskating"));
         if (EconomyManager.getBounty(player.getUniqueId()) != 0) player.setPlayerListName(player.getDisplayName() + cStr(" &6[&f$" + rStr(EconomyManager.getBounty(player.getUniqueId())) + "&6]"));
         else player.setPlayerListName(player.getDisplayName());

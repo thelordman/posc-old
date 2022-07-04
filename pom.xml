@@ -86,10 +86,16 @@
             <version>0.10.2</version>
         </dependency>
         <dependency>
-            <groupId>net.dv8tion</groupId>
-            <artifactId>JDA</artifactId>
-            <version>5.0.0-alpha.9</version>
-        </dependency>
+        <groupId>net.dv8tion</groupId>
+        <artifactId>JDA</artifactId>
+        <version>5.0.0-alpha.9</version>
+        <exclusions>
+            <exclusion>
+                <groupId>club.minnced</groupId>
+                <artifactId>opus-java</artifactId>
+            </exclusion>
+        </exclusions>
+    </dependency>
         <dependency>
             <groupId>org.javatuples</groupId>
             <artifactId>javatuples</artifactId>

@@ -1,8 +1,8 @@
 package io.github.thelordman.costrength.commands;
 
 import io.github.thelordman.costrength.CoStrength;
-import io.github.thelordman.costrength.ranks.RankManager;
 import io.github.thelordman.costrength.utilities.Methods;
+import io.github.thelordman.costrength.utilities.data.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -40,7 +40,7 @@ public class VanishCommand implements CommandExecutor {
         }
 
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            if (sender instanceof ConsoleCommandSender || RankManager.permissionLevel(onlinePlayer) < RankManager.permissionLevel((Player) sender)) {
+            if (sender instanceof ConsoleCommandSender || Rank.getRank(onlinePlayer.getUniqueId()).permissionLevel < Rank.getRank(((Player) sender).getUniqueId()).permissionLevel) {
                 onlinePlayer.hidePlayer(CoStrength.get(), target);
             } else {
                 onlinePlayer.sendMessage(Methods.cStr("&f" + target.getDisplayName() + " &6is now vanished."));

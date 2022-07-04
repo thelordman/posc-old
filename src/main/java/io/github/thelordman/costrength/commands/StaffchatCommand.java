@@ -1,6 +1,6 @@
 package io.github.thelordman.costrength.commands;
 
-import io.github.thelordman.costrength.ranks.RankManager;
+import io.github.thelordman.costrength.discord.Discord;
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -14,8 +14,13 @@ public class StaffchatCommand implements CommandExecutor {
         if (!Methods.checkCommandPermission(sender, (byte) 1)) return true;
         if (args.length > 0) return false;
 
+        String executor = sender.getName();
+
         for (Player online : Bukkit.getOnlinePlayers()) {
-            if ()
+            if (Methods.hasPermission(((Player) sender).getUniqueId(), 1)) {
+                online.sendMessage(Methods.cStr("&6[Staff Chat] &f" + executor + "&7: &f" + Methods.arrayToString(args)));
+                Discord.staffChatChannel.sendMessage("**" + Methods.replaceColorCodes(((Player) sender).getDisplayName(), '§') + ":** " + Methods.arrayToString(args)).queue();
+            }
         }
 
         return true;

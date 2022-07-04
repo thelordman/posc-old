@@ -1,8 +1,8 @@
 package io.github.thelordman.costrength.scoreboard;
 
 import io.github.thelordman.costrength.economy.EconomyManager;
-import io.github.thelordman.costrength.utilities.Data;
 import io.github.thelordman.costrength.utilities.Methods;
+import io.github.thelordman.costrength.utilities.data.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;

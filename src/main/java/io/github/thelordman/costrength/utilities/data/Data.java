@@ -1,7 +1,8 @@
-package io.github.thelordman.costrength.utilities;
+package io.github.thelordman.costrength.utilities.data;
 
 import io.github.thelordman.costrength.guis.GUIHandler;
 import io.github.thelordman.costrength.scoreboard.FastBoard;
+import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -19,10 +20,4 @@ public class Data {
     public static final HashMap<UUID, FastBoard> scoreboard = new HashMap<>();
     public static final HashMap<Player, Long> combatTag = new HashMap<>();
     public static final HashMap<Player, Pair<Player, Byte>> lastHitData = new HashMap<>();
-
-    public final HashMap<UUID, Double> balance = new HashMap<>();
-    public final HashMap<UUID, Double> bounty = new HashMap<>();
-    public final HashMap<UUID, Double> xp = new HashMap<>();
-    public final HashMap<UUID, Integer> level = new HashMap<>();
-    public final HashMap<UUID, Integer> killstreak = new HashMap<>();
 }

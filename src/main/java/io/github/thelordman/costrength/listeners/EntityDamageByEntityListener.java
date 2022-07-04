@@ -1,8 +1,8 @@
 package io.github.thelordman.costrength.listeners;
 
 import io.github.thelordman.costrength.items.ItemManager;
-import io.github.thelordman.costrength.utilities.Data;
 import io.github.thelordman.costrength.utilities.Methods;
+import io.github.thelordman.costrength.utilities.data.Data;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

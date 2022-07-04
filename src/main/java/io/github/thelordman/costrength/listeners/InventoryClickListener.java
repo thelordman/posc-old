@@ -4,9 +4,9 @@ import io.github.thelordman.costrength.CoStrength;
 import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.items.ItemManager;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
-import io.github.thelordman.costrength.utilities.Data;
 import io.github.thelordman.costrength.guis.GUIHandler;
 import io.github.thelordman.costrength.utilities.Methods;
+import io.github.thelordman.costrength.utilities.data.Data;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
@@ -18,8 +18,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-
-import java.util.List;
 
 public class InventoryClickListener implements Listener {
     @EventHandler

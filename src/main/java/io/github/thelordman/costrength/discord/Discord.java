@@ -21,6 +21,7 @@ public class Discord {
     public static JDA jda;
 
     public static TextChannel minecraftChatChannel;
+    public static TextChannel staffChatChannel;
     public static TextChannel commandLogChannel;
 
     public static ArrayList<String> slashCommands;
@@ -28,6 +29,7 @@ public class Discord {
     public static void loadJDA() {
         String botToken = CoStrength.get().getConfig().getString("botToken");
         String minecraftChatChannelId = CoStrength.get().getConfig().getString("minecraftChatChannelId");
+        String staffChatChannelId = CoStrength.get().getConfig().getString("staffChatChannelId");
         String minecraftLogChannelId = CoStrength.get().getConfig().getString("minecraftLogChannelId");
         String guildId = CoStrength.get().getConfig().getString("guildId");
 
@@ -49,6 +51,7 @@ public class Discord {
 
         Guild guild = jda.getGuildById(guildId);
         minecraftChatChannel = jda.getTextChannelById(minecraftChatChannelId);
+        staffChatChannel = jda.getTextChannelById(staffChatChannelId);
         commandLogChannel = jda.getTextChannelById(minecraftLogChannelId);
         assert guild != null;
         guild.updateCommands()

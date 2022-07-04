@@ -4,9 +4,8 @@ import io.github.thelordman.costrength.discord.Discord;
 import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.economy.LevelHandler;
 import io.github.thelordman.costrength.items.ItemManager;
-import io.github.thelordman.costrength.ranks.RankManager;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
-import io.github.thelordman.costrength.utilities.Data;
+import io.github.thelordman.costrength.utilities.data.Data;
 import io.github.thelordman.costrength.utilities.Methods;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.bukkit.Bukkit;
@@ -32,7 +31,7 @@ public class PlayerDeathListener implements Listener {
 
             killRewards(killer, victim);
 
-            if (RankManager.hasPermission(Bukkit.getOfflinePlayer(killer.getName()), (byte) 1)) event.setDeathMessage(Methods.cStr("&cDeath &8| &f" + event.getDeathMessage()));
+            if (Methods.hasDonatorPermission(killer.getUniqueId(), 1)) event.setDeathMessage(Methods.cStr("&cDeath &8| &f" + event.getDeathMessage()));
             else event.setDeathMessage(Methods.cStr("&7Death &8| &7" + event.getDeathMessage()));
 
             if (EconomyManager.getBounty(victim.getUniqueId()) != 0) {
@@ -57,7 +56,7 @@ public class PlayerDeathListener implements Listener {
         Data.lastHitData.forEach((p, o) -> {
             if (o.getValue0() == victim) Data.lastHitData.remove(p);
         });
-        
+
         //Discord
         EmbedBuilder builder = new EmbedBuilder();
         builder.setAuthor(Methods.replaceColorCodes(event.getPlayer().getDisplayName() + " Died", '§'), null, "https://crafatar.com/avatars/" + event.getPlayer().getUniqueId());
