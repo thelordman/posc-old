@@ -11,7 +11,7 @@ import java.awt.*;
 
 public class PlayerKickListener implements Listener {
     @EventHandler
-    public void onPlayerDeath(PlayerKickEvent event) {
+    public void onPlayerKick(PlayerKickEvent event) {
         EmbedBuilder builder = new EmbedBuilder();
         builder.setAuthor(Methods.replaceColorCodes(event.getPlayer().getDisplayName() + " Got Kicked By " + event.getCause().name(), '§'), null, "https://crafatar.com/avatars/" + event.getPlayer().getUniqueId());
         builder.setColor(Color.RED);
