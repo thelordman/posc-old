@@ -10,6 +10,8 @@ public class FoodLevelChangeListener implements Listener {
     public void onFoodLevelChange(FoodLevelChangeEvent event) {
         if (event.isCancelled())
             return;
-        event.setCancelled(true);
+        if(event.getItem() == null) {
+            event.setCancelled(true);
+        }
     }
 }
