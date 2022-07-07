@@ -47,7 +47,8 @@ public class MineHandler {
     public static void resetMine(byte type, Player player) {
         String executor = player == null ? "Console" : player.getDisplayName();
         String broadcast = switch (type) {
-            default -> "\n&6&lCoStrength &8| &cAn internal error has occurred, please contact a staff member if you see this message.";
+            default ->
+                    "\n&6&lCoStrength &8| &cAn internal error has occurred, please contact a staff member if you see this message.";
             case 0 -> "\n&6&lCoStrength &8| &fMine is being refilled by " + executor + "&f.\n";
             case 1 -> "\n&6&lCoStrength &8| &fA beacon has been found by " + executor + "&f.\n&6&lCoStrength &8| &fMine is being refilled.\n";
         };
@@ -77,13 +78,54 @@ public class MineHandler {
         ItemStack item = player.getInventory().getItemInMainHand();
 
         double[] rewards = processBlock(player, material, true);
-        if (ItemManager.getCELevel(item, ItemManager.pickaxeEnchantments[0]) != 0) {
-            if (Math.random() < ((double) ItemManager.getCELevel(item, ItemManager.pickaxeEnchantments[0])) / 50 && material.toString().contains("ORE")) {
-                for (int y = -5; y < 5; y++) {
-                    for (int x = -5; x < 5; x++) {
-                        for (int z = -5; z < 5; z++) {
-                            Block b = block.getRelative(x, y, z);
-                            if (Math.sqrt((x * x) + (y * y) + (z * z)) <= 5 && b.getType().equals(block.getType())) {
+        if (!Methods.inSpawn(block.getLocation())) {
+            if (ItemManager.getCELevel(item, ItemManager.pickaxeEnchantments[0]) != 0) {
+                if (Math.random() < ((double) ItemManager.getCELevel(item, ItemManager.pickaxeEnchantments[0])) / 50 && material.toString().contains("ORE")) {
+                    for (int y = -5; y < 5; y++) {
+                        for (int x = -5; x < 5; x++) {
+                            for (int z = -5; z < 5; z++) {
+                                Block b = block.getRelative(x, y, z);
+                                if (Math.sqrt((x * x) + (y * y) + (z * z)) <= 5 && b.getType().equals(block.getType())) {
+                                    if (b.getX() > 13 | b.getZ() < -13) {
+                                        for (int i = 0; i < 2; i++) {
+                                            rewards[i] += processBlock(player, b.getType(), false)[i];
+                                        }
+                                        b.setType(Material.AIR);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (ItemManager.getCELevel(item, ItemManager.pickaxeEnchantments[1]) != 0) {
+                if (Math.random() < ((double) ItemManager.getCELevel(item, ItemManager.pickaxeEnchantments[1])) / 20) {
+                    for (int y = -3; y < 3; y++) {
+                        for (int x = -3; x < 3; x++) {
+                            for (int z = -3; z < 3; z++) {
+                                Block b = block.getRelative(x, y, z);
+                                if (Math.sqrt((x * x) + (y * y) + (z * z)) <= 3 && !b.getType().equals(Material.BEDROCK) && !b.getType().equals(Material.BEACON) && !b.getType().equals(Material.DIRT) && !b.getType().equals(Material.GRASS_BLOCK)) {
+                                    if (b.getX() > 13 | b.getZ() < -13) {
+                                        for (int i = 0; i < 2; i++) {
+                                            rewards[i] += processBlock(player, b.getType(), false)[i];
+                                        }
+                                        b.setType(Material.AIR);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (ItemManager.getCELevel(item, ItemManager.pickaxeEnchantments[2]) != 0) {
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, ItemManager.getCELevel(item, ItemManager.pickaxeEnchantments[2]) - 1));
+            }
+            if (ItemManager.getCELevel(item, ItemManager.pickaxeEnchantments[5]) != 0) {
+                if (Math.random() < ((double) ItemManager.getCELevel(item, ItemManager.pickaxeEnchantments[5])) / 200) {
+                    for (int x = -13; x < 13; x++) {
+                        for (int z = -13; z < 13; z++) {
+                            Block b = block.getRelative(x, 0, z);
+                            if (Math.sqrt((x * x) + 1 + (z * z)) <= 13 && !b.getType().equals(Material.BEDROCK) && !b.getType().equals(Material.BEACON) && !b.getType().equals(Material.DIRT) && !b.getType().equals(Material.GRASS_BLOCK)) {
                                 if (b.getX() > 13 | b.getZ() < -13) {
                                     for (int i = 0; i < 2; i++) {
                                         rewards[i] += processBlock(player, b.getType(), false)[i];
@@ -95,73 +137,35 @@ public class MineHandler {
                     }
                 }
             }
-        }
-        if (ItemManager.getCELevel(item, ItemManager.pickaxeEnchantments[1]) != 0) {
-            if (Math.random() < ((double) ItemManager.getCELevel(item, ItemManager.pickaxeEnchantments[1])) / 20) {
-                for (int y = -3; y < 3; y++) {
-                    for (int x = -3; x < 3; x++) {
-                        for (int z = -3; z < 3; z++) {
-                            Block b = block.getRelative(x, y, z);
-                            if (Math.sqrt((x * x) + (y * y) + (z * z)) <= 3 && !b.getType().equals(Material.BEDROCK) && !b.getType().equals(Material.BEACON) && !b.getType().equals(Material.DIRT) && !b.getType().equals(Material.GRASS_BLOCK)) {
-                                if (b.getX() > 13 | b.getZ() < -13) {
-                                    for (int i = 0; i < 2; i++) {
-                                        rewards[i] += processBlock(player, b.getType(), false)[i];
-                                    }
-                                    b.setType(Material.AIR);
-                                }
-                            }
+            if (ItemManager.getCELevel(item, ItemManager.pickaxeEnchantments[6]) != 0) {
+                if (Math.random() < ((double) ItemManager.getCELevel(item, ItemManager.pickaxeEnchantments[6])) / 20) {
+                    for (int i = block.getY(); i < -41; i++) {
+                        Block b = Objects.requireNonNull(Bukkit.getWorld("world")).getBlockAt(block.getX(), i, block.getZ());
+                        for (int integer = 0; integer < 2; integer++) {
+                            rewards[integer] += processBlock(player, b.getType(), false)[integer] * 2;
                         }
+                        b.setType(Material.AIR);
                     }
-                }
-            }
-        }
-        if (ItemManager.getCELevel(item, ItemManager.pickaxeEnchantments[2]) != 0) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, ItemManager.getCELevel(item, ItemManager.pickaxeEnchantments[2]) - 1));
-        }
-        if (ItemManager.getCELevel(item, ItemManager.pickaxeEnchantments[5]) != 0) {
-            if (Math.random() < ((double) ItemManager.getCELevel(item, ItemManager.pickaxeEnchantments[5])) / 200) {
-                for (int x = -13; x < 13; x++) {
-                    for (int z = -13; z < 13; z++) {
-                        Block b = block.getRelative(x, 0, z);
-                        if (Math.sqrt((x * x) + 1 + (z * z)) <= 13 && !b.getType().equals(Material.BEDROCK) && !b.getType().equals(Material.BEACON) && !b.getType().equals(Material.DIRT) && !b.getType().equals(Material.GRASS_BLOCK)) {
-                            if (b.getX() > 13 | b.getZ() < -13) {
-                                for (int i = 0; i < 2; i++) {
-                                    rewards[i] += processBlock(player, b.getType(), false)[i];
-                                }
-                                b.setType(Material.AIR);
-                            }
+                    for (int i = block.getY(); i > -64; i--) {
+                        Block b = Objects.requireNonNull(Bukkit.getWorld("world")).getBlockAt(block.getX(), i, block.getZ());
+                        for (int integer = 0; integer < 2; integer++) {
+                            rewards[integer] += processBlock(player, b.getType(), false)[integer] * 2;
                         }
+                        b.setType(Material.AIR);
                     }
+                    rewards[2]++;
+                    rewards[3]++;
                 }
             }
-        }
-        if (ItemManager.getCELevel(item, ItemManager.pickaxeEnchantments[6]) != 0) {
-            if (Math.random() < ((double) ItemManager.getCELevel(item, ItemManager.pickaxeEnchantments[6])) / 20) {
-                for (int i = block.getY(); i < -41; i++) {
-                    Block b = Objects.requireNonNull(Bukkit.getWorld("world")).getBlockAt(block.getX(), i, block.getZ());
-                    for (int integer = 0; integer < 2; integer++) {
-                        rewards[integer] += processBlock(player, b.getType(), false)[integer] * 2;
-                    }
-                    b.setType(Material.AIR);
-                }
-                for (int i = block.getY(); i > -64; i--) {
-                    Block b = Objects.requireNonNull(Bukkit.getWorld("world")).getBlockAt(block.getX(), i, block.getZ());
-                    for (int integer = 0; integer < 2; integer++) {
-                        rewards[integer] += processBlock(player, b.getType(), false)[integer] * 2;
-                    }
-                    b.setType(Material.AIR);
-                }
-                rewards[2]++;
-                rewards[3]++;
-            }
-        }
-        if (ItemManager.getCELevel(item, ItemManager.pickaxeEnchantments[7]) != 0) ItemManager.updateCounterAmount(item, true);
+            if (ItemManager.getCELevel(item, ItemManager.pickaxeEnchantments[7]) != 0)
+                ItemManager.updateCounterAmount(item, true);
 
-        player.sendActionBar(Methods.cStr("&f+$" + Methods.rStr(rewards[0]) + " &7(" + Methods.rStr(rewards[2]) + "x) &8| &f+" + Methods.rStr(rewards[1]) + "xp &7(" + Methods.rStr(rewards[3]) + "x) &8| &6Streak&7: &f" + Methods.rStr((double) lastBlockData.get(player).getValue2())));
-        EconomyManager.setBalance(player.getUniqueId(), EconomyManager.getBalance(player.getUniqueId()) + rewards[0]);
-        EconomyManager.setXp(player.getUniqueId(), EconomyManager.getXp(player.getUniqueId()) + rewards[1]);
-        LevelHandler.xp(player);
-        ScoreboardHandler.updateBoard(player);
+            player.sendActionBar(Methods.cStr("&f+$" + Methods.rStr(rewards[0]) + " &7(" + Methods.rStr(rewards[2]) + "x) &8| &f+" + Methods.rStr(rewards[1]) + "xp &7(" + Methods.rStr(rewards[3]) + "x) &8| &6Streak&7: &f" + Methods.rStr((double) lastBlockData.get(player).getValue2())));
+            EconomyManager.setBalance(player.getUniqueId(), EconomyManager.getBalance(player.getUniqueId()) + rewards[0]);
+            EconomyManager.setXp(player.getUniqueId(), EconomyManager.getXp(player.getUniqueId()) + rewards[1]);
+            LevelHandler.xp(player);
+            ScoreboardHandler.updateBoard(player);
+        }
     }
 
     private static double[] processBlock(Player player, Material block, boolean streak) {
