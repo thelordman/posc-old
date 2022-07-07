@@ -17,14 +17,16 @@ public class RankCommand implements CommandExecutor {
         if (args.length < 2 | args.length > 3) return false;
         OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
         if (args[1].equals("set")) {
-            String rank = Rank.valueOf(args[2].toUpperCase()).name.isEmpty() ? "Default" : Rank.valueOf(args[2].toUpperCase()).name;
-            PlayerDataManager.getPlayerData(target.getUniqueId()).setRank(Rank.valueOf(args[2].toUpperCase()));
-            sender.sendMessage(Methods.cStr("&f" + target.getName() + "'s &6rank was set to &f" + rank + "&6."));
-            if (target.isOnline()) {
-                Methods.updateDisplayName(target.getPlayer());
-                target.getPlayer().sendMessage(Methods.cStr("&f" + sender.getName() + " &6has set your rank to &f" + rank + "&6."));
+            if(Methods.doesRankExist(args[2].toUpperCase())) {
+                String rank = Rank.valueOf(args[2].toUpperCase()).name.isEmpty() ? "Default" : Rank.valueOf(args[2].toUpperCase()).name;
+                PlayerDataManager.getPlayerData(target.getUniqueId()).setRank(Rank.valueOf(args[2].toUpperCase()));
+                sender.sendMessage(Methods.cStr("&f" + target.getName() + "'s &6rank was set to &f" + rank + "&6."));
+                if (target.isOnline()) {
+                    Methods.updateDisplayName(target.getPlayer());
+                    target.getPlayer().sendMessage(Methods.cStr("&f" + sender.getName() + " &6has set your rank to &f" + rank + "&6."));
+                }
+                return true;
             }
-            return true;
         }
         return false;
     }

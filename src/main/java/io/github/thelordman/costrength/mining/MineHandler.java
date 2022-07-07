@@ -66,7 +66,7 @@ public class MineHandler {
         }
 
         for (Player p : Bukkit.getOnlinePlayers()) {
-            if (p.getLocation().getY() < -41 && !Methods.inSpawn(p)) {
+            if (p.getLocation().getY() < -41 && !Methods.inSpawn(p.getLocation())) {
                 p.teleportAsync(new Location(Bukkit.getWorld("world"), p.getLocation().getX(), p.getWorld().getHighestBlockYAt(p.getLocation()) + 1, p.getLocation().getZ()));
             }
         }

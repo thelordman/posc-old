@@ -112,12 +112,8 @@ public class Methods {
         return true;
     }
 
-    public static boolean inSpawn(Player player) {
-        return player.getLocation().getX() < 13 && player.getLocation().getZ() > -13;
-    }
-
-    public static boolean inSpawn(Block block) {
-        return block.getLocation().getX() < 13 && block.getLocation().getZ() > -13;
+    public static boolean inSpawn(Location location) {
+        return location.getX() < 13 && location.getZ() > -13;
     }
 
     public static boolean inCombat(Player player) {
@@ -184,5 +180,13 @@ public class Methods {
         }
         builder.deleteCharAt(builder.lastIndexOf(" "));
         return builder.toString();
+    }
+
+    public static boolean doesRankExist(String rank) {
+        for(Rank rnk : Rank.values()) {
+            if(rnk.name().equals(rank))
+                return true;
+        }
+        return false;
     }
 }

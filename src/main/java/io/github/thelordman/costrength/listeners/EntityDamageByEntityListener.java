@@ -23,7 +23,7 @@ public class EntityDamageByEntityListener implements Listener {
         ItemStack attackerItem = attacker.getInventory().getItemInMainHand();
         ItemStack victimItem = victim.getInventory().getItemInMainHand();
 
-        if (Methods.inSpawn(victim) | Methods.inSpawn(attacker)) {
+        if (Methods.inSpawn(victim.getLocation()) | Methods.inSpawn(attacker.getLocation())) {
             if (!Methods.inCombat(victim)) {
                 event.setCancelled(true);
                 return;
