@@ -1,7 +1,6 @@
 package io.github.thelordman.costrength.listeners;
 
 import io.github.thelordman.costrength.discord.Discord;
-import io.github.thelordman.costrength.ranks.RankManager;
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,7 +14,7 @@ public class PlayerChatListener implements Listener {
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
-        if (System.currentTimeMillis() - lastMessage.getOrDefault(event.getPlayer(), 0L) < 2000L && !RankManager.hasDonatorPermission(event.getPlayer(), (byte) 1)) {
+        if (System.currentTimeMillis() - lastMessage.getOrDefault(event.getPlayer(), 0L) < 2000L && !Methods.hasDonatorPermission(event.getPlayer().getUniqueId(), 1)) {
             event.getPlayer().sendMessage(Methods.cStr("&cYou must wait at least 2 seconds before chatting\n&cBypass with /buy"));
             event.setCancelled(true);
             return;

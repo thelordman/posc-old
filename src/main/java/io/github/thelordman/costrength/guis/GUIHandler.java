@@ -2,8 +2,8 @@ package io.github.thelordman.costrength.guis;
 
 import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.items.ItemManager;
-import io.github.thelordman.costrength.utilities.Data;
 import io.github.thelordman.costrength.utilities.Methods;
+import io.github.thelordman.costrength.utilities.data.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -70,8 +70,8 @@ public class GUIHandler {
 
         //Tool Menu
         Data.GUIs[4].setItem(13, quickItem(Material.ENCHANTED_BOOK, Methods.cStr("&eEnchantments"), 1, Methods.cStr("&6Enchantments are tiered, usually simple but effective upgrades."), Methods.cStr("&6They don't need much strategising and are straight forward.")));
-        Data.GUIs[4].setItem(14, quickItem(Material.FIREWORK_ROCKET, Methods.cStr("&eUpgrades"), 1, Methods.cStr("&6Upgrades are complex additions that can be turned off or on."), Methods.cStr("&6Experiment to find a combination of upgrades that best fit your play-style.")));
-        Data.GUIs[4].setItem(15, quickItem(Material.COMPARATOR, Methods.cStr("&eConfiguration"), 1, Methods.cStr("&6Here you can configure your tool and its upgrades."), Methods.cStr("&6This is useful for maximizing efficiency, profits and deadliness.")));
+        Data.GUIs[4].setItem(15, quickItem(Material.BARRIER, Methods.cStr("&cComing Soon"), 1, ""));
+        Data.GUIs[4].setItem(16, quickItem(Material.BARRIER, Methods.cStr("&cComing Soon"), 1, ""));
     }
 
     public static ItemStack quickItem(final Material material, final String name, final int amount, final String... lore) {
@@ -84,6 +84,7 @@ public class GUIHandler {
     }
 
     public static void openGUI(Inventory base, Player player) {
+        ItemStack item = player.getInventory().getItemInMainHand();
         if (base.equals(Data.GUIs[0])) {
             Inventory inventory = Bukkit.createInventory(player, base.getSize(), "Food Shop");
             inventory.setContents(base.getContents());
@@ -123,15 +124,40 @@ public class GUIHandler {
         if (base.equals(Data.GUIs[4])) {
             Inventory inventory = Bukkit.createInventory(player, base.getSize(), "Tool Menu");
             inventory.setContents(base.getContents());
-            Data.GUIs[2].setItem(13, quickItem(Material.ENCHANTED_BOOK, Methods.cStr("&eEnchantments"), 1, Methods.cStr("&6Enchantments are tiered, usually simple but effective upgrades."), Methods.cStr("&6They don't need much strategising and are straight forward.")));
-            Data.GUIs[2].setItem(14, quickItem(Material.FIREWORK_ROCKET, Methods.cStr("&eUpgrades"), 1, Methods.cStr("&6Upgrades are complex additions that can be turned off or on."), Methods.cStr("&6Experiment to find a combination of upgrades that best fit your play-style.")));
-            Data.GUIs[2].setItem(15, quickItem(Material.COMPARATOR, Methods.cStr("&eConfiguration"), 1, Methods.cStr("&6Here you can configure your tool and its upgrades."), Methods.cStr("&6This is useful for maximizing efficiency, profits and deadliness.")));
+            Material material = switch (item.getType()) {
+                case IRON_PICKAXE -> Material.DIAMOND_PICKAXE;
+                case DIAMOND_PICKAXE -> Material.NETHERITE_PICKAXE;
+                case NETHERITE_PICKAXE -> Material.GOLDEN_PICKAXE;
+
+                case IRON_SWORD -> Material.DIAMOND_SWORD;
+                case DIAMOND_SWORD -> Material.NETHERITE_SWORD;
+                case NETHERITE_SWORD -> Material.GOLDEN_SWORD;
+
+                case IRON_HELMET -> Material.DIAMOND_HELMET;
+                case DIAMOND_HELMET -> Material.NETHERITE_HELMET;
+                case NETHERITE_HELMET -> Material.GOLDEN_HELMET;
+
+                case IRON_CHESTPLATE -> Material.DIAMOND_CHESTPLATE;
+                case DIAMOND_CHESTPLATE -> Material.NETHERITE_CHESTPLATE;
+                case NETHERITE_CHESTPLATE -> Material.GOLDEN_CHESTPLATE;
+
+                case IRON_LEGGINGS -> Material.DIAMOND_LEGGINGS;
+                case DIAMOND_LEGGINGS -> Material.NETHERITE_LEGGINGS;
+                case NETHERITE_LEGGINGS -> Material.GOLDEN_LEGGINGS;
+
+                case IRON_BOOTS -> Material.DIAMOND_BOOTS;
+                case DIAMOND_BOOTS -> Material.NETHERITE_BOOTS;
+                case NETHERITE_BOOTS -> Material.GOLDEN_BOOTS;
+
+                default -> null;
+            };
+            assert material != null;
+            Data.GUIs[4].setItem(14, quickItem(material, Methods.cStr("&eUpgrade Material"), 1, Methods.cStr("&6Upgrade the material of your tool to increase its base stats."),
+                    Methods.cStr("&cNote&7: &fBuying this upgrade will reset all enchantments on this item."), "",
+                    material.name().split("_")[0].equals("GOLDEN") ? Methods.cStr("&6&lMAX LEVEL") : Methods.cStr("&eCost&8: &f$" + Methods.rStr(ItemManager.getMaterialPrice(material)))));
             inventory.setItem(10, player.getInventory().getItemInMainHand());
             if (EconomyManager.getLevel(player.getUniqueId()) < 15) {
                 inventory.setItem(14, quickItem(Material.BARRIER, Methods.cStr("&cLocked"), 1, Methods.cStr("&cUnlocks at &flevel 15&c.")));
-            }
-            if (EconomyManager.getLevel(player.getUniqueId()) < 75) {
-                inventory.setItem(15, quickItem(Material.BARRIER, Methods.cStr("&cLocked"), 1, Methods.cStr("&cUnlocks at &flevel 75&c.")));
             }
             player.openInventory(inventory);
             return;
@@ -140,7 +166,6 @@ public class GUIHandler {
             int level = EconomyManager.getLevel(player.getUniqueId());
             Inventory inventory = Bukkit.createInventory(player, base.getSize(), "Enchantment Menu");
             inventory.setContents(base.getContents());
-            ItemStack item = player.getInventory().getItemInMainHand();
             inventory.setItem(10, item);
             if (item.getType().toString().contains("PICKAXE")) {
                 ItemManager.setGUIEnchant(item, inventory, 3, Methods.cStr("&eEfficiency"), Enchantment.DIG_SPEED, (byte) 0, Methods.cStr("&6Increases mining speed."));

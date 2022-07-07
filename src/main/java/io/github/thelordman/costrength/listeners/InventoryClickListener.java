@@ -4,9 +4,9 @@ import io.github.thelordman.costrength.CoStrength;
 import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.items.ItemManager;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
-import io.github.thelordman.costrength.utilities.Data;
 import io.github.thelordman.costrength.guis.GUIHandler;
 import io.github.thelordman.costrength.utilities.Methods;
+import io.github.thelordman.costrength.utilities.data.Data;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
@@ -16,6 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 public class InventoryClickListener implements Listener {
@@ -26,6 +27,7 @@ public class InventoryClickListener implements Listener {
         event.setCancelled(true);
         Player player = (Player) event.getWhoClicked();
 
+        boolean materialUpgrade = false;
         double m = 0d;
         int i = event.getClick().isRightClick() ? 64 : 1;
         ItemStack item = null;
@@ -117,23 +119,29 @@ public class InventoryClickListener implements Listener {
         }
         else if (event.getView().getTitle().equals("Tool Menu")) {
             switch (event.getCurrentItem().getType()) {
-                case ENCHANTED_BOOK:
+                case ENCHANTED_BOOK -> {
                     GUIHandler.openGUI(Data.GUIs[5], player);
                     player.sendMessage(Methods.cStr("&6Entered enchantment menu."));
                     return;
-                case FIREWORK_ROCKET:
-                    GUIHandler.openGUI(Data.GUIs[0], player);
-                    player.sendMessage(Methods.cStr("&6Entered upgrade menu."));
+                }
+                case BARRIER -> {
+                    player.sendMessage(Methods.cStr("&cThis menu is coming soon."));
                     return;
-                case COMPARATOR:
-                    GUIHandler.openGUI(Data.GUIs[0], player);
-                    player.sendMessage(Methods.cStr("&6Entered configuration menu."));
-                    return;
-                case BARRIER:
-                    player.sendMessage(Methods.cStr("&cYour level isn't high enough."));
-                    return;
-                default:
-                    return;
+                }
+                default -> {
+                    if (event.getCurrentItem().getType().equals(Material.AIR) | event.getCurrentItem().getType().equals(Material.WHITE_STAINED_GLASS_PANE))
+                        return;
+                    m = ItemManager.getMaterialPrice(event.getCurrentItem().getType());
+
+                    final ItemStack item1 = new ItemStack(event.getCurrentItem().getType());
+                    ItemMeta meta = item1.getItemMeta();
+                    meta.setUnbreakable(true);
+                    item1.setItemMeta(meta);
+                    item = item1;
+
+                    message = Methods.cStr("&6Successfully upgraded material of tool.");
+                    materialUpgrade = true;
+                }
             }
         }
         else if (event.getView().getTitle().equals("Enchantment Menu")) {
@@ -201,13 +209,19 @@ public class InventoryClickListener implements Listener {
             Methods.errorMessage("insufficientFunds", player);
             return;
         }
+
         if (enchant != null) ItemManager.setEnchant(itemInHand, enchant, (byte) (itemInHand.getEnchantmentLevel(enchant) + 1));
         if (CE != -1) ItemManager.setCELevel(itemInHand, itemInHand.getType().toString().contains("PICKAXE") ? ItemManager.pickaxeEnchantments[CE] : ItemManager.swordEnchantments[CE], (byte) (ItemManager.getCELevel(itemInHand, itemInHand.getType().toString().contains("PICKAXE") ? ItemManager.pickaxeEnchantments[CE] : ItemManager.swordEnchantments[CE]) + 1));
         player.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1f, 1f);
         EconomyManager.setBalance(player.getUniqueId(), EconomyManager.getBalance(player.getUniqueId()) - m);
-        if (item != null) player.getInventory().addItem(item);
-        player.sendMessage(message);
+        if (item != null && !materialUpgrade) player.getInventory().addItem(item);
+        if (message != null) player.sendMessage(message);
+
         if (event.getView().getTitle().equals("Enchantment Menu")) GUIHandler.openGUI(Data.GUIs[5], player);
+        if (materialUpgrade) {
+            event.getWhoClicked().getInventory().setItem(event.getWhoClicked().getInventory().getHeldItemSlot(), item);
+        }
+
         ScoreboardHandler.updateBoard(player);
     }
 }

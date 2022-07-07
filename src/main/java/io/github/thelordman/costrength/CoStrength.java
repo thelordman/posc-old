@@ -1,20 +1,27 @@
 package io.github.thelordman.costrength;
 
 import io.github.thelordman.costrength.discord.Discord;
-import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.guis.GUIHandler;
 import io.github.thelordman.costrength.mining.MineHandler;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
 import io.github.thelordman.costrength.utilities.*;
+import io.github.thelordman.costrength.utilities.data.Data;
+import io.github.thelordman.costrength.utilities.data.PlayerDataManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 public final class CoStrength extends JavaPlugin {
 
@@ -43,19 +50,8 @@ public final class CoStrength extends JavaPlugin {
         registerListeners();
         new CommandHandler(this);
 
-        if (!Bukkit.getOnlinePlayers().isEmpty()) {
-            for (Player online : Bukkit.getOnlinePlayers()) {
-                EconomyManager.setBalance(online.getUniqueId(), (double) online.getStatistic(Statistic.USE_ITEM, Material.GOLD_NUGGET));
-                EconomyManager.setBounty(online.getUniqueId(), (double) online.getStatistic(Statistic.USE_ITEM, Material.SPYGLASS));
-                EconomyManager.setXp(online.getUniqueId(), (double) online.getStatistic(Statistic.USE_ITEM, Material.EXPERIENCE_BOTTLE));
-                EconomyManager.setLevel(online.getUniqueId(), online.getStatistic(Statistic.USE_ITEM, Material.FIREWORK_ROCKET));
-                EconomyManager.setKillstreak(online.getUniqueId(), online.getStatistic(Statistic.USE_ITEM, Material.WOODEN_SWORD));
-
-                ScoreboardHandler.updateBoard(online);
-                Data.scoreboard.get(online.getUniqueId()).updateTitle(Methods.cStr("&6&lCoStrength &7(" + Bukkit.getOnlinePlayers().size() + "&7/" + Bukkit.getMaxPlayers() + "&7)"));
-            }
-            getLogger().info("Data loaded");
-        }
+        PlayerDataManager.loadAllPlayerData();
+        getLogger().info("Data loaded");
 
         MineHandler.registerRandomPattern();
     }
@@ -64,15 +60,7 @@ public final class CoStrength extends JavaPlugin {
     public void onDisable() {
         getLogger().info("Executing onDisable method");
 
-        if (!Bukkit.getOnlinePlayers().isEmpty()) {
-            for (Player online : Bukkit.getOnlinePlayers()) {
-                online.setStatistic(Statistic.USE_ITEM, Material.GOLD_NUGGET, EconomyManager.getBalance(online.getUniqueId()).intValue());
-                online.setStatistic(Statistic.USE_ITEM, Material.SPYGLASS, EconomyManager.getBounty(online.getUniqueId()).intValue());
-                online.setStatistic(Statistic.USE_ITEM, Material.EXPERIENCE_BOTTLE, EconomyManager.getXp(online.getUniqueId()).intValue());
-                online.setStatistic(Statistic.USE_ITEM, Material.FIREWORK_ROCKET, EconomyManager.getLevel(online.getUniqueId()));
-                online.setStatistic(Statistic.USE_ITEM, Material.WOODEN_SWORD, EconomyManager.getKillstreak(online.getUniqueId()));
-            }
-        }
+        PlayerDataManager.saveAllPlayerData();
         getLogger().info("Data saved");
 
         Discord.shutdownJDA();

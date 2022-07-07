@@ -2,6 +2,7 @@ package io.github.thelordman.costrength.utilities;
 
 import io.github.thelordman.costrength.CoStrength;
 import io.github.thelordman.costrength.guis.GUIHandler;
+import io.github.thelordman.costrength.utilities.data.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

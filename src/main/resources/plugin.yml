@@ -2,10 +2,10 @@ name: CoStrength
 version: 1.0
 main: io.github.thelordman.costrength.CoStrength
 api-version: 1.18
-authors: [The Lord#8349, Harfang#4149]
+authors: [thelordman, CatalysmRL, TotallyAl, hotpocket184]
 description: The main plugin used by CoStrength. costrength.minehut.gg | https://discord.gg/EDvrURNDa4
 website: thelordman.github.io
-load: STARTUP
+load: POSTWORLD
 default-permission: op
 commands:
   gmc:
@@ -105,9 +105,15 @@ commands:
   pay:
     description: Send someone a set amount of money from your balance.
     usage: /pay <player> <amount>
-  sc:
-    aliases: staffchat
-    description: Sends a message to anyone who is staff on the server.
+  vanish:
+    description: Go invisible to all players with a lower rank than you.
+    aliases: v
+    usage: /vanish [player]
   clearchat:
+    description: Clear the chat.
     aliases: cc
-    description: Clears the chat.
+    usage: /clearchat
+  staffchat:
+    description: Send a message that only staff can see. (Also sends a message in Discord staff-chat channel)
+    aliases: sc
+    usage: /sc <message>

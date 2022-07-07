@@ -1,7 +1,8 @@
 package io.github.thelordman.costrength.commands;
 
-import io.github.thelordman.costrength.ranks.RankManager;
 import io.github.thelordman.costrength.utilities.Methods;
+import io.github.thelordman.costrength.utilities.data.PlayerDataManager;
+import io.github.thelordman.costrength.utilities.data.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -16,11 +17,13 @@ public class RankCommand implements CommandExecutor {
         if (args.length < 2 | args.length > 3) return false;
         OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
         if (args[1].equals("set")) {
-            String rank = args[2];
-            if (rank.equals("default")) Bukkit.getScoreboardManager().getMainScoreboard().getPlayerTeam(target).removePlayer(target);
-            else RankManager.setRank(target, Methods.getTeamFromString(rank));
+            String rank = Rank.valueOf(args[2].toUpperCase()).name.isEmpty() ? "Default" : Rank.valueOf(args[2].toUpperCase()).name;
+            PlayerDataManager.getPlayerData(target.getUniqueId()).setRank(Rank.valueOf(args[2].toUpperCase()));
             sender.sendMessage(Methods.cStr("&f" + target.getName() + "'s &6rank was set to &f" + rank + "&6."));
-            if (target.getPlayer() != null) Methods.updateDisplayName(target.getPlayer());
+            if (target.isOnline()) {
+                Methods.updateDisplayName(target.getPlayer());
+                target.getPlayer().sendMessage(Methods.cStr("&f" + sender.getName() + " &6has set your rank to &f" + rank + "&6."));
+            }
             return true;
         }
         return false;
