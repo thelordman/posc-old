@@ -117,3 +117,6 @@ commands:
     description: Send a message that only staff can see. (Also sends a message in Discord staff-chat channel)
     aliases: sc
     usage: /sc <message>
+  top:
+    description: Teleports you to the highest non passable block at your location
+    usage: /top [player]
