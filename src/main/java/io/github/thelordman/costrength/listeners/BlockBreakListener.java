@@ -14,7 +14,7 @@ import java.util.List;
 public class BlockBreakListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-        if (Methods.inSpawn(event.getPlayer().getLocation()) && !event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
+        if (Methods.inSpawn(event.getBlock().getLocation()) && !event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
             event.setCancelled(true);
             return;
         }
