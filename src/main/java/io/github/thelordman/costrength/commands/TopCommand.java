@@ -2,8 +2,6 @@ package io.github.thelordman.costrength.commands;
 
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;

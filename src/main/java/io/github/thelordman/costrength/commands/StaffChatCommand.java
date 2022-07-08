@@ -4,12 +4,16 @@ import io.github.thelordman.costrength.discord.Discord;
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class StaffChatCommand implements CommandExecutor {
+import java.util.Collections;
+import java.util.List;
+
+public class StaffChatCommand implements TabExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -19,8 +23,13 @@ public class StaffChatCommand implements CommandExecutor {
                 player.sendMessage(Methods.cStr("&6[Staff Chat] &e" + sender.getName() + "&7: &f" + String.join(" ", args)));
             }
         }
-        Discord.staffChatChannel.sendMessage(String.join(" ", args)).queue();
+        Discord.staffChatChannel.sendMessage("**" + sender.getName() + ":** " + String.join(" ", args)).queue();
 
         return true;
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        return Collections.emptyList();
     }
 }

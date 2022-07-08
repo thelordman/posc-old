@@ -43,6 +43,7 @@ public record CommandHandler(CoStrength plugin) {
         registerCommand("vanish", new VanishCommand());
         registerCommand("clearchat", new ClearChatCommand());
         registerCommand("leaderboard", new LeaderboardCommand());
+        registerCommand("top", new TopCommand());
     }
 
     private void registerCommand(String command, CommandExecutor executor) {
