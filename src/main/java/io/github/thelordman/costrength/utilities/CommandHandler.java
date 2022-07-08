@@ -39,6 +39,7 @@ public record CommandHandler(CoStrength plugin) {
         registerCommand("glow", new GlowCommand());
         registerCommand("pay", new PayCommand());
         registerCommand("staffchat", new StaffChatCommand());
+        registerCommand("staffmode", new StaffModeCommand());
         registerCommand("vanish", new VanishCommand());
         registerCommand("clearchat", new ClearChatCommand());
         registerCommand("leaderboard", new LeaderboardCommand());

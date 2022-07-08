@@ -117,6 +117,9 @@ commands:
     description: Send a message that only staff can see. (Also sends a message in Discord staff-chat channel)
     aliases: sc
     usage: /sc <message>
+  staffmode:
+    description: Become one with the staff...
+    aliases: sm
   leaderboard:
     description: Send a message that only staff can see. (Also sends a message in Discord staff-chat channel)
     aliases: [lb, top]

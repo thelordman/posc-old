@@ -16,6 +16,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.awt.*;
 
@@ -23,8 +25,11 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         PlayerDataManager.loadPlayerData(event.getPlayer().getUniqueId());
+        if(!event.getPlayer().hasPlayedBefore()) {
+            event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1200 * 2, 255, true));
+        }
 
-        for (Player vanishedPlayer : VanishCommand.vanishedPlayers) {
+        for (Player vanishedPlayer : VanishCommand.getVanishedPlayers()) {
             int permissionLevel = Rank.getRank(vanishedPlayer.getUniqueId()).permissionLevel;
             if (event.getPlayer().equals(vanishedPlayer)) {
                 for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {

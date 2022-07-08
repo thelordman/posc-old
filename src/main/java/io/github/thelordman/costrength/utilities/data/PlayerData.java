@@ -16,6 +16,7 @@ public class PlayerData implements Serializable {
     private double xp = 0d;
     private int level = 1;
     private int killStreak = 0;
+    private boolean staffMode = false;
 
     private Rank rank = Rank.DEFAULT;
 
@@ -74,4 +75,8 @@ public class PlayerData implements Serializable {
     public void setRank(Rank rank) {
         this.rank = rank;
     }
+
+    public boolean inStaffMode() { return staffMode; }
+
+    public void setStaffMode(boolean staffMode) { this.staffMode = staffMode; }
 }

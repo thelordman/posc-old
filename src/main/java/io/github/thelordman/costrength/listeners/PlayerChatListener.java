@@ -21,8 +21,8 @@ public class PlayerChatListener implements Listener {
         }
         lastMessage.put(event.getPlayer(), System.currentTimeMillis());
 
-        String message = event.getMessage().contains("@") | event.getMessage().contains(";-;") | event.getMessage().startsWith("soo") ? "I'm a fat bitch" : event.getMessage();
-        message = message.replace("%", "%%");
+        String message = event.getMessage().contains("@") | event.getMessage().contains(";-;") | event.getMessage().contains("muh") ? "I'm a fat bitch" : event.getMessage();
+        message.replaceAll("%", "%%");
         event.setFormat(Methods.cStr(event.getPlayer().getDisplayName() + Methods.playerChatColor(event.getPlayer(), (byte) 1) + ": " + Methods.playerChatColor(event.getPlayer(), (byte) 0) + message));
 
         Discord.minecraftChatChannel.sendMessage(Methods.replaceColorCodes("**" + event.getPlayer().getDisplayName() + ":** " + message, '§')).queue();
