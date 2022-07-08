@@ -6,14 +6,18 @@ import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.util.Collections;
+import java.util.List;
 
-public class LevelCommand implements CommandExecutor {
+public class LevelCommand implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!Methods.checkCommandPermission(sender, (byte) 7)) return true;
@@ -24,7 +28,7 @@ public class LevelCommand implements CommandExecutor {
         if (args.length < 3) {
             if (args[1].equals("reset")) {
                 EconomyManager.setLevel(target.getUniqueId(), 0);
-                EconomyManager.setXp(target.getUniqueId(), (double) 0);
+                EconomyManager.setXp(target.getUniqueId(), 0d);
                 if (target.isOnline()) {
                     target.getPlayer().sendMessage(Methods.cStr("&6Your level was reset by " + executor + "&6."));
                     ScoreboardHandler.updateBoard(target.getPlayer());
@@ -54,18 +58,18 @@ public class LevelCommand implements CommandExecutor {
         switch (args[1]) {
             case "set":
                 math = amount;
-                targetMsg = "&6Your level was set to &f$" + df.format(amount) + " &6by " + executor + "&6.";
-                senderMsg = "&6You set &f" + target.getName() + "&6's level to &f$" + df.format(amount) + "&6.";
+                targetMsg = "&6Your level was set to &f" + df.format(amount) + " &6by " + executor + "&6.";
+                senderMsg = "&6You set &f" + target.getName() + "&6's level to &f" + df.format(amount) + "&6.";
                 break;
             case "add", "put":
                 math = level + amount;
-                targetMsg = "&6" + executor + " &6has added &f$" + df.format(amount) + " &6to your level.";
-                senderMsg = "&6You added &f$" + df.format(amount) + " &6to " + target.getName() + "&6's level.";
+                targetMsg = "&6" + executor + " &6has added &f" + df.format(amount) + " &6to your level.";
+                senderMsg = "&6You added &f" + df.format(amount) + " &6to " + target.getName() + "&6's level.";
                 break;
             case "subtract", "remove":
                 math = level - amount;
-                targetMsg = "&6" + executor + " &6has removed &f$" + df.format(amount) + " &6from your level.";
-                senderMsg = "&6You removed &f$" + df.format(amount) + " &6from " + target.getName() + "&6's level.";
+                targetMsg = "&6" + executor + " &6has removed &f" + df.format(amount) + " &6from your level.";
+                senderMsg = "&6You removed &f" + df.format(amount) + " &6from " + target.getName() + "&6's level.";
                 break;
             case "multiply", "times":
                 math = level * amount;
@@ -90,7 +94,7 @@ public class LevelCommand implements CommandExecutor {
             default: return false;
         }
         EconomyManager.setLevel(target.getUniqueId(), (int) math);
-        EconomyManager.setXp(target.getUniqueId(), (double) 0);
+        EconomyManager.setXp(target.getUniqueId(), 0d);
         if (target.isOnline()) {
             target.getPlayer().sendMessage(Methods.cStr(targetMsg));
             ScoreboardHandler.updateBoard(target.getPlayer());
@@ -98,5 +102,14 @@ public class LevelCommand implements CommandExecutor {
         }
         if (!(target == sender)) sender.sendMessage(Methods.cStr(senderMsg));
         return true;
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        return switch (args.length) {
+            case 1 -> null;
+            case 2 -> List.of("get", "reset", "set", "add", "take", "multiply", "divide", "power", "squareroot");
+            default -> Collections.emptyList();
+        };
     }
 }

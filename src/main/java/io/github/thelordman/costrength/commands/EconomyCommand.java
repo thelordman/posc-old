@@ -8,12 +8,17 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.util.Collections;
+import java.util.List;
 
-public class EconomyCommand implements CommandExecutor {
+public class EconomyCommand implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!Methods.checkCommandPermission(sender, (byte) 7)) return true;
@@ -23,7 +28,7 @@ public class EconomyCommand implements CommandExecutor {
 
         if (args.length < 3) {
             if (args[1].equals("reset")) {
-                EconomyManager.setBalance(target.getUniqueId(), (double) 0);
+                EconomyManager.setBalance(target.getUniqueId(), 0d);
                 if (target.isOnline()) {
                     target.getPlayer().sendMessage(Methods.cStr("&6Your balance was reset by " + executor + "&6."));
                     ScoreboardHandler.updateBoard(target.getPlayer());
@@ -61,7 +66,7 @@ public class EconomyCommand implements CommandExecutor {
                 targetMsg = "&6" + executor + " &6has added &f$" + df.format(amount) + " &6to your balance.";
                 senderMsg = "&6You added &f$" + df.format(amount) + " &6to " + target.getName() + "&6's balance.";
                 break;
-            case "subtract", "remove":
+            case "take", "remove":
                 math = bal - amount;
                 targetMsg = "&6" + executor + " &6has removed &f$" + df.format(amount) + " &6from your balance.";
                 senderMsg = "&6You removed &f$" + df.format(amount) + " &6from " + target.getName() + "&6's balance.";
@@ -94,6 +99,16 @@ public class EconomyCommand implements CommandExecutor {
             ScoreboardHandler.updateBoard(target.getPlayer());
         }
         if (!(target == sender)) sender.sendMessage(Methods.cStr(senderMsg));
+
         return true;
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        return switch (args.length) {
+            case 1 -> null;
+            case 2 -> List.of("get", "reset", "set", "add", "take", "multiply", "divide", "power", "squareroot");
+            default -> Collections.emptyList();
+        };
     }
 }
