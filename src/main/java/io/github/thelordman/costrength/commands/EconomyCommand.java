@@ -32,7 +32,7 @@ public class EconomyCommand implements CommandExecutor {
                 return true;
             }
             if (args[1].equals("get")) {
-                sender.sendMessage(EconomyManager.getBalance(target.getUniqueId()).toString());
+                sender.sendMessage(Double.toString(EconomyManager.getBalance(target.getUniqueId())));
                 if (target.isOnline()) ScoreboardHandler.updateBoard(target.getPlayer());
                 return true;
             }

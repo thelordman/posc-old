@@ -33,7 +33,7 @@ public class LevelCommand implements CommandExecutor {
                 return true;
             }
             if (args[1].equals("get")) {
-                sender.sendMessage(EconomyManager.getLevel(target.getUniqueId()).toString());
+                sender.sendMessage(Integer.toString(EconomyManager.getLevel(target.getUniqueId())));
                 if (target.isOnline()) ScoreboardHandler.updateBoard(target.getPlayer());
                 return true;
             }

@@ -3,10 +3,10 @@ package io.github.thelordman.costrength.utilities;
 import io.github.thelordman.costrength.CoStrength;
 import io.github.thelordman.costrength.commands.*;
 import org.bukkit.command.CommandExecutor;
-
-import java.util.Objects;
+import org.bukkit.command.TabCompleter;
 
 public record CommandHandler(CoStrength plugin) {
+
     public CommandHandler(CoStrength plugin) {
         this.plugin = plugin;
 
@@ -41,10 +41,11 @@ public record CommandHandler(CoStrength plugin) {
         registerCommand("staffchat", new StaffChatCommand());
         registerCommand("vanish", new VanishCommand());
         registerCommand("clearchat", new ClearChatCommand());
-        registerCommand("top", new TopCommand());
+        registerCommand("leaderboard", new LeaderboardCommand());
     }
 
     private void registerCommand(String command, CommandExecutor executor) {
-        Objects.requireNonNull(plugin.getCommand(command)).setExecutor(executor);
+        plugin.getCommand(command).setExecutor(executor);
+        plugin.getCommand(command).setTabCompleter(new TabComplete());
     }
 }

@@ -15,7 +15,7 @@ public class ScoreboardHandler {
         scoreboard.updateLines(
                 "",
                 Methods.cStr("&6Balance&7: &f$" + Methods.rStr(EconomyManager.getBalance(player.getUniqueId()))),
-                Methods.cStr("&6Blocks&7: &f" + Methods.rStr(Methods.getBlocks(player))),
+                Methods.cStr("&6Blocks&7: &f" + Methods.rStr(EconomyManager.getBlocks(player))),
                 Methods.cStr("&6Level&7: &f" + Methods.rStr((double) EconomyManager.getLevel(player.getUniqueId()))),
                 Methods.cStr("&6Bounty&7: &f$" + Methods.rStr(EconomyManager.getBounty(player.getUniqueId()))),
                 "",

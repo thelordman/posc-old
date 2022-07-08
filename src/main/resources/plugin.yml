@@ -30,7 +30,7 @@ commands:
   economy:
     description: Change or get various values about the target's economy.
     aliases: [eco, econ]
-    usage: /eco <offline-player> <set, add, remove, reset, multiply, divide, get, pow> [<amount>]
+    usage: /eco <offline-player> <set|add|remove|reset|multiply|divide|get|pow> [<amount>]
   stats:
     description: Check the stats of an offline or online player.
     aliases: st
@@ -98,7 +98,7 @@ commands:
     usage: /joinkit [player]
   level:
     description: Change or get various values about the target's level.
-    usage: /level <offline-player> <set, add, remove, reset, multiply, divide, get, pow> [<amount>]
+    usage: /level <offline-player> <set|add|remove|reset|multiply|divide|get|pow> [<amount>]
   glow:
     description: Add or remove glowing to yourself.
     usage: /glow
@@ -117,6 +117,10 @@ commands:
     description: Send a message that only staff can see. (Also sends a message in Discord staff-chat channel)
     aliases: sc
     usage: /sc <message>
+  leaderboard:
+    description: Send a message that only staff can see. (Also sends a message in Discord staff-chat channel)
+    aliases: [lb, top]
+    usage: /lb <bal|level|block|kill|death|kdr|bounty|playtime|killstreak>
   top:
     description: Teleports you to the highest non passable block at your location
     usage: /top [player]

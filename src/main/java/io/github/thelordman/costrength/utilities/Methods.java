@@ -43,10 +43,6 @@ public class Methods {
                 : (double) player.getStatistic(Statistic.PLAYER_KILLS);
     }
 
-    public static Double getBlocks(OfflinePlayer player) {
-        return (double) player.getStatistic(Statistic.USE_ITEM, Material.IRON_PICKAXE) + player.getStatistic(Statistic.USE_ITEM, Material.DIAMOND_PICKAXE) + player.getStatistic(Statistic.USE_ITEM, Material.NETHERITE_PICKAXE) + player.getStatistic(Statistic.USE_ITEM, Material.GOLDEN_PICKAXE);
-    }
-
     public static String cStr(String message) {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
@@ -72,11 +68,6 @@ public class Methods {
 
         return hours + " hours";
     }
-
-    public static Team getTeamFromString(String teamString) {
-        return Bukkit.getScoreboardManager().getMainScoreboard().getTeam(teamString);
-    }
-
     public static String replaceColorCodes(String string, char type) {
         return string.replace(type + "4", "").replace(type + "c", "").replace(type + "6", "").replace(type + "e", "").replace(type + "2", "").replace(type + "a", "").replace(type + "b", "").replace(type + "3", "").replace(type + "1", "").replace(type + "9", "").replace(type + "d", "").replace(type + "5", "").replace(type + "f", "").replace(type + "7", "").replace(type + "8", "").replace(type + "0", "")
                 .replace(type + "k", "").replace(type + "l", "").replace(type + "m", "").replace(type + "n", "").replace(type + "o", "").replace(type + "r", "");
@@ -132,8 +123,8 @@ public class Methods {
         return true;
     }
 
-    public static String levelPrefix(OfflinePlayer player) {
-        int i = EconomyManager.getLevel(player.getUniqueId());
+    public static String levelPrefix(UUID uuid) {
+        int i = EconomyManager.getLevel(uuid);
         String s = "&8[&7" + i + "&8]";
         if (i >= 1) s = "&8[&7" + i + "&8]";
         if (i >= 10) s = "&7[&f" + i + "&7]";
@@ -148,7 +139,7 @@ public class Methods {
     public static void updateDisplayName(Player player) {
         Rank rank = Rank.getRank(player.getUniqueId());
         String mid = rank == Rank.DEFAULT ? "" : " &8| ";
-        player.setDisplayName(Methods.cStr(levelPrefix(player) + " " + rank.name + mid
+        player.setDisplayName(Methods.cStr(levelPrefix(player.getUniqueId()) + " " + rank.name + mid
                 + rank.color + player.getName() + "&r"));
         player.setDisplayName(player.getDisplayName().replace("fastskating", "fatskating"));
         if (EconomyManager.getBounty(player.getUniqueId()) != 0) player.setPlayerListName(player.getDisplayName() + cStr(" &6[&f$" + rStr(EconomyManager.getBounty(player.getUniqueId())) + "&6]"));

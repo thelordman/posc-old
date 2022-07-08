@@ -18,7 +18,7 @@ public class StatsCommand implements CommandExecutor {
         if (args.length == 0) {
             sender.sendMessage(Methods.cStr("\n&r    &6&lYour Statistics\n&r\n" +
                     " &6Balance&7: &f$" + Methods.rStr(EconomyManager.getBalance(player.getUniqueId())) + "\n" +
-                    " &6Blocks&7: &f" + Methods.rStr(Methods.getBlocks(player)) + "\n" +
+                    " &6Blocks&7: &f" + Methods.rStr(EconomyManager.getBlocks(player)) + "\n" +
                     " &6Level&7: &f" + Methods.rStr((double) EconomyManager.getLevel(player.getUniqueId())) + "\n" +
                     " &6XP&7: &f" + Methods.rStr(EconomyManager.getXp(player.getUniqueId())) + "&7/&f" + Methods.rStr(LevelHandler.xpRequirement(player.getUniqueId())) + "\n" +
                     " &6Bounty&7: &f$" + Methods.rStr(EconomyManager.getBounty(player.getUniqueId())) + "\n" +
@@ -32,7 +32,7 @@ public class StatsCommand implements CommandExecutor {
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
             sender.sendMessage(Methods.cStr("\n&r    &6&l" + target.getName() + "&6&l's Statistics\n&r\n" +
                     " &6Balance&7: &f$" + Methods.rStr(EconomyManager.getBalance(target.getUniqueId())) + "\n" +
-                    " &6Blocks&7: &f" + Methods.rStr(Methods.getBlocks(target)) + "\n" +
+                    " &6Blocks&7: &f" + Methods.rStr(EconomyManager.getBlocks(target)) + "\n" +
                     " &6Level&7: &f" + Methods.rStr((double) EconomyManager.getLevel(target.getUniqueId())) + "\n" +
                     " &6XP&7: &f" + Methods.rStr(EconomyManager.getXp(target.getUniqueId())) + "&7/&f" + Methods.rStr(LevelHandler.xpRequirement(target.getUniqueId())) + "\n" +
                     " &6Bounty&7: &f$" + Methods.rStr(EconomyManager.getBounty(player.getUniqueId())) + "\n" +
