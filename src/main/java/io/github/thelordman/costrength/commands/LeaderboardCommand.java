@@ -9,13 +9,15 @@ import org.bukkit.Statistic;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.javatuples.Pair;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class LeaderboardCommand implements CommandExecutor {
+public class LeaderboardCommand implements TabExecutor {
     public static List<String> completions = List.of("bal", "level", "block", "kill", "death", "kdr", "playtime", "bounty", "killstreak");
 
     @Override
@@ -68,5 +70,12 @@ public class LeaderboardCommand implements CommandExecutor {
         sender.sendMessage(Methods.cStr(builder.toString()));
 
         return true;
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if (args.length == 1) return LeaderboardCommand.completions;
+
+        return Collections.emptyList();
     }
 }

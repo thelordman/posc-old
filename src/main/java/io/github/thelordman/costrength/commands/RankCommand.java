@@ -8,9 +8,14 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class RankCommand implements CommandExecutor {
+import java.util.Collections;
+import java.util.List;
+
+public class RankCommand implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!Methods.checkCommandPermission(sender, (byte) 7)) return true;
@@ -29,5 +34,16 @@ public class RankCommand implements CommandExecutor {
             }
         }
         return false;
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        return switch (args.length) {
+            case 1 -> null;
+            case 2 -> List.of("set");
+            case 3 -> List.of("default", "vip", "mvp", "elite", "legend", "trial_developer", "jrmod", "builder",
+                    "mod", "srmod", "developer", "head_builder", "admin", "head_developer", "owner");
+            default -> Collections.emptyList();
+        };
     }
 }

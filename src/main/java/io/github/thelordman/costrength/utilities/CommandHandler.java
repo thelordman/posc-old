@@ -47,6 +47,5 @@ public record CommandHandler(CoStrength plugin) {
 
     private void registerCommand(String command, CommandExecutor executor) {
         plugin.getCommand(command).setExecutor(executor);
-        plugin.getCommand(command).setTabCompleter(new TabComplete());
     }
 }
