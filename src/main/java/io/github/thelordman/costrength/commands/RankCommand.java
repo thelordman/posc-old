@@ -9,9 +9,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -41,8 +43,8 @@ public class RankCommand implements TabExecutor {
         return switch (args.length) {
             case 1 -> null;
             case 2 -> List.of("set");
-            case 3 -> List.of("default", "vip", "mvp", "elite", "legend", "trial_developer", "jrmod", "builder",
-                    "mod", "srmod", "developer", "head_builder", "admin", "head_developer", "owner");
+            case 3 -> StringUtil.copyPartialMatches(args[2], List.of("default", "vip", "mvp", "elite", "legend", "trial_developer", "jrmod", "builder",
+                    "mod", "srmod", "developer", "head_builder", "admin", "head_developer", "owner"), new ArrayList<>());
             default -> Collections.emptyList();
         };
     }

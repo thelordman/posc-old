@@ -10,11 +10,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -107,7 +109,7 @@ public class EconomyCommand implements TabExecutor {
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         return switch (args.length) {
             case 1 -> null;
-            case 2 -> List.of("get", "reset", "set", "add", "take", "multiply", "divide", "power", "squareroot");
+            case 2 -> StringUtil.copyPartialMatches(args[1], List.of("get", "reset", "set", "add", "take", "multiply", "divide", "power", "squareroot"), new ArrayList<>());
             default -> Collections.emptyList();
         };
     }
