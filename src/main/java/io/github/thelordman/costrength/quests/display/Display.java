@@ -149,9 +149,9 @@ public class Display {
      *
      * @param background Background of this advancement
      */
-    public void setBackground(@NotNull Material background) {
+    public void setBackground(@NotNull BackgroundType background) {
         Preconditions.checkNotNull(background);
-        this.background = NamespacedKey.minecraft("textures/block/" + background.translationKey() + ".png");
+        this.background = background.getTexture();
     }
 
     /**
