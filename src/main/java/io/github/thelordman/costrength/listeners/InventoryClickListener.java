@@ -10,14 +10,20 @@ import io.github.thelordman.costrength.utilities.data.Data;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+
+import java.util.UUID;
 
 public class InventoryClickListener implements Listener {
     @EventHandler
@@ -26,8 +32,8 @@ public class InventoryClickListener implements Listener {
         if (event.getCurrentItem() == null) return;
         event.setCancelled(true);
         Player player = (Player) event.getWhoClicked();
+        ItemStack itemInHand = event.getWhoClicked().getInventory().getItemInMainHand();
 
-        boolean materialUpgrade = false;
         double m = 0d;
         int i = event.getClick().isRightClick() ? 64 : 1;
         ItemStack item = null;
@@ -131,16 +137,60 @@ public class InventoryClickListener implements Listener {
                 default -> {
                     if (event.getCurrentItem().getType().equals(Material.AIR) | event.getCurrentItem().getType().equals(Material.WHITE_STAINED_GLASS_PANE))
                         return;
+                    if (event.getCurrentItem().getLore().contains(Methods.cStr("&6&lMAX LEVEL"))) {
+                        player.sendMessage(Methods.cStr("&cThat enchantment is maxed."));
+                        return;
+                    }
                     m = ItemManager.getMaterialPrice(event.getCurrentItem().getType());
+                    if (EconomyManager.getBalance(player.getUniqueId()) < m) {
+                        Methods.errorMessage("insufficientFunds", player);
+                        return;
+                    }
 
-                    final ItemStack item1 = new ItemStack(event.getCurrentItem().getType());
-                    ItemMeta meta = item1.getItemMeta();
-                    meta.setUnbreakable(true);
-                    item1.setItemMeta(meta);
-                    item = item1;
+                    itemInHand.setType(event.getCurrentItem().getType());
+                    ItemMeta meta = itemInHand.getItemMeta();
+                    if (itemInHand.getType().name().contains("GOLDEN")) {
+                        switch (event.getCurrentItem().getType()) {
+                            case GOLDEN_HELMET -> {
+                                meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "generic.armor", 4, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
+                                meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "generic.armor_toughness", 4, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
+                                meta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.randomUUID(), "generic.knockback_resistance", 0.1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HEAD));
+                            }
+                            case GOLDEN_CHESTPLATE -> {
+                                meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "generic.armor", 9, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST));
+                                meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "generic.armor_toughness", 4, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST));
+                                meta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.randomUUID(), "generic.knockback_resistance", 0.1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.CHEST));
+                            }
+                            case GOLDEN_LEGGINGS -> {
+                                meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "generic.armor", 7, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS));
+                                meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "generic.armor_toughness", 4, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS));
+                                meta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.randomUUID(), "generic.knockback_resistance", 0.1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.LEGS));
+                            }
+                            case GOLDEN_BOOTS -> {
+                                meta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(UUID.randomUUID(), "generic.armor", 4, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET));
+                                meta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(UUID.randomUUID(), "generic.armor_toughness", 4, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET));
+                                meta.addAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(UUID.randomUUID(), "generic.knockback_resistance", 0.1, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.FEET));
+                            }
+                            case GOLDEN_SWORD -> {
+                                meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier(UUID.randomUUID(), "generic.attack_damage", 8, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
+                                meta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier(UUID.randomUUID(), "generic.attack_speed", -2.6, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
+                                meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+                            }
+                        }
+                        meta.setDisplayName(Methods.cStr("&6" + Methods.getMaterialName(itemInHand.getType())));
+                    }
+                    if (itemInHand.getType() == Material.NETHERITE_PICKAXE) {
+                        meta.addAttributeModifier(Attribute.GENERIC_MAX_HEALTH, new AttributeModifier(UUID.randomUUID(), "generic.max_health", 4, AttributeModifier.Operation.ADD_NUMBER, EquipmentSlot.HAND));
+                    }
+                    itemInHand.setItemMeta(meta);
 
-                    message = Methods.cStr("&6Successfully upgraded material of tool.");
-                    materialUpgrade = true;
+                    player.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1f, 1f);
+                    EconomyManager.setBalance(player.getUniqueId(), EconomyManager.getBalance(player.getUniqueId()) - m);
+                    player.sendMessage(Methods.cStr("&6Successfully upgraded the material of your item."));
+                    GUIHandler.openGUI(Data.GUIs[4], player);
+                    ScoreboardHandler.updateBoard(player);
+
+                    return;
                 }
             }
         }
@@ -196,7 +246,6 @@ public class InventoryClickListener implements Listener {
                     return;
             }
         }
-        ItemStack itemInHand = event.getWhoClicked().getInventory().getItemInMainHand();
         if (CE != -1) {
             m = ItemManager.getCEPrice(itemInHand, itemInHand.getType().toString().contains("PICKAXE") ? ItemManager.pickaxeEnchantments[CE] : ItemManager.swordEnchantments[CE]);
             message = Methods.cStr("&6Successfully upgraded tool.");
@@ -214,13 +263,10 @@ public class InventoryClickListener implements Listener {
         if (CE != -1) ItemManager.setCELevel(itemInHand, itemInHand.getType().toString().contains("PICKAXE") ? ItemManager.pickaxeEnchantments[CE] : ItemManager.swordEnchantments[CE], (byte) (ItemManager.getCELevel(itemInHand, itemInHand.getType().toString().contains("PICKAXE") ? ItemManager.pickaxeEnchantments[CE] : ItemManager.swordEnchantments[CE]) + 1));
         player.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1f, 1f);
         EconomyManager.setBalance(player.getUniqueId(), EconomyManager.getBalance(player.getUniqueId()) - m);
-        if (item != null && !materialUpgrade) player.getInventory().addItem(item);
+        if (item != null) player.getInventory().addItem(item);
         if (message != null) player.sendMessage(message);
 
         if (event.getView().getTitle().equals("Enchantment Menu")) GUIHandler.openGUI(Data.GUIs[5], player);
-        if (materialUpgrade) {
-            event.getWhoClicked().getInventory().setItem(event.getWhoClicked().getInventory().getHeldItemSlot(), item);
-        }
 
         ScoreboardHandler.updateBoard(player);
     }

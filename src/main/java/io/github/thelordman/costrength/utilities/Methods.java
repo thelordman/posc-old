@@ -174,8 +174,8 @@ public class Methods {
     }
 
     public static boolean doesRankExist(String rank) {
-        for(Rank rnk : Rank.values()) {
-            if(rnk.name().equals(rank))
+        for (Rank rnk : Rank.values()) {
+            if (rnk.name().equals(rank))
                 return true;
         }
         return false;

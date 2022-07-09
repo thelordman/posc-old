@@ -127,7 +127,6 @@ public class GUIHandler {
             Material material = switch (item.getType()) {
                 case IRON_PICKAXE -> Material.DIAMOND_PICKAXE;
                 case DIAMOND_PICKAXE -> Material.NETHERITE_PICKAXE;
-                case NETHERITE_PICKAXE -> Material.GOLDEN_PICKAXE;
 
                 case IRON_SWORD -> Material.DIAMOND_SWORD;
                 case DIAMOND_SWORD -> Material.NETHERITE_SWORD;
@@ -149,15 +148,16 @@ public class GUIHandler {
                 case DIAMOND_BOOTS -> Material.NETHERITE_BOOTS;
                 case NETHERITE_BOOTS -> Material.GOLDEN_BOOTS;
 
-                default -> null;
+                default -> item.getType();
             };
-            assert material != null;
-            Data.GUIs[4].setItem(14, quickItem(material, Methods.cStr("&eUpgrade Material"), 1, Methods.cStr("&6Upgrade the material of your tool to increase its base stats."),
-                    Methods.cStr("&cNote&7: &fBuying this upgrade will reset all enchantments on this item."), "",
-                    material.name().split("_")[0].equals("GOLDEN") ? Methods.cStr("&6&lMAX LEVEL") : Methods.cStr("&eCost&8: &f$" + Methods.rStr(ItemManager.getMaterialPrice(material)))));
+            inventory.setItem(14, quickItem(material, Methods.cStr("&eUpgrade Material"), 1,
+                    Methods.cStr("&6Upgrade the material of your tool to increase its base stats."),
+                     "", item.getType().name().split("_")[0].equals("GOLDEN") | item.getType() == Material.NETHERITE_PICKAXE
+                            ? Methods.cStr("&6&lMAX LEVEL")
+                            : Methods.cStr("&eCost&8: &f$" + Methods.rStr(ItemManager.getMaterialPrice(material)))));
             inventory.setItem(10, player.getInventory().getItemInMainHand());
-            if (EconomyManager.getLevel(player.getUniqueId()) < 15) {
-                inventory.setItem(14, quickItem(Material.BARRIER, Methods.cStr("&cLocked"), 1, Methods.cStr("&cUnlocks at &flevel 15&c.")));
+            if (EconomyManager.getLevel(player.getUniqueId()) < 25) {
+                inventory.setItem(14, quickItem(Material.BARRIER, Methods.cStr("&cLocked"), 1, Methods.cStr("&cUnlocks at &flevel 25&c.")));
             }
             player.openInventory(inventory);
             return;

@@ -345,8 +345,8 @@ public class ItemManager {
 
     public static double getMaterialPrice(Material material) {
         return switch (material.name().split("_")[0]) {
-            case "DIAMOND" -> 1000000d;
-            case "NETHERITE" -> 5000000d;
+            case "DIAMOND" -> 500000d;
+            case "NETHERITE" -> 1000000d;
             case "GOLDEN" -> 10000000d;
             default -> 0d;
         };
