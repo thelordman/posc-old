@@ -1,14 +1,6 @@
 package io.github.thelordman.costrength.quests.utility;
 
-public final class KeyValue<K, V> {
-
-    private final K key;
-    private final V value;
-
-    public KeyValue(K key, V value) {
-        this.key = key;
-        this.value = value;
-    }
+public record KeyValue<K, V>(K key, V value) {
 
     public K getKey() {
         return key;
