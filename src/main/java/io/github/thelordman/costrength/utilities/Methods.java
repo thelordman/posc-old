@@ -60,7 +60,7 @@ public class Methods {
     }
 
     public static void teleportPlayerToSpawn(Player player, PlayerTeleportEvent.TeleportCause cause) {
-        player.teleportAsync(Bukkit.getWorld("world").getSpawnLocation(), cause);
+        player.teleportAsync(new Location(Bukkit.getWorld("world"), 0.5, -41, 1.5), cause);
     }
 
     public static String hourTimeFormat(Integer seconds, Integer division) {
