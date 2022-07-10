@@ -13,7 +13,7 @@ public class LiamiCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!Methods.checkCommandPermission(sender, (byte) 5)) return true;
         Bukkit.broadcastMessage(Methods.cStr("&8[&71&8] &cOwner &8| &cLiami_&7: &f" + String.join(" ", args)));
-        Discord.minecraftChatChannel.sendMessage("**[1] Owner | Liami_:**" + String.join(" ", args)).queue();
+        Discord.minecraftChatChannel.sendMessage("**[1] Owner | Liami_:** " + String.join(" ", args)).queue();
         return true;
     }
 }
