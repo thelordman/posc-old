@@ -26,8 +26,8 @@ public class VanishCommand implements CommandExecutor {
     }
 
     public static boolean toggleVanish(Player player) {
-        for(Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            if(getVanishedPlayers().contains(player)) {
+        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+            if (getVanishedPlayers().contains(player)) {
                 onlinePlayer.showPlayer(CoStrength.get(), player);
                 if (Rank.getRank(onlinePlayer.getUniqueId()).permissionLevel > 5) {
                     onlinePlayer.sendMessage(Methods.cStr("&f" + player.getDisplayName() + " &6is no longer vanished."));
@@ -35,7 +35,7 @@ public class VanishCommand implements CommandExecutor {
                 getVanishedPlayers().remove(player);
                 return true;
             }
-            if(Rank.getRank(onlinePlayer.getUniqueId()).permissionLevel < Rank.getRank(player.getUniqueId()).permissionLevel) {
+            if (Rank.getRank(onlinePlayer.getUniqueId()).permissionLevel < Rank.getRank(player.getUniqueId()).permissionLevel) {
                 onlinePlayer.hidePlayer(CoStrength.get(), player);
             } else {
                 onlinePlayer.sendMessage(Methods.cStr("&f" + player.getDisplayName() + " &6is now vanished."));

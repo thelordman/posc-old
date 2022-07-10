@@ -138,7 +138,7 @@ public class InventoryClickListener implements Listener {
                     if (event.getCurrentItem().getType().equals(Material.AIR) | event.getCurrentItem().getType().equals(Material.WHITE_STAINED_GLASS_PANE))
                         return;
                     if (event.getCurrentItem().getLore().contains(Methods.cStr("&6&lMAX LEVEL"))) {
-                        player.sendMessage(Methods.cStr("&cThat enchantment is maxed."));
+                        player.sendMessage(Methods.cStr("&cThat upgrade is maxed."));
                         return;
                     }
                     m = ItemManager.getMaterialPrice(event.getCurrentItem().getType());
@@ -211,7 +211,7 @@ public class InventoryClickListener implements Listener {
                         case 10 -> enchant = Enchantment.PROTECTION_EXPLOSIONS;
                         case 11 -> enchant = Enchantment.THORNS;
                     }
-                    m = ItemManager.getEnchantmentPrice(event.getCurrentItem(), enchant);
+                    m = ItemManager.getEnchantmentPrice(itemInHand, enchant);
                     message = Methods.cStr("&6Successfully upgraded tool.");
                     break;
                 case GOLD_ORE, POISONOUS_POTATO:
