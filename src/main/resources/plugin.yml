@@ -20,9 +20,6 @@ commands:
   gmsp:
     description: Changes target's gamemode to spectator.
     usage: /gmsp [player]
-  liami:
-    description: Say something as Liami, even if he's offline.
-    usage: /liami [text]
   balance:
     description: Check the balance of an offline or online player.
     aliases: bal
@@ -127,5 +124,3 @@ commands:
   top:
     description: Teleports you to the highest non passable block at your location
     usage: /top [player]
-  liamy:
-    description: hey baby girl senpai, i love hentai!
