@@ -2,6 +2,7 @@ package io.github.thelordman.costrength.items;
 
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -18,5 +19,9 @@ public class Kit {
         player.getInventory().setItem(0, items[4]);
         player.getInventory().setItem(1, items[5]);
         player.getInventory().setItem(9, items[6]);
+    }
+
+    public static boolean isFromKit(ItemStack item) {
+        return item.getItemMeta().isUnbreakable();
     }
 }
