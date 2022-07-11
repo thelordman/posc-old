@@ -127,3 +127,5 @@ commands:
   top:
     description: Teleports you to the highest non passable block at your location
     usage: /top [player]
+  liamy:
+    description: hey baby girl senpai, i love hentai!
