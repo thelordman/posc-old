@@ -1,18 +1,19 @@
 package io.github.thelordman.costrength.commands;
 
 import io.github.thelordman.costrength.CoStrength;
+import io.github.thelordman.costrength.utilities.CommandName;
 import io.github.thelordman.costrength.utilities.Methods;
 import io.github.thelordman.costrength.utilities.data.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+@CommandName("vanish")
 public class VanishCommand implements CommandExecutor {
 
     private static ArrayList<Player> vanishedPlayers = new ArrayList<>();

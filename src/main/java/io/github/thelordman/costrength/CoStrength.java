@@ -1,10 +1,13 @@
 package io.github.thelordman.costrength;
 
+import io.github.thelordman.costrength.utilities.CommandName;
 import io.github.thelordman.costrength.discord.Discord;
 import io.github.thelordman.costrength.guis.GUIHandler;
 import io.github.thelordman.costrength.mining.MineHandler;
 import io.github.thelordman.costrength.utilities.*;
 import io.github.thelordman.costrength.utilities.data.PlayerDataManager;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
@@ -36,7 +39,8 @@ public final class CoStrength extends JavaPlugin {
         GUIHandler.registerInventories();
         RecipeHandler.registerRecipes();
         registerListeners();
-        new CommandHandler(this);
+        registerCommands();
+        //new CommandHandler(this);
 
         PlayerDataManager.loadAllPlayerData();
         getLogger().info("Data loaded");
@@ -71,5 +75,32 @@ public final class CoStrength extends JavaPlugin {
             }
         }
         getLogger().info("Listeners registered");
+    }
+
+    private void registerCommands() {
+        String pack = getClass().getPackageName();
+        for (Class<?> c : new Reflections(pack + ".commands").getSubTypesOf(CommandExecutor.class)) {
+            try {
+                CommandExecutor executor = (CommandExecutor) c
+                        .getDeclaredConstructor()
+                        .newInstance();
+                if(c.isAnnotationPresent(CommandName.class) && getCommand(c.getAnnotation(CommandName.class).value()) != null) {
+                    getCommand(c.getAnnotation(CommandName.class).value()).setExecutor(executor);
+                }
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                getLogger().info("Command Executor not found! Looking for Tab Executor...");
+                try {
+                    TabExecutor executor = (TabExecutor) c
+                            .getDeclaredConstructor()
+                            .newInstance();
+                    if(c.isAnnotationPresent(CommandName.class) && getCommand(c.getAnnotation(CommandName.class).value()) != null) {
+                        getCommand(c.getAnnotation(CommandName.class).value()).setExecutor(executor);
+                    }
+                } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e1) {
+                    getLogger().info("Tab Executor not found!");
+                }
+            }
+        }
+        getLogger().info("Commands registered");
     }
 }

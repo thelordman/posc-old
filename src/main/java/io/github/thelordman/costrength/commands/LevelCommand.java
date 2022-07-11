@@ -2,10 +2,12 @@ package io.github.thelordman.costrength.commands;
 
 import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
+import io.github.thelordman.costrength.utilities.CommandName;
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
@@ -19,7 +21,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class LevelCommand implements TabExecutor {
+@CommandName("level")
+public class LevelCommand implements CommandExecutor,TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!Methods.checkCommandPermission(sender, (byte) 7)) return true;

@@ -1,6 +1,7 @@
 package io.github.thelordman.costrength.commands;
 
 import io.github.thelordman.costrength.CoStrength;
+import io.github.thelordman.costrength.utilities.CommandName;
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.jetbrains.annotations.NotNull;
 
+@CommandName("spawn")
 public class SpawnCommand implements CommandExecutor {
     public final boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (sender instanceof ConsoleCommandSender && args.length == 0 | (!Methods.hasPermission(((Player) sender).getUniqueId(), 2)) && args.length > 0) return false;

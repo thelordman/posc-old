@@ -2,6 +2,7 @@ package io.github.thelordman.costrength.commands;
 
 import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
+import io.github.thelordman.costrength.utilities.CommandName;
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -15,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 
+@CommandName("pay")
 public class PayCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {

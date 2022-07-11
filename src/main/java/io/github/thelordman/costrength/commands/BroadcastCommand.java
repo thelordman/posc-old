@@ -1,6 +1,7 @@
 package io.github.thelordman.costrength.commands;
 
 import io.github.thelordman.costrength.discord.Discord;
+import io.github.thelordman.costrength.utilities.CommandName;
 import io.github.thelordman.costrength.utilities.Methods;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.bukkit.Bukkit;
@@ -12,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
+@CommandName("broadcast")
 public class BroadcastCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {

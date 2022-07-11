@@ -1,5 +1,6 @@
 package io.github.thelordman.costrength.commands;
 
+import io.github.thelordman.costrength.utilities.CommandName;
 import io.github.thelordman.costrength.utilities.Methods;
 import io.github.thelordman.costrength.utilities.data.PlayerDataManager;
 import io.github.thelordman.costrength.utilities.data.Rank;
@@ -17,7 +18,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class RankCommand implements TabExecutor {
+@CommandName("rank")
+public class RankCommand implements CommandExecutor,TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!Methods.checkCommandPermission(sender, (byte) 7)) return true;

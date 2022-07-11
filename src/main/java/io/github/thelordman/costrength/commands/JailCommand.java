@@ -1,5 +1,6 @@
 package io.github.thelordman.costrength.commands;
 
+import io.github.thelordman.costrength.utilities.CommandName;
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -12,6 +13,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.jetbrains.annotations.NotNull;
 
 
+@CommandName("jail")
 public class JailCommand implements CommandExecutor {
     public Location jailLocation;
 

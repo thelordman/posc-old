@@ -2,6 +2,7 @@ package io.github.thelordman.costrength.commands;
 
 import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
+import io.github.thelordman.costrength.utilities.CommandName;
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -10,6 +11,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+@CommandName("bounty")
 public class BountyCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

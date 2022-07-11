@@ -1,15 +1,16 @@
 package io.github.thelordman.costrength.commands;
 
+import io.github.thelordman.costrength.utilities.CommandName;
 import io.github.thelordman.costrength.utilities.Methods;
 import io.github.thelordman.costrength.utilities.data.PlayerDataManager;
 import io.github.thelordman.costrength.utilities.data.Rank;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+@CommandName("staffmode")
 public class StaffModeCommand implements CommandExecutor {
 
     @Override

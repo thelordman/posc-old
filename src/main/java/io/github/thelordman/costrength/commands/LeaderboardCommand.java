@@ -1,6 +1,7 @@
 package io.github.thelordman.costrength.commands;
 
 import io.github.thelordman.costrength.economy.EconomyManager;
+import io.github.thelordman.costrength.utilities.CommandName;
 import io.github.thelordman.costrength.utilities.Methods;
 import io.github.thelordman.costrength.utilities.data.Rank;
 import org.bukkit.Bukkit;
@@ -18,7 +19,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class LeaderboardCommand implements TabExecutor {
+@CommandName("leaderboard")
+public class LeaderboardCommand implements CommandExecutor,TabExecutor {
     public static List<String> completions = List.of("bal", "level", "block", "kill", "death", "kdr", "playtime", "bounty", "killstreak");
 
     @Override

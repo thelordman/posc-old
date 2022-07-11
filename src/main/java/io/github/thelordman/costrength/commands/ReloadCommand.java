@@ -1,5 +1,6 @@
 package io.github.thelordman.costrength.commands;
 
+import io.github.thelordman.costrength.utilities.CommandName;
 import io.github.thelordman.costrength.utilities.Methods;
 import io.github.thelordman.costrength.utilities.data.Rank;
 import org.bukkit.Bukkit;
@@ -9,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+@CommandName("reload-config")
 public class ReloadCommand implements CommandExecutor {
 
     @Override

@@ -1,6 +1,7 @@
 package io.github.thelordman.costrength.commands;
 
 import io.github.thelordman.costrength.economy.EconomyManager;
+import io.github.thelordman.costrength.utilities.CommandName;
 import io.github.thelordman.costrength.utilities.Methods;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
 import org.bukkit.Bukkit;
@@ -20,7 +21,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class EconomyCommand implements TabExecutor {
+@CommandName("economy")
+public class EconomyCommand implements CommandExecutor,TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!Methods.checkCommandPermission(sender, (byte) 7)) return true;
