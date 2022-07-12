@@ -6,6 +6,7 @@ import io.github.thelordman.costrength.guis.GUIHandler;
 import io.github.thelordman.costrength.mining.MineHandler;
 import io.github.thelordman.costrength.utilities.*;
 import io.github.thelordman.costrength.utilities.data.PlayerDataManager;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.event.Listener;
@@ -30,6 +31,8 @@ public final class CoStrength extends JavaPlugin {
     public void onEnable() {
         getLogger().info("Executing onEnable method");
 
+        Bukkit.getPluginManager().disablePlugin(Bukkit.getPluginManager().getPlugin("ViaVersion"));
+
         saveDefaultConfig();
 
         instance = this;
@@ -40,7 +43,6 @@ public final class CoStrength extends JavaPlugin {
         RecipeHandler.registerRecipes();
         registerListeners();
         registerCommands();
-        //new CommandHandler(this);
 
         PlayerDataManager.loadAllPlayerData();
         getLogger().info("Data loaded");
@@ -84,7 +86,7 @@ public final class CoStrength extends JavaPlugin {
                 CommandExecutor executor = (CommandExecutor) c
                         .getDeclaredConstructor()
                         .newInstance();
-                if(c.isAnnotationPresent(CommandName.class) && getCommand(c.getAnnotation(CommandName.class).value()) != null) {
+                if (c.isAnnotationPresent(CommandName.class) && getCommand(c.getAnnotation(CommandName.class).value()) != null) {
                     getCommand(c.getAnnotation(CommandName.class).value()).setExecutor(executor);
                 }
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
