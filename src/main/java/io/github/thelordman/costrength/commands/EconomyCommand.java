@@ -25,7 +25,7 @@ import java.util.List;
 public class EconomyCommand implements CommandExecutor,TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (!Methods.checkCommandPermission(sender, (byte) 7)) return true;
+        if (!Methods.checkCommandPermission(sender, 7)) return true;
         if (args.length < 2 | args.length > 3) return false;
         OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
         String executor = sender instanceof Player ? ((Player) sender).getDisplayName() : "Console";

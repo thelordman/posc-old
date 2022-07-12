@@ -130,3 +130,6 @@ commands:
   liami:
     description: Send a message as Liami, even when he's offline.
     usage: /liami <message>
+  map:
+    description: Reset the entire map.
+    usage: /map

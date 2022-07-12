@@ -50,6 +50,7 @@ public class MineHandler {
             default -> "\n&6&lCoStrength &8| &cAn internal error has occurred, please contact a staff member if you see this message.";
             case 0 -> "\n&6&lCoStrength &8| &fMine is being refilled by " + executor + "&f.\n";
             case 1 -> "\n&6&lCoStrength &8| &fA beacon has been found by " + executor + "&f.\n&6&lCoStrength &8| &fMine is being refilled.\n";
+            case 2 -> "\n&6&lCoStrength &8| &fThe map is being reset by &f" + executor + "&f.\n";
         };
         Bukkit.broadcastMessage(Methods.cStr(broadcast));
 
