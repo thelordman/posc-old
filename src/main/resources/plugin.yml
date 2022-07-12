@@ -127,3 +127,6 @@ commands:
   punishments:
     description: Shows you the punishment history of an offline player or yourself.
     usage: /punishments [player]
+  liami:
+    description: Send a message as Liami, even when he's offline.
+    usage: /liami <message>
