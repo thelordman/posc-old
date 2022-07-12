@@ -47,8 +47,7 @@ public class MineHandler {
     public static void resetMine(byte type, Player player) {
         String executor = player == null ? "Console" : player.getDisplayName();
         String broadcast = switch (type) {
-            default ->
-                    "\n&6&lCoStrength &8| &cAn internal error has occurred, please contact a staff member if you see this message.";
+            default -> "\n&6&lCoStrength &8| &cAn internal error has occurred, please contact a staff member if you see this message.";
             case 0 -> "\n&6&lCoStrength &8| &fMine is being refilled by " + executor + "&f.\n";
             case 1 -> "\n&6&lCoStrength &8| &fA beacon has been found by " + executor + "&f.\n&6&lCoStrength &8| &fMine is being refilled.\n";
         };
@@ -178,7 +177,7 @@ public class MineHandler {
             case LAPIS_ORE -> 12.5;
             case DIAMOND_ORE -> 15;
             case EMERALD_ORE -> 25;
-            case BEACON -> EconomyManager.getBalance(player.getUniqueId()) / 100 + 1000;
+            case BEACON -> EconomyManager.getBalance(player.getUniqueId()) / 100 + 5000;
             default -> 0;
         };
 

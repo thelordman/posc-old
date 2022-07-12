@@ -88,7 +88,6 @@ public final class CoStrength extends JavaPlugin {
                     getCommand(c.getAnnotation(CommandName.class).value()).setExecutor(executor);
                 }
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                getLogger().info("Command Executor not found! Looking for Tab Executor...");
                 try {
                     TabExecutor executor = (TabExecutor) c
                             .getDeclaredConstructor()
@@ -97,7 +96,7 @@ public final class CoStrength extends JavaPlugin {
                         getCommand(c.getAnnotation(CommandName.class).value()).setExecutor(executor);
                     }
                 } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e1) {
-                    getLogger().info("Tab Executor not found!");
+                    getLogger().severe("Tab Executor not found!");
                 }
             }
         }

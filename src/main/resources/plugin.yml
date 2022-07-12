@@ -124,3 +124,6 @@ commands:
   top:
     description: Teleports you to the highest non passable block at your location
     usage: /top [player]
+  punishments:
+    description: Shows you the punishment history of an offline player or yourself.
+    usage: /punishments [player]

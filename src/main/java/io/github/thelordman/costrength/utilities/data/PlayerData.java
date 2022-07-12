@@ -1,11 +1,13 @@
 package io.github.thelordman.costrength.utilities.data;
 
+import io.github.thelordman.costrength.punishments.Punishment;
+
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class PlayerData implements Serializable {
-
     @Serial
     private static final long serialVersionUID = 3022193081975011242L;
 
@@ -19,6 +21,7 @@ public class PlayerData implements Serializable {
     private boolean staffMode = false;
 
     private Rank rank = Rank.DEFAULT;
+    private final ArrayList<Punishment> punishments = new ArrayList<>();
 
     public PlayerData(UUID uuid) {
         this.uuid = uuid;
@@ -76,7 +79,25 @@ public class PlayerData implements Serializable {
         this.rank = rank;
     }
 
-    public boolean inStaffMode() { return staffMode; }
+    public boolean inStaffMode() {
+        return staffMode;
+    }
 
-    public void setStaffMode(boolean staffMode) { this.staffMode = staffMode; }
+    public void setStaffMode(boolean staffMode) {
+        this.staffMode = staffMode;
+    }
+
+    public ArrayList<Punishment> getPunishments() {
+        return punishments;
+    }
+
+    public void addPunishment(Punishment punishment) {
+        this.punishments.add(punishment);
+    }
+
+    public void removePunishment(int ID) {
+        this.punishments.forEach((p) -> {
+            if (p.getID() == ID) this.punishments.remove(p);
+        });
+    }
 }
