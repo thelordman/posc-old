@@ -2,7 +2,6 @@ package io.github.thelordman.costrength.items;
 
 import io.github.thelordman.costrength.utilities.Methods;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -16,12 +15,20 @@ public class Kit {
         player.getInventory().setChestplate(items[1]);
         player.getInventory().setLeggings(items[2]);
         player.getInventory().setBoots(items[3]);
-        player.getInventory().setItem(0, items[4]);
-        player.getInventory().setItem(1, items[5]);
-        player.getInventory().setItem(9, items[6]);
-    }
+        player.getInventory().addItem(items[4]);
 
-    public static boolean isFromKit(ItemStack item) {
-        return item.getItemMeta().isUnbreakable();
+        // hotpocket, if you see this, I wanna fuck your mom.
+
+        boolean backupFound = false;
+        boolean pickFound = false;
+        for (ItemStack item : player.getInventory().getStorageContents()) {
+            if (item == null) continue;
+            if (item.getType().name().contains("PICKAXE")) {
+                if (item.getItemMeta().getDisplayName().equals(Methods.cStr("&7Backup Pickaxe"))) backupFound = true;
+                else pickFound = true;
+            }
+        }
+        if (!pickFound) player.getInventory().setItem(1, items[5]);
+        if (!backupFound) player.getInventory().setItem(9, items[6]);
     }
 }

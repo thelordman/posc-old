@@ -15,8 +15,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 public class PlayerDeathListener implements Listener {
     @EventHandler
@@ -34,10 +39,10 @@ public class PlayerDeathListener implements Listener {
             if (Methods.hasDonatorPermission(killer.getUniqueId(), 1)) event.setDeathMessage(Methods.cStr("&cDeath &8| &f" + event.getDeathMessage()));
             else event.setDeathMessage(Methods.cStr("&7Death &8| &7" + event.getDeathMessage()));
 
-            if (EconomyManager.getBounty(victim.getUniqueId()) != 0) {
+            if (EconomyManager.getBounty(victim.getUniqueId()) != 0d) {
                 EconomyManager.setBalance(killer.getUniqueId(), EconomyManager.getBalance(killer.getUniqueId()) + EconomyManager.getBounty(victim.getUniqueId()));
                 Bukkit.broadcastMessage(Methods.cStr(killer.getDisplayName() + " &6collected the bounty of &f$" + Methods.rStr(EconomyManager.getBounty(victim.getUniqueId())) + " &6on " + victim.getDisplayName() + "&6."));
-                EconomyManager.setBounty(victim.getUniqueId(), (double) 0);
+                EconomyManager.setBounty(victim.getUniqueId(), 0d);
                 Methods.updateDisplayName(victim);
             }
 
@@ -56,6 +61,8 @@ public class PlayerDeathListener implements Listener {
         Data.lastHitData.forEach((p, o) -> {
             if (o.getValue0() == victim) Data.lastHitData.remove(p);
         });
+
+        killDrops(victim);
 
         //Discord
         EmbedBuilder builder = new EmbedBuilder();
@@ -101,5 +108,18 @@ public class PlayerDeathListener implements Listener {
         EconomyManager.setXp(killer.getUniqueId(), EconomyManager.getXp(killer.getUniqueId()) + xp);
         EconomyManager.setKillstreak(killer.getUniqueId(), killerKillstreak + 1);
         LevelHandler.xp(killer);
+    }
+
+    private void killDrops(Player victim) {
+        ItemStack[][] items = {victim.getInventory().getStorageContents(), victim.getInventory().getArmorContents()};
+
+        for (ItemStack[] itemStacks : items) {
+            for (ItemStack item : itemStacks) {
+                if (item == null) continue;
+                if (item.getType().isEmpty() | item.getType().name().contains("PICKAXE")) continue;
+                Objects.requireNonNull(Bukkit.getWorld("world")).dropItemNaturally(victim.getLocation(), item);
+                victim.getInventory().remove(item);
+            }
+        }
     }
 }
