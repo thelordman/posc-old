@@ -133,3 +133,6 @@ commands:
   map:
     description: Reset the entire map.
     usage: /map
+  sudo:
+    description: Send a command or message (c:) as an online player.
+    usage: /sudo <player> <command or c:message>
