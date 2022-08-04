@@ -11,6 +11,7 @@ public enum Rank {
     MVP(0, 2, Methods.cStr("&eMVP"), ChatColor.YELLOW),
     ELITE(0, 3, Methods.cStr("&3ELITE"), ChatColor.DARK_AQUA),
     LEGEND(0, 4, Methods.cStr("&6LEGEND"), ChatColor.GOLD),
+    LOLI_LOVER(0, 5, Methods.cStr("&dLoli Lover"), ChatColor.LIGHT_PURPLE),
     TRIAL_DEVELOPER(2, 4, Methods.cStr("&dTrial Developer"), ChatColor.LIGHT_PURPLE),
     JRMOD(3, 4, Methods.cStr("&aJr. Mod"), ChatColor.GREEN),
     BUILDER(4, 4, Methods.cStr("&eBuilder"), ChatColor.YELLOW),
@@ -19,8 +20,8 @@ public enum Rank {
     DEVELOPER(7, 4, Methods.cStr("&dDeveloper"), ChatColor.LIGHT_PURPLE),
     HEAD_BUILDER(8, 4, Methods.cStr("&6Head Builder"), ChatColor.GOLD),
     ADMIN(9, 4, Methods.cStr("&cAdmin"), ChatColor.RED),
-    HEAD_DEVELOPER(10, 4, Methods.cStr("&dHead Developer"), ChatColor.LIGHT_PURPLE),
-    OWNER(11, 4, Methods.cStr("&cOwner"), ChatColor.RED);
+    HEAD_DEVELOPER(10, 4, Methods.cStr("&5Head Developer"), ChatColor.DARK_PURPLE),
+    OWNER(11, 4, Methods.cStr("&4Owner"), ChatColor.RED);
 
     public final int permissionLevel;
     public final int donatorLevel;

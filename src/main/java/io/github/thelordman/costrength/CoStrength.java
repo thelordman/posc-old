@@ -6,7 +6,6 @@ import io.github.thelordman.costrength.guis.GUIHandler;
 import io.github.thelordman.costrength.mining.MineHandler;
 import io.github.thelordman.costrength.utilities.*;
 import io.github.thelordman.costrength.utilities.data.PlayerDataManager;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.event.Listener;
@@ -31,8 +30,6 @@ public final class CoStrength extends JavaPlugin {
     public void onEnable() {
         getLogger().info("Executing onEnable method");
 
-        Bukkit.getPluginManager().disablePlugin(Bukkit.getPluginManager().getPlugin("ViaVersion"));
-
         saveDefaultConfig();
 
         instance = this;
@@ -44,7 +41,7 @@ public final class CoStrength extends JavaPlugin {
         registerListeners();
         registerCommands();
 
-        PlayerDataManager.loadAllPlayerData();
+        PlayerDataManager.playerDataMap = PlayerDataManager.loadAllPlayerData();
         getLogger().info("Data loaded");
 
         AdvancementHandler.init();

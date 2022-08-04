@@ -9,7 +9,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.javatuples.Pair;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class Data {
@@ -20,4 +23,5 @@ public class Data {
     public static final HashMap<UUID, FastBoard> scoreboard = new HashMap<>();
     public static final HashMap<Player, Long> combatTag = new HashMap<>();
     public static final HashMap<Player, Pair<Player, Byte>> lastHitData = new HashMap<>();
+    public static final List<Player> newPlayers = new ArrayList<>();
 }

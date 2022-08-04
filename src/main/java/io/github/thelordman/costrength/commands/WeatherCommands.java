@@ -18,15 +18,15 @@ public class WeatherCommands implements CommandExecutor {
         World world = Bukkit.getWorld("world");
         Player player = (Player) sender;
         switch(command.getName()) {
-            case "sun", "clean", "clouds":
+            case "sun":
                 world.setStorm(false);
                 player.sendMessage(Methods.cStr("&6The weather was set to &fsunny"));
                 break;
-            case "rain", "snow", "downfall":
+            case "rain":
                 world.setStorm(true);
                 player.sendMessage(Methods.cStr("&6The weather was set to &frain"));
                 break;
-            case "thunder", "storm":
+            case "thunder":
                 world.setStorm(true);
                 world.setThundering(true);
                 player.sendMessage(Methods.cStr("&6The weather was set to &fthunder"));

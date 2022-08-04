@@ -31,4 +31,12 @@ public class PunishmentManager {
     public static void removePunishment(UUID uuid, int ID) {
         PlayerDataManager.getPlayerData(uuid).removePunishment(ID);
     }
+
+    public static boolean isMuted(UUID uuid) {
+        return PlayerDataManager.getPlayerData(uuid).isMuted();
+    }
+
+    public static void setMuted(UUID uuid, long time) {
+        PlayerDataManager.getPlayerData(uuid).setMuted(time);
+    }
 }

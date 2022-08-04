@@ -1,5 +1,7 @@
 package io.github.thelordman.costrength.commands;
 
+import io.github.thelordman.costrength.date.Date;
+import io.github.thelordman.costrength.date.DateType;
 import io.github.thelordman.costrength.punishments.Punishment;
 import io.github.thelordman.costrength.punishments.PunishmentManager;
 import io.github.thelordman.costrength.punishments.PunishmentType;
@@ -44,10 +46,10 @@ public class PunishmentsCommand implements CommandExecutor {
         if (punishments == null) return "  &6No punishments found.\n";
         StringBuilder builder = new StringBuilder();
         for (Punishment punishment : punishments) {
-            String expirationDate = punishment.getExpiration() == null ? "&cNever" : punishment.getExpiration().toGMTString();
+            String expirationDate = punishment.getExpiration() == -1 ? "&cNever" : Date.dateTimeFormat(punishment.getExpiration(), DateType.FULL);
             String punisher = punishment.getPunisher() == null ? "Console" : Bukkit.getOfflinePlayer(punishment.getPunisher()).getName();
             builder.append("  &6ID&7: &f").append(punishment.getID()).append("\n")
-                    .append("   &6Given&7: &f").append(punishment.getCreated().toGMTString()).append("\n")
+                    .append("   &6Given&7: &f").append(Date.dateTimeFormat(punishment.getCreated(), DateType.FULL)).append("\n")
                     .append("   &6Expiration&7: &f").append(expirationDate).append("\n")
                     .append("   &6Reason&7: &f").append(punishment.getReason()).append("\n")
                     .append("   &6Punisher&7: &f").append(punisher).append("\n");

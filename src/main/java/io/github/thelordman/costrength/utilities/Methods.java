@@ -4,12 +4,9 @@ import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.utilities.data.Data;
 import io.github.thelordman.costrength.utilities.data.Rank;
 import org.bukkit.*;
-import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.scoreboard.Team;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
@@ -64,11 +61,6 @@ public class Methods {
         player.teleportAsync(new Location(Bukkit.getWorld("world"), 0.5, -41, 1.5), cause);
     }
 
-    public static String hourTimeFormat(Integer seconds, Integer division) {
-        int hours = (seconds / division) / 3600;
-
-        return hours + " hours";
-    }
     public static String replaceColorCodes(String string, char type) {
         return string.replace(type + "4", "").replace(type + "c", "").replace(type + "6", "").replace(type + "e", "").replace(type + "2", "").replace(type + "a", "").replace(type + "b", "").replace(type + "3", "").replace(type + "1", "").replace(type + "9", "").replace(type + "d", "").replace(type + "5", "").replace(type + "f", "").replace(type + "7", "").replace(type + "8", "").replace(type + "0", "")
                 .replace(type + "k", "").replace(type + "l", "").replace(type + "m", "").replace(type + "n", "").replace(type + "o", "").replace(type + "r", "");

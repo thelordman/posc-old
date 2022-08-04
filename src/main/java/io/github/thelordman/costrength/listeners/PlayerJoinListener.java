@@ -8,6 +8,7 @@ import io.github.thelordman.costrength.economy.LevelHandler;
 import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
 import io.github.thelordman.costrength.items.Kit;
 import io.github.thelordman.costrength.utilities.Methods;
+import io.github.thelordman.costrength.utilities.data.Data;
 import io.github.thelordman.costrength.utilities.data.PlayerDataManager;
 import io.github.thelordman.costrength.utilities.data.Rank;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -16,8 +17,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.awt.*;
 
@@ -25,8 +24,9 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         PlayerDataManager.loadPlayerData(event.getPlayer().getUniqueId());
-        if(!event.getPlayer().hasPlayedBefore()) {
-            event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 1200 * 2, 255, true));
+        if (!event.getPlayer().hasPlayedBefore()) {
+            Data.newPlayers.add(event.getPlayer());
+            Kit.joinKit(event.getPlayer());
         }
 
         for (Player vanishedPlayer : VanishCommand.getVanishedPlayers()) {
@@ -45,8 +45,6 @@ public class PlayerJoinListener implements Listener {
                 event.getPlayer().hidePlayer(CoStrength.get(), vanishedPlayer);
             }
         }
-
-        if (!event.getPlayer().hasPlayedBefore()) Kit.joinKit(event.getPlayer());
 
         if (EconomyManager.getLevel(event.getPlayer().getUniqueId()) == 0) EconomyManager.setLevel(event.getPlayer().getUniqueId(), 1);
         LevelHandler.xp(event.getPlayer());

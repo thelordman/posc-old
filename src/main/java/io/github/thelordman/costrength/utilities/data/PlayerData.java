@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class PlayerData implements Serializable {
     @Serial
-    private static final long serialVersionUID = 3022193081975011242L;
+    private transient static final long serialVersionUID = 3022193081975011242L;
 
     private final UUID uuid;
 
@@ -19,6 +19,7 @@ public class PlayerData implements Serializable {
     private int level = 1;
     private int killStreak = 0;
     private boolean staffMode = false;
+    private long muted = 0L;
 
     private Rank rank = Rank.DEFAULT;
     private final ArrayList<Punishment> punishments = new ArrayList<>();
@@ -99,5 +100,13 @@ public class PlayerData implements Serializable {
         this.punishments.forEach((p) -> {
             if (p.getID() == ID) this.punishments.remove(p);
         });
+    }
+
+    public boolean isMuted() {
+        return muted > System.currentTimeMillis();
+    }
+
+    public void setMuted(long muted) {
+        this.muted = muted;
     }
 }

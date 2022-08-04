@@ -70,7 +70,7 @@ public class LeaderboardCommand implements CommandExecutor,TabExecutor {
             i++;
         }
 
-        sender.sendMessage(Methods.cStr(builder.toString()));
+        sender.sendMessage(Methods.cStr(builder + "\n&r"));
 
         return true;
     }
