@@ -16,7 +16,7 @@ import org.bukkit.command.CommandSender;
 @CommandName("stats")
 public class StatsCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        OfflinePlayer target = args[0] == null ? (OfflinePlayer) sender : Bukkit.getOfflinePlayer(args[0]);
+        OfflinePlayer target = args.length == 0 ? (OfflinePlayer) sender : Bukkit.getOfflinePlayer(args[0]);
         sender.sendMessage(Methods.cStr("\n&r    &6&l" + target.getName() + "&6&l's Statistics\n&r\n" +
                 " &6Balance&7: &f$" + Methods.rStr(EconomyManager.getBalance(target.getUniqueId())) + "\n" +
                 " &6Blocks&7: &f" + Methods.rStr(EconomyManager.getBlocks(target)) + "\n" +
@@ -27,7 +27,7 @@ public class StatsCommand implements CommandExecutor {
                 " &6Deaths&7: &f" + Methods.rStr((double) target.getStatistic(Statistic.DEATHS)) + "\n" +
                 " &6K/D ratio&7: &f" + Methods.rStr(Methods.getKdr(target)) + "\n" +
                 " &6Killstreak&7: &f" + Methods.rStr((double) EconomyManager.getKillstreak(target.getUniqueId())) + "\n" +
-                " &6Playtime&7: &f" + Date.dateTimeFormat(target.getStatistic(Statistic.PLAY_ONE_MINUTE), DateType.HOUR_MINUTE_SECOND) + "\n&r"));
+                " &6Playtime&7: &f" + Date.dateTimeFormat(target.getStatistic(Statistic.PLAY_ONE_MINUTE) / 20, DateType.HOUR_MINUTE_SECOND) + "\n&r"));
         return true;
     }
 }

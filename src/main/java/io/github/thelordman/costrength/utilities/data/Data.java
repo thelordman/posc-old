@@ -24,4 +24,5 @@ public class Data {
     public static final HashMap<Player, Long> combatTag = new HashMap<>();
     public static final HashMap<Player, Pair<Player, Byte>> lastHitData = new HashMap<>();
     public static final List<Player> newPlayers = new ArrayList<>();
+    public static final ArrayList<Player> vanishedPlayers = new ArrayList<>();
 }

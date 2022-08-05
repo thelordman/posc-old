@@ -5,7 +5,7 @@ import io.github.thelordman.costrength.economy.EconomyManager;
 import io.github.thelordman.costrength.utilities.data.Data;
 import io.github.thelordman.costrength.utilities.Methods;
 import io.github.thelordman.costrength.scoreboard.FastBoard;
-import io.github.thelordman.costrength.utilities.data.PlayerDataManager;
+import io.github.thelordman.costrength.utilities.data.DataManager;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -32,7 +32,7 @@ public class PlayerQuitListener implements Listener {
             scoreboard.delete();
         }
 
-        PlayerDataManager.savePlayerData(event.getPlayer().getUniqueId());
+        DataManager.savePlayerData(event.getPlayer().getUniqueId());
 
         //Discord
         EmbedBuilder builder = new EmbedBuilder();

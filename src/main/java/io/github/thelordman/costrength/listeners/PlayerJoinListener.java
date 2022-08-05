@@ -9,7 +9,7 @@ import io.github.thelordman.costrength.scoreboard.ScoreboardHandler;
 import io.github.thelordman.costrength.items.Kit;
 import io.github.thelordman.costrength.utilities.Methods;
 import io.github.thelordman.costrength.utilities.data.Data;
-import io.github.thelordman.costrength.utilities.data.PlayerDataManager;
+import io.github.thelordman.costrength.utilities.data.DataManager;
 import io.github.thelordman.costrength.utilities.data.Rank;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.bukkit.Bukkit;
@@ -23,7 +23,7 @@ import java.awt.*;
 public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        PlayerDataManager.loadPlayerData(event.getPlayer().getUniqueId());
+        DataManager.loadPlayerData(event.getPlayer().getUniqueId());
         if (!event.getPlayer().hasPlayedBefore()) {
             Data.newPlayers.add(event.getPlayer());
             Kit.joinKit(event.getPlayer());

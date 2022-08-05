@@ -2,7 +2,7 @@ package io.github.thelordman.costrength.commands;
 
 import io.github.thelordman.costrength.utilities.CommandName;
 import io.github.thelordman.costrength.utilities.Methods;
-import io.github.thelordman.costrength.utilities.data.PlayerDataManager;
+import io.github.thelordman.costrength.utilities.data.DataManager;
 import io.github.thelordman.costrength.utilities.data.Rank;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,7 +18,7 @@ public class StaffModeCommand implements CommandExecutor {
         if (!Methods.checkCommandPermission(sender, (byte) 5)) return true;
         if(sender instanceof Player player) {
             if (Rank.getRank(player.getUniqueId()).permissionLevel > 5) {
-                if (!PlayerDataManager.getPlayerData(player.getUniqueId()).inStaffMode()) {
+                if (!DataManager.getPlayerData(player.getUniqueId()).inStaffMode()) {
                     VanishCommand.toggleVanish(player);
                     if (VanishCommand.getVanishedPlayers().contains(player)) {
                         player.saveData();
@@ -28,7 +28,7 @@ public class StaffModeCommand implements CommandExecutor {
                     player.loadData();
                     return true;
                 }
-                PlayerDataManager.getPlayerData(player.getUniqueId()).setStaffMode(false);
+                DataManager.getPlayerData(player.getUniqueId()).setStaffMode(false);
                 return true;
             }
         }

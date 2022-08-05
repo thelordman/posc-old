@@ -5,7 +5,7 @@ import io.github.thelordman.costrength.discord.Discord;
 import io.github.thelordman.costrength.guis.GUIHandler;
 import io.github.thelordman.costrength.mining.MineHandler;
 import io.github.thelordman.costrength.utilities.*;
-import io.github.thelordman.costrength.utilities.data.PlayerDataManager;
+import io.github.thelordman.costrength.utilities.data.DataManager;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.event.Listener;
@@ -41,7 +41,7 @@ public final class CoStrength extends JavaPlugin {
         registerListeners();
         registerCommands();
 
-        PlayerDataManager.playerDataMap = PlayerDataManager.loadAllPlayerData();
+        DataManager.loadAllData();
         getLogger().info("Data loaded");
 
         AdvancementHandler.init();
@@ -53,16 +53,14 @@ public final class CoStrength extends JavaPlugin {
     public void onDisable() {
         getLogger().info("Executing onDisable method");
 
-        PlayerDataManager.saveAllPlayerData();
+        DataManager.saveAllData();
         getLogger().info("Data saved");
 
         Discord.shutdownJDA();
     }
 
     private void registerListeners() {
-        String pack = getClass().getPackageName();
-        for (Class<?> c : new Reflections(pack + ".listeners")
-                .getSubTypesOf(Listener.class)
+        for (Class<?> c : new Reflections(getClass().getPackageName() + ".listeners").getSubTypesOf(Listener.class)
         ) {
             try {
                 Listener listener = (Listener) c
@@ -77,8 +75,7 @@ public final class CoStrength extends JavaPlugin {
     }
 
     private void registerCommands() {
-        String pack = getClass().getPackageName();
-        for (Class<?> c : new Reflections(pack + ".commands").getSubTypesOf(CommandExecutor.class)) {
+        for (Class<?> c : new Reflections(getClass().getPackageName() + ".commands").getSubTypesOf(CommandExecutor.class)) {
             try {
                 CommandExecutor executor = (CommandExecutor) c
                         .getDeclaredConstructor()

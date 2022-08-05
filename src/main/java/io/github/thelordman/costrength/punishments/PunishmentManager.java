@@ -1,13 +1,13 @@
 package io.github.thelordman.costrength.punishments;
 
-import io.github.thelordman.costrength.utilities.data.PlayerDataManager;
+import io.github.thelordman.costrength.utilities.data.DataManager;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class PunishmentManager {
     private static ArrayList<Punishment> getPunishments(UUID uuid) {
-        return PlayerDataManager.getPlayerData(uuid).getPunishments();
+        return DataManager.getPlayerData(uuid).getPunishments();
     }
 
     public static ArrayList<Punishment> getPunishments(UUID uuid, PunishmentType punishmentType) {
@@ -25,18 +25,18 @@ public class PunishmentManager {
     }
 
     public static void addPunishment(UUID uuid, Punishment punishment) {
-        PlayerDataManager.getPlayerData(uuid).addPunishment(punishment);
+        DataManager.getPlayerData(uuid).addPunishment(punishment);
     }
 
     public static void removePunishment(UUID uuid, int ID) {
-        PlayerDataManager.getPlayerData(uuid).removePunishment(ID);
+        DataManager.getPlayerData(uuid).removePunishment(ID);
     }
 
     public static boolean isMuted(UUID uuid) {
-        return PlayerDataManager.getPlayerData(uuid).isMuted();
+        return DataManager.getPlayerData(uuid).isMuted();
     }
 
     public static void setMuted(UUID uuid, long time) {
-        PlayerDataManager.getPlayerData(uuid).setMuted(time);
+        DataManager.getPlayerData(uuid).setMuted(time);
     }
 }

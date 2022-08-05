@@ -3,6 +3,7 @@ package io.github.thelordman.costrength.commands;
 import io.github.thelordman.costrength.CoStrength;
 import io.github.thelordman.costrength.utilities.CommandName;
 import io.github.thelordman.costrength.utilities.Methods;
+import io.github.thelordman.costrength.utilities.data.Data;
 import io.github.thelordman.costrength.utilities.data.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -15,9 +16,6 @@ import java.util.ArrayList;
 
 @CommandName("vanish")
 public class VanishCommand implements CommandExecutor {
-
-    private static ArrayList<Player> vanishedPlayers = new ArrayList<>();
-
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (!Methods.checkCommandPermission(sender, (byte) 5)) return true;
@@ -48,6 +46,6 @@ public class VanishCommand implements CommandExecutor {
     }
 
     public static ArrayList<Player> getVanishedPlayers() {
-        return vanishedPlayers;
+        return Data.vanishedPlayers;
     }
 }

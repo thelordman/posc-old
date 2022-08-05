@@ -36,6 +36,6 @@ public enum Rank {
     }
 
     public static Rank getRank(UUID uuid) {
-        return PlayerDataManager.getPlayerData(uuid).getRank();
+        return DataManager.getPlayerData(uuid).getRank();
     }
 }

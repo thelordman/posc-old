@@ -1,15 +1,18 @@
 package io.github.thelordman.costrength.utilities.data;
 
 import io.github.thelordman.costrength.CoStrength;
+import org.bukkit.Location;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-public class PlayerDataManager {
+public class DataManager {
+    public static GlobalData globalData;
 
     private static final File playerDataFolder = new File(CoStrength.get().getDataFolder() + "/playerdata");
+    private static final File globalDataFile = new File(CoStrength.get().getDataFolder() + "/globaldata.dat");
 
     public static HashMap<UUID, PlayerData> playerDataMap = new HashMap<>();
 
@@ -61,18 +64,16 @@ public class PlayerDataManager {
         return data;
     }
 
-    public static void saveAllPlayerData() {
+    public static void saveAllData() {
         for (PlayerData playerData : playerDataMap.values()) {
             savePlayerData(playerData);
         }
+
+        DataSerializer dataSerializer = new DataSerializer(new File(globalDataFile.getPath()));
+        dataSerializer.serialize(globalData);
     }
 
-    public static HashMap<UUID, PlayerData> loadAllPlayerData() {
-
-        if (!playerDataFolder.exists()) {
-            return playerDataMap;
-        }
-
+    public static void loadAllData() {
         for (File dataFile : playerDataFolder.listFiles(File::isFile)) {
             if (playerDataMap.containsKey(UUID.fromString(dataFile.getName().split(Pattern.quote("."))[0]))) continue;
 
@@ -82,6 +83,33 @@ public class PlayerDataManager {
             playerDataMap.put(data.getUUID(), data);
         }
 
-        return playerDataMap;
+        DataSerializer dataSerializer = new DataSerializer(globalDataFile);
+        globalData = (GlobalData) dataSerializer.deserialize();
+    }
+
+    //GlobalData manipulation
+
+    public static int getHighID() {
+        return globalData.highID;
+    }
+
+    public static void incrementHighID() {
+        globalData.highID++;
+    }
+
+    public static int getAllPlayers() {
+        return globalData.allPlayers;
+    }
+
+    public static void incrementAllPlayers() {
+        globalData.allPlayers++;
+    }
+
+    public static Location getJailLocation() {
+        return globalData.jailLocation;
+    }
+
+    public static void setJailLocation(Location location) {
+        globalData.jailLocation = location;
     }
 }

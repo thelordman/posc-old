@@ -2,7 +2,7 @@ package io.github.thelordman.costrength.commands;
 
 import io.github.thelordman.costrength.utilities.CommandName;
 import io.github.thelordman.costrength.utilities.Methods;
-import io.github.thelordman.costrength.utilities.data.PlayerDataManager;
+import io.github.thelordman.costrength.utilities.data.DataManager;
 import io.github.thelordman.costrength.utilities.data.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -28,7 +28,7 @@ public class RankCommand implements CommandExecutor,TabExecutor {
         if (args[1].equals("set")) {
             if(Methods.doesRankExist(args[2].toUpperCase())) {
                 String rank = Rank.valueOf(args[2].toUpperCase()).name.isEmpty() ? "Default" : Rank.valueOf(args[2].toUpperCase()).name;
-                PlayerDataManager.getPlayerData(target.getUniqueId()).setRank(Rank.valueOf(args[2].toUpperCase()));
+                DataManager.getPlayerData(target.getUniqueId()).setRank(Rank.valueOf(args[2].toUpperCase()));
                 sender.sendMessage(Methods.cStr("&f" + target.getName() + "'s &6rank was set to &f" + rank + "&6."));
                 if (target.isOnline()) {
                     Methods.updateDisplayName(target.getPlayer());

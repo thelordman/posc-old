@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class PlayerData implements Serializable {
     @Serial
-    private transient static final long serialVersionUID = 3022193081975011242L;
+    private static final long serialVersionUID = 3022193081975011242L;
 
     private final UUID uuid;
 

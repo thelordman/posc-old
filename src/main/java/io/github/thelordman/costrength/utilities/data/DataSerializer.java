@@ -17,7 +17,7 @@ public record DataSerializer(File file) {
 
     public <T extends Serializable> void serialize(@Nonnull T objectToSerialize) {
 
-        try (BukkitObjectOutputStream objectOutputStream = new BukkitObjectOutputStream(new GZIPOutputStream(new FileOutputStream(file)));) {
+        try (BukkitObjectOutputStream objectOutputStream = new BukkitObjectOutputStream(new GZIPOutputStream(new FileOutputStream(file)))) {
 
             objectOutputStream.writeObject(objectToSerialize);
 
