@@ -1,2 +1,2 @@
-# CoStrength
-The main plugin for the mining minigame of the CoStrength -Minecraft server network.
+# Posc
+The main plugin for the mining minigame of the Posc -Minecraft server network.
