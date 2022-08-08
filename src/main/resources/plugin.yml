@@ -1,9 +1,9 @@
-name: CoStrength
+name: Posc
 version: 1.0
-main: io.github.thelordman.costrength.CoStrength
+main: io.github.thelordman.posc.Posc
 api-version: 1.18
 authors: [thelordman, CatalysmRL, TotallyAl, hotpocket184]
-description: The main plugin used by CoStrength. costrength.minehut.gg | https://discord.gg/EDvrURNDa4
+description: The main plugin used by Posc. posc.minehut.gg | https://discord.gg/YeUacKAWV2
 website: thelordman.github.io
 load: POSTWORLD
 default-permission: op
