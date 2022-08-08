@@ -16,7 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 
 public final class Posc extends JavaPlugin {
 
-    public static Posc instance;
+    private static Posc instance;
     public static Posc get() {
         return instance;
     }

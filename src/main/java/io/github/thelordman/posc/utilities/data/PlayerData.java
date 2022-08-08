@@ -1,9 +1,11 @@
 package io.github.thelordman.posc.utilities.data;
 
 import io.github.thelordman.posc.punishments.Punishment;
+import io.github.thelordman.posc.utilities.Rank;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -20,7 +22,7 @@ public class PlayerData implements Serializable {
     private int level = 1;
     private int killStreak = 0;
     private boolean staffMode = false;
-    private long muted = 0L;
+    private Integer muted = 0;
 
     private Rank rank = Rank.DEFAULT;
     private final ArrayList<Punishment> punishments = new ArrayList<>();
@@ -109,10 +111,10 @@ public class PlayerData implements Serializable {
     }
 
     public boolean isMuted() {
-        return muted > System.currentTimeMillis();
+        return muted > Instant.now().getEpochSecond();
     }
 
-    public void setMuted(long muted) {
+    public void setMuted(Integer muted) {
         this.muted = muted;
     }
 }

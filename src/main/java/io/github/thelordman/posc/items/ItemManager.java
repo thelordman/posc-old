@@ -16,10 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemManager {
-    public static final NamespacedKey[] pickaxeEnchantments = {new NamespacedKey(Posc.instance, "pickaxe-vein"), new NamespacedKey(Posc.instance, "pickaxe-bomb"), new NamespacedKey(Posc.instance, "pickaxe-speed"), new NamespacedKey(Posc.instance, "pickaxe-haste"), new NamespacedKey(Posc.instance, "pickaxe-experience"), new NamespacedKey(Posc.instance, "pickaxe-jackhammer"), new NamespacedKey(Posc.instance, "pickaxe-drill"), new NamespacedKey(Posc.instance, "pickaxe-counter")};
-    public static final NamespacedKey pickaxeCounter = new NamespacedKey(Posc.instance, "counter-pickaxe");
+    public static final NamespacedKey[] pickaxeEnchantments = {new NamespacedKey(Posc.get(), "pickaxe-vein"), new NamespacedKey(Posc.get(), "pickaxe-bomb"), new NamespacedKey(Posc.get(), "pickaxe-speed"), new NamespacedKey(Posc.get(), "pickaxe-haste"), new NamespacedKey(Posc.get(), "pickaxe-experience"), new NamespacedKey(Posc.get(), "pickaxe-jackhammer"), new NamespacedKey(Posc.get(), "pickaxe-drill"), new NamespacedKey(Posc.get(), "pickaxe-counter")};
+    public static final NamespacedKey pickaxeCounter = new NamespacedKey(Posc.get(), "counter-pickaxe");
 
-    public static final NamespacedKey[] swordEnchantments = {new NamespacedKey(Posc.instance, "sword-viper"), new NamespacedKey(Posc.instance, "sword-bandit"), new NamespacedKey(Posc.instance, "sword-block"), new NamespacedKey(Posc.instance, "sword-blinding"), new NamespacedKey(Posc.instance, "sword-feast"), new NamespacedKey(Posc.instance, "sword-hulk"), new NamespacedKey(Posc.instance, "sword-lifesteal"), new NamespacedKey(Posc.instance, "sword-milk")};
+    public static final NamespacedKey[] swordEnchantments = {new NamespacedKey(Posc.get(), "sword-viper"), new NamespacedKey(Posc.get(), "sword-bandit"), new NamespacedKey(Posc.get(), "sword-block"), new NamespacedKey(Posc.get(), "sword-blinding"), new NamespacedKey(Posc.get(), "sword-feast"), new NamespacedKey(Posc.get(), "sword-hulk"), new NamespacedKey(Posc.get(), "sword-lifesteal"), new NamespacedKey(Posc.get(), "sword-milk")};
 
     public static byte getCELevel(ItemStack item, NamespacedKey key) {
         if (item == null) return 0;
@@ -366,7 +366,7 @@ public class ItemManager {
                 : Methods.cStr(name + " &7" + Methods.toRomanNumeral((byte) item.getEnchantmentLevel(enchant)) + " &f→ &e" + Methods.toRomanNumeral((byte) (item.getEnchantmentLevel(enchant) + 1))));
         if (item.getEnchantmentLevel(enchant) == getEnchantmentMaxLevel(enchant)) meta.setDisplayName(Methods.cStr(name + " &6" + Methods.toRomanNumeral((byte) item.getEnchantmentLevel(enchant))));
         meta.setLore(List.of(lore));
-        meta.getPersistentDataContainer().set(new NamespacedKey(Posc.instance, "gui-item"), PersistentDataType.BYTE, key);
+        meta.getPersistentDataContainer().set(new NamespacedKey(Posc.get(), "gui-item"), PersistentDataType.BYTE, key);
         GUIItem.setItemMeta(meta);
         String addendum = item.getEnchantmentLevel(enchant) >= getEnchantmentMaxLevel(enchant) ? Methods.cStr("&6&lMAX LEVEL") : Methods.cStr("&eCost&8: &f$" + Methods.rStr(getEnchantmentPrice(item, enchant)));
         addLore(GUIItem, "", addendum);

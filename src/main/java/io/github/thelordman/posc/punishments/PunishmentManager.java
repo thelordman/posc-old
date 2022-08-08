@@ -36,7 +36,7 @@ public class PunishmentManager {
         return DataManager.getPlayerData(uuid).isMuted();
     }
 
-    public static void setMuted(UUID uuid, long time) {
+    public static void setMuted(UUID uuid, int time) {
         DataManager.getPlayerData(uuid).setMuted(time);
     }
 }

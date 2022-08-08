@@ -10,7 +10,7 @@ import io.github.thelordman.posc.items.Kit;
 import io.github.thelordman.posc.utilities.Methods;
 import io.github.thelordman.posc.utilities.data.Data;
 import io.github.thelordman.posc.utilities.data.DataManager;
-import io.github.thelordman.posc.utilities.data.Rank;
+import io.github.thelordman.posc.utilities.Rank;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

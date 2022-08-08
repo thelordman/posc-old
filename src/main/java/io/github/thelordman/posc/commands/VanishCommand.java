@@ -4,7 +4,7 @@ import io.github.thelordman.posc.Posc;
 import io.github.thelordman.posc.utilities.CommandName;
 import io.github.thelordman.posc.utilities.Methods;
 import io.github.thelordman.posc.utilities.data.Data;
-import io.github.thelordman.posc.utilities.data.Rank;
+import io.github.thelordman.posc.utilities.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

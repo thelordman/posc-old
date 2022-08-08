@@ -141,3 +141,9 @@ commands:
   data:
     description: Modify a player's data.
     usage: /data <player> <statistic | playerdata> <statistic type | playerdata type> <set | add | take | multiply | divide | power | squareroot> <amount>
+  mute:
+    description: Mute a player.
+    usage: /mute <player> <time | perm> [reason] [-s]
+  unmute:
+    description: Unmute a player.
+    usage: /unmute <player> [-s]

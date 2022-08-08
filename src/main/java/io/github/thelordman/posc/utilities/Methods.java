@@ -2,7 +2,6 @@ package io.github.thelordman.posc.utilities;
 
 import io.github.thelordman.posc.economy.EconomyManager;
 import io.github.thelordman.posc.utilities.data.Data;
-import io.github.thelordman.posc.utilities.data.Rank;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

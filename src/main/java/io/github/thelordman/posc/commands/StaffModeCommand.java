@@ -3,7 +3,7 @@ package io.github.thelordman.posc.commands;
 import io.github.thelordman.posc.utilities.CommandName;
 import io.github.thelordman.posc.utilities.Methods;
 import io.github.thelordman.posc.utilities.data.DataManager;
-import io.github.thelordman.posc.utilities.data.Rank;
+import io.github.thelordman.posc.utilities.Rank;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

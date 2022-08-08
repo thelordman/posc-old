@@ -4,17 +4,18 @@ import io.github.thelordman.posc.utilities.data.DataManager;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.io.Serializable;
 import java.util.UUID;
 
-public class Punishment {
+public class Punishment implements Serializable {
     private final PunishmentType punismentType;
     private final int created;
-    private final int expiration;
+    private final Integer expiration;
     private final String reason;
     private final UUID punisher;
     private final int ID;
 
-    public Punishment(@NotNull PunishmentType punismentType, int created, int expiration, @Nullable String reason, @Nullable UUID punisher) {
+    public Punishment(@NotNull PunishmentType punismentType, int created, @Nullable Integer expiration, @Nullable String reason, @Nullable UUID punisher) {
         this.punismentType = punismentType;
         this.created = created;
         this.expiration = expiration;
@@ -32,7 +33,7 @@ public class Punishment {
         return created;
     }
 
-    public int getExpiration() {
+    public Integer getExpiration() {
         return expiration;
     }
 

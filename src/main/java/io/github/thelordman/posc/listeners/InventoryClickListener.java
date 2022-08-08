@@ -197,7 +197,7 @@ public class InventoryClickListener implements Listener {
         else if (event.getView().getTitle().equals("Enchantment Menu")) {
             switch (event.getCurrentItem().getType()) {
                 case ENCHANTED_BOOK:
-                    switch (event.getCurrentItem().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Posc.instance, "gui-item"), PersistentDataType.BYTE)) {
+                    switch (event.getCurrentItem().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Posc.get(), "gui-item"), PersistentDataType.BYTE)) {
                         case 0 -> enchant = Enchantment.DIG_SPEED;
                         case 1 -> enchant = Enchantment.SILK_TOUCH;
                         case 2 -> enchant = Enchantment.LOOT_BONUS_BLOCKS;

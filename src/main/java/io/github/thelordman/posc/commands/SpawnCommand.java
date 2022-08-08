@@ -24,7 +24,7 @@ public class SpawnCommand implements CommandExecutor {
         Player target = args.length > 0 ? Bukkit.getPlayer(args[0]) : (Player) sender;
         if (target == null) return false;
         if (target == sender) sender.sendMessage(Methods.cStr("&6You will be sent to spawn in &f5 seconds&6."));
-        Bukkit.getScheduler().runTaskLater(Posc.instance, () -> spawn(target), target == sender ? 100L : 0L);
+        Bukkit.getScheduler().runTaskLater(Posc.get(), () -> spawn(target), target == sender ? 100L : 0L);
 
         return true;
     }

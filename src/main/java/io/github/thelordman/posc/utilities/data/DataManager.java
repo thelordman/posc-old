@@ -36,7 +36,6 @@ public class DataManager {
         if (!playerDataFolder.exists()) {
             playerDataFolder.mkdirs();
         }
-
         DataSerializer dataSerializer = new DataSerializer(new File(playerDataFolder + "/" + data.getUUID() + ".dat"));
         dataSerializer.serialize(data);
     }
@@ -69,18 +68,22 @@ public class DataManager {
             savePlayerData(playerData);
         }
 
+        if (globalData == null) globalData = new GlobalData();
         DataSerializer dataSerializer = new DataSerializer(new File(globalDataFile.getPath()));
         dataSerializer.serialize(globalData);
     }
 
     public static void loadAllData() {
-        for (File dataFile : playerDataFolder.listFiles(File::isFile)) {
-            if (playerDataMap.containsKey(UUID.fromString(dataFile.getName().split(Pattern.quote("."))[0]))) continue;
+        if (playerDataFolder.exists() && playerDataFolder.listFiles().length > 0) {
+            for (File dataFile : playerDataFolder.listFiles(File::isFile)) {
+                if (playerDataMap.containsKey(UUID.fromString(dataFile.getName().split(Pattern.quote("."))[0])))
+                    continue;
 
-            DataSerializer dataSerializer = new DataSerializer(dataFile);
-            PlayerData data = (PlayerData) dataSerializer.deserialize();
+                DataSerializer dataSerializer = new DataSerializer(dataFile);
+                PlayerData data = (PlayerData) dataSerializer.deserialize();
 
-            playerDataMap.put(data.getUUID(), data);
+                playerDataMap.put(data.getUUID(), data);
+            }
         }
 
         DataSerializer dataSerializer = new DataSerializer(globalDataFile);
