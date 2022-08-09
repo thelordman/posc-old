@@ -111,6 +111,7 @@ public class PlayerData implements Serializable {
     }
 
     public boolean isMuted() {
+        if (muted == null) return true;
         return muted > Instant.now().getEpochSecond();
     }
 

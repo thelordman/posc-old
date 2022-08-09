@@ -147,3 +147,9 @@ commands:
   unmute:
     description: Unmute a player.
     usage: /unmute <player> [-s]
+  kick:
+    description: Kick a player.
+    usage: /kick <player> [reason] [-s]
+  warn:
+    description: Kick a player.
+    usage: /warn <player> [reason] [-s]

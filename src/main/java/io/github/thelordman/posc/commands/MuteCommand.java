@@ -17,7 +17,6 @@ import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -28,6 +27,8 @@ public class MuteCommand implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (!Methods.checkCommandPermission(sender, (byte) 2)) return true;
+        if (args.length < 2) return false;
+
         OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
         if (!sender.getName().equals("My_Lord") && Rank.getRank(target.getUniqueId()).permissionLevel >= Rank.getRank(((Player) sender).getUniqueId()).permissionLevel) {
             sender.sendMessage(Methods.cStr("&cYou cannot mute that player."));
@@ -37,12 +38,11 @@ public class MuteCommand implements TabExecutor {
             sender.sendMessage(Methods.cStr("&cTarget is already muted. /unmute to unmute."));
             return true;
         }
-        if (args.length < 2) return false;
 
         if (Date.secsFromString(args[1]) == 0 && !args[1].toLowerCase().startsWith("perm")) return false;
-        int time = Date.nowPlus(Date.secsFromString(args[1]));
-        String reason = String.join(" ", Arrays.copyOfRange(args, 2, args.length)).isEmpty() ? "No reason"
-                : String.join(" ", Arrays.copyOfRange(args, 2, args.length));
+        Integer time = Date.nowPlus(Date.secsFromString(args[1]));
+        String reason = String.join(" ", Arrays.copyOfRange(args, 2, args.length)).replace("-s", "").isEmpty() ? "No reason"
+                : String.join(" ", Arrays.copyOfRange(args, 2, args.length)).replace("-s", "");
 
         String msg = Methods.cStr("&f" + target.getName() + " &6has been muted by &f" + sender.getName() +
                 " &6for &f" + reason + " &8| &f" + args[1] + "&6.");
@@ -52,9 +52,12 @@ public class MuteCommand implements TabExecutor {
             }
         } else Bukkit.broadcastMessage(msg);
 
+        if (target.isOnline()) target.getPlayer().sendMessage(Methods.cStr("\n&cYou've been muted by &f" + sender.getName() +
+                " &cfor &f" + reason + " &8| &f" + args[1] + "&c.\n"));
         PunishmentManager.setMuted(target.getUniqueId(), time);
-        PunishmentManager.addPunishment(target.getUniqueId(), new Punishment(PunishmentType.MUTE, (int) Instant.now().getEpochSecond(),
-                args[1].toLowerCase().startsWith("perm") ? null : time, reason.isEmpty() ? null : reason,
+
+        PunishmentManager.addPunishment(target.getUniqueId(), new Punishment(PunishmentType.MUTE,
+                args[1].toLowerCase().startsWith("perm") ? null : time, reason,
                 sender instanceof Player ? ((Player) sender).getUniqueId() : null));
 
         return true;

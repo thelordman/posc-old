@@ -1,5 +1,8 @@
 package io.github.thelordman.posc.commands;
 
+import io.github.thelordman.posc.punishments.Punishment;
+import io.github.thelordman.posc.punishments.PunishmentManager;
+import io.github.thelordman.posc.punishments.PunishmentType;
 import io.github.thelordman.posc.utilities.CommandName;
 import io.github.thelordman.posc.utilities.Methods;
 import io.github.thelordman.posc.utilities.data.DataManager;
@@ -50,6 +53,7 @@ public class JailCommand implements CommandExecutor {
             target.teleportAsync(DataManager.getJailLocation(), PlayerTeleportEvent.TeleportCause.COMMAND);
             player.sendMessage(Methods.cStr("&6You jailed the player &f" + target.getDisplayName() + "&6. &8| &f" + Methods.locToString(DataManager.getJailLocation(), false)));
             target.sendMessage(Methods.cStr("&6You have been jailed by &f" + player.getDisplayName() + "&6. &8| &f" + Methods.locToString(DataManager.getJailLocation(), false)));
+            PunishmentManager.addPunishment(target.getUniqueId(), new Punishment(PunishmentType.JAIL, null, null, player.getUniqueId()));
         }
 
         return true;
