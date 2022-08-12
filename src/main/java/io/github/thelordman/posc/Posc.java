@@ -36,8 +36,6 @@ public final class Posc extends JavaPlugin {
 
         DataManager.loadAllData();
 
-        AdvancementHandler.init();
-
         MineHandler.registerRandomPattern();
     }
 
