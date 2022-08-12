@@ -5,6 +5,7 @@ import io.github.thelordman.posc.economy.EconomyManager;
 import io.github.thelordman.posc.economy.LevelHandler;
 import io.github.thelordman.posc.items.ItemManager;
 import io.github.thelordman.posc.scoreboard.ScoreboardHandler;
+import io.github.thelordman.posc.utilities.Rank;
 import io.github.thelordman.posc.utilities.data.Data;
 import io.github.thelordman.posc.utilities.Methods;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -33,7 +34,7 @@ public class PlayerDeathListener implements Listener {
 
             killRewards(killer, victim);
 
-            if (Methods.hasDonatorPermission(killer.getUniqueId(), 1)) event.setDeathMessage(Methods.cStr("&cDeath &8| &f" + event.getDeathMessage()));
+            if (Rank.hasDonorPermission(killer, 1)) event.setDeathMessage(Methods.cStr("&cDeath &8| &f" + event.getDeathMessage()));
             else event.setDeathMessage(Methods.cStr("&7Death &8| &7" + event.getDeathMessage()));
 
             if (EconomyManager.getBounty(victim.getUniqueId()) != 0d) {

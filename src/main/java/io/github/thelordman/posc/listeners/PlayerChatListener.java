@@ -3,6 +3,7 @@ package io.github.thelordman.posc.listeners;
 import io.github.thelordman.posc.discord.Discord;
 import io.github.thelordman.posc.punishments.PunishmentManager;
 import io.github.thelordman.posc.utilities.Methods;
+import io.github.thelordman.posc.utilities.Rank;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,7 +22,7 @@ public class PlayerChatListener implements Listener {
             return;
         }
 
-        if (System.currentTimeMillis() - lastMessage.getOrDefault(event.getPlayer(), 0L) < 2000L && !Methods.hasDonatorPermission(event.getPlayer().getUniqueId(), 1)) {
+        if (System.currentTimeMillis() - lastMessage.getOrDefault(event.getPlayer(), 0L) < 2000L && !Rank.hasDonorPermission(event.getPlayer(), 1)) {
             event.getPlayer().sendMessage(Methods.cStr("&cYou must wait at least 2 seconds before chatting\n&cBypass with /buy"));
             event.setCancelled(true);
             return;
