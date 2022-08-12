@@ -2,6 +2,7 @@ package io.github.thelordman.posc.commands;
 
 import io.github.thelordman.posc.utilities.CommandName;
 import io.github.thelordman.posc.utilities.Methods;
+import io.github.thelordman.posc.utilities.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -22,7 +23,7 @@ public class TopCommand implements CommandExecutor,TabExecutor {
             commandSender.sendMessage(Methods.cStr("&cOnly players may execute this command"));
             return true;
         }
-        if (!Methods.checkCommandPermission(executor, 3)) return true;
+        if (!Rank.hasPermission(executor, 3)) return true;
 
         Player target;
         if (strings.length == 0) {

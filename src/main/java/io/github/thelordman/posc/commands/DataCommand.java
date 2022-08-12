@@ -4,6 +4,7 @@ import io.github.thelordman.posc.economy.EconomyManager;
 import io.github.thelordman.posc.scoreboard.ScoreboardHandler;
 import io.github.thelordman.posc.utilities.CommandName;
 import io.github.thelordman.posc.utilities.Methods;
+import io.github.thelordman.posc.utilities.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
@@ -21,7 +22,7 @@ import java.util.List;
 public class DataCommand implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!Methods.checkCommandPermission(sender, 7)) return true;
+        if (!Rank.hasPermission(sender, 7)) return true;
         if (args.length < 5 | !List.of("statistic", "stat", "playerdata", "data").contains(args[1]) |
                 !List.of("set", "add", "take", "multiply", "divide", "power", "squareroot").contains(args[3])) return false;
         if (args[1].equals("statistic") | args[1].equals("stat")) {

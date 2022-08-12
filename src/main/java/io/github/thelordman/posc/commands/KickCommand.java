@@ -18,7 +18,7 @@ import java.util.Arrays;
 public class KickCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!Methods.checkCommandPermission(sender, (byte) 2)) return true;
+        if (!Rank.hasPermission(sender, (byte) 2)) return true;
         if (args.length == 0) return false;
 
         Player target = Bukkit.getPlayer(args[0]);

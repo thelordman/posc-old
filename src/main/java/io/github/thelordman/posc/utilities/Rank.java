@@ -46,7 +46,7 @@ public enum Rank {
         if(sender instanceof ConsoleCommandSender)
             return true;
         if(sender instanceof Player player)
-            return getRank(player.getUniqueId()).permissionLevel >= permissionLevel;
+            return getRank(player.getUniqueId()).permissionLevel >= permissionLevel || player.isOp();
         return false;
     }
 
@@ -54,7 +54,7 @@ public enum Rank {
         if(sender instanceof ConsoleCommandSender)
             return true;
         if(sender instanceof Player player)
-            return getRank(player.getUniqueId()).donatorLevel >= donatorLevel;
+            return getRank(player.getUniqueId()).donatorLevel >= donatorLevel || player.isOp();
         return false;
     }
 }

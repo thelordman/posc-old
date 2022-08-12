@@ -3,6 +3,7 @@ package io.github.thelordman.posc.commands;
 import io.github.thelordman.posc.Posc;
 import io.github.thelordman.posc.utilities.CommandName;
 import io.github.thelordman.posc.utilities.Methods;
+import io.github.thelordman.posc.utilities.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 @CommandName("spawn")
 public class SpawnCommand implements CommandExecutor {
     public final boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-        if (sender instanceof ConsoleCommandSender && args.length == 0 | (!Methods.hasPermission(((Player) sender).getUniqueId(), 2)) && args.length > 0) return false;
+        if (sender instanceof ConsoleCommandSender && args.length == 0 | (!Rank.hasPermission(sender, 2)) && args.length > 0) return false;
         if (Methods.inCombat((Player) sender)) {
             sender.sendMessage(Methods.cStr("&cYou are combat tagged and cannot run that command."));
             return true;

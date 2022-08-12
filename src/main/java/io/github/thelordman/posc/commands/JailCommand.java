@@ -5,6 +5,7 @@ import io.github.thelordman.posc.punishments.PunishmentManager;
 import io.github.thelordman.posc.punishments.PunishmentType;
 import io.github.thelordman.posc.utilities.CommandName;
 import io.github.thelordman.posc.utilities.Methods;
+import io.github.thelordman.posc.utilities.Rank;
 import io.github.thelordman.posc.utilities.data.DataManager;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -19,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 public class JailCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!Methods.checkCommandPermission(sender, (byte) 2)) return true;
+        if (!Rank.hasPermission(sender, (byte) 2)) return true;
         Player player = (Player) sender;
 
         if (args.length < 1) {

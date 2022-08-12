@@ -3,6 +3,7 @@ package io.github.thelordman.posc.commands;
 import io.github.thelordman.posc.discord.Discord;
 import io.github.thelordman.posc.utilities.CommandName;
 import io.github.thelordman.posc.utilities.Methods;
+import io.github.thelordman.posc.utilities.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,9 +21,9 @@ public class StaffChatCommand implements CommandExecutor,TabExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!Methods.checkCommandPermission(sender, (byte) 2)) return true;
+        if (!Rank.hasPermission(sender, (byte) 2)) return true;
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (Methods.hasPermission(player.getUniqueId(), 1)) {
+            if (Rank.hasPermission(player, 1)) {
                 player.sendMessage(Methods.cStr("&6[Staff Chat] &e" + sender.getName() + "&7: &f" + String.join(" ", args)));
             }
         }

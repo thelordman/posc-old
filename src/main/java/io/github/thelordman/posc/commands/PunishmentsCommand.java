@@ -7,6 +7,7 @@ import io.github.thelordman.posc.punishments.PunishmentManager;
 import io.github.thelordman.posc.punishments.PunishmentType;
 import io.github.thelordman.posc.utilities.CommandName;
 import io.github.thelordman.posc.utilities.Methods;
+import io.github.thelordman.posc.utilities.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 public class PunishmentsCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        if (args.length > 0 && !Methods.checkCommandPermission(sender, (byte) 1)) return true;
+        if (args.length > 0 && !Rank.hasPermission(sender, (byte) 1)) return true;
         Player player = (Player) sender;
         OfflinePlayer target = args.length == 0 ? player : Bukkit.getOfflinePlayer(args[0]);
 

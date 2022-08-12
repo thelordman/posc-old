@@ -4,6 +4,7 @@ import io.github.thelordman.posc.economy.EconomyManager;
 import io.github.thelordman.posc.utilities.CommandName;
 import io.github.thelordman.posc.utilities.Methods;
 import io.github.thelordman.posc.scoreboard.ScoreboardHandler;
+import io.github.thelordman.posc.utilities.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -25,7 +26,7 @@ import java.util.List;
 public class EconomyCommand implements CommandExecutor,TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (!Methods.checkCommandPermission(sender, 7)) return true;
+        if (!Rank.hasPermission(sender, 7)) return true;
         if (args.length < 2 | args.length > 3) return false;
         OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
         String executor = sender instanceof Player ? ((Player) sender).getDisplayName() : "Console";

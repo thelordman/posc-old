@@ -10,6 +10,7 @@ import com.sk89q.worldedit.world.block.BlockTypes;
 import io.github.thelordman.posc.mining.MineHandler;
 import io.github.thelordman.posc.utilities.CommandName;
 import io.github.thelordman.posc.utilities.Methods;
+import io.github.thelordman.posc.utilities.Rank;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -26,7 +27,7 @@ public class MapCommand implements TabExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!Methods.checkCommandPermission(sender, 2)) return true;
+        if (!Rank.hasPermission(sender, 2)) return true;
 
         MineHandler.resetMine((byte) 2, (Player) sender);
         try (EditSession editSession = WorldEdit.getInstance().newEditSessionBuilder().world(FaweAPI.getWorld("world")).changeSetNull().fastMode(true).build()) {
