@@ -1,5 +1,7 @@
 package io.github.thelordman.posc.commands;
 
+import io.github.thelordman.posc.date.Date;
+import io.github.thelordman.posc.date.DateType;
 import io.github.thelordman.posc.economy.EconomyManager;
 import io.github.thelordman.posc.utilities.CommandName;
 import io.github.thelordman.posc.utilities.Methods;
@@ -65,7 +67,7 @@ public class LeaderboardCommand implements CommandExecutor,TabExecutor {
             String mid = Rank.getRank(pair.getValue1()) == Rank.DEFAULT ? "&7" : " &8| " + Rank.getRank(pair.getValue1()).color;
             builder.append("\n &6").append(i).append(". ").append(Methods.levelPrefix(pair.getValue1())).append(" ")
                     .append(Rank.getRank(pair.getValue1()).name).append(mid).append(Bukkit.getOfflinePlayer(pair.getValue1()).getName())
-                    .append(" &7&l- &f").append(a).append(Methods.rStr(pair.getValue0()));
+                    .append(" &7&l- &f").append(a).append(args[0].equals("playtime") ? Date.dateTimeFormat(pair.getValue0().intValue() / 20, DateType.H_M_S) : Methods.rStr(pair.getValue0()));
             if (i == 10) break;
             i++;
         }

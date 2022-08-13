@@ -18,7 +18,7 @@ public class Date {
             }
             case HOUR_MINUTE_SECOND, H_M_S -> {
                 int[] time = {seconds % 60, (seconds % 3600) / 60, seconds / 3600};
-                String[][] s = {{" seconds ", " minutes ", " hours "}, {" s ", " m ", " h "}};
+                String[][] s = {{" seconds ", " minutes ", " hours "}, {"s ", "m ", "h "}};
                 int i = dateType == DateType.HOUR_MINUTE_SECOND ? 0 : 1;
                 StringBuilder builder = new StringBuilder();
                 for (int ii = 2; ii > -1; ii--) {

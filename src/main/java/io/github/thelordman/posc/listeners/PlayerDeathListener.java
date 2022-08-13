@@ -10,7 +10,6 @@ import io.github.thelordman.posc.utilities.Methods;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -61,7 +60,7 @@ public class PlayerDeathListener implements Listener {
 
         killDrops(victim);
 
-        //Discord
+        // Discord
         EmbedBuilder builder = new EmbedBuilder();
         builder.setAuthor(Methods.replaceColorCodes(event.getPlayer().getDisplayName() + " Died", '§'), null, "https://crafatar.com/avatars/" + event.getPlayer().getUniqueId());
         builder.setColor(Color.RED);
@@ -76,8 +75,8 @@ public class PlayerDeathListener implements Listener {
     }
 
     private void killRewards(Player killer, Player victim) {
-        //Victim
-        int killerKillstreak = EconomyManager.getKillstreak(killer.getUniqueId());
+        // Victim
+        double killerKillstreak = EconomyManager.getKillstreak(killer.getUniqueId());
         double victimBalance = EconomyManager.getBalance(victim.getUniqueId());
         double takeFromVictim = ItemManager.getCELevel(killer.getInventory().getItemInMainHand(), ItemManager.swordEnchantments[1]) == 1 && EconomyManager.getLevel(victim.getUniqueId()) > EconomyManager.getLevel(killer.getUniqueId())
                 ? victimBalance == 0d ? 0d : victimBalance / 5d : victimBalance == 0d ? 0d : victimBalance / 100d;
@@ -86,29 +85,23 @@ public class PlayerDeathListener implements Listener {
 
         victim.sendTitle(ChatColor.RED + "You Died", ChatColor.GOLD + killer.getDisplayName() + " stole " + ChatColor.WHITE + "$" + Methods.rStr(takeFromVictim));
 
-        //Killer Rewards
-        double reward = 1000d + killerKillstreak * 100 + EconomyManager.getKillstreak(victim.getUniqueId()) * 100;
+        // Killer Rewards
+        double reward = 100d + killerKillstreak == 0 ? 0 : Math.min(killerKillstreak * 0.01d, 1d) * takeFromVictim + takeFromVictim;
+        double multi = 1 + Math.max((EconomyManager.getLevel(victim.getUniqueId()) - EconomyManager.getLevel(killer.getUniqueId())) / 100d, -0.1);
 
-        double levelBonus = Math.max((EconomyManager.getLevel(victim.getUniqueId()) - EconomyManager.getLevel(killer.getUniqueId())) / 10d, -0.75);
-        double kdrBonus = levelBonus > 0 ? 1 + Methods.getKdr(killer) + Methods.getKdr(victim) : Methods.getKdr(killer) + Methods.getKdr(victim);
-        double killBonus = victim.getStatistic(Statistic.PLAYER_KILLS) > killer.getStatistic(Statistic.PLAYER_KILLS)
-                ? ((double) victim.getStatistic(Statistic.PLAYER_KILLS)) / ((double) killer.getStatistic(Statistic.PLAYER_KILLS)) / 10d : 0d;
-
-        double multi = 1 + levelBonus + kdrBonus + killBonus;
-
-        double money = reward * multi + takeFromVictim, xp = reward * multi;
+        double money = reward * multi, xp = reward * multi;
         if (Double.isNaN(money) | Double.isInfinite(money)) money = 100d;
 
         killer.sendMessage(Methods.cStr("&6You killed " + victim.getDisplayName() + " &6."));
         killer.sendActionBar(Methods.cStr("&f+$" + Methods.rStr(money) + " &7(" + Methods.rStr(multi) + "x) &8| &f+" + Methods.rStr(xp) + "xp &7(" + Methods.rStr(multi) + "x) &8| &6Streak&7: &f" + Methods.rStr((double) killerKillstreak)));
         EconomyManager.setBalance(killer.getUniqueId(), EconomyManager.getBalance(killer.getUniqueId()) + money);
         EconomyManager.setXp(killer.getUniqueId(), EconomyManager.getXp(killer.getUniqueId()) + xp);
-        EconomyManager.setKillstreak(killer.getUniqueId(), killerKillstreak + 1);
+        EconomyManager.setKillstreak(killer.getUniqueId(), (int) (killerKillstreak + 1));
         LevelHandler.xp(killer);
     }
 
     private void killDrops(Player victim) {
-        ItemStack[][] items = {victim.getInventory().getStorageContents(), victim.getInventory().getArmorContents()};
+        ItemStack[][] items = {victim.getInventory().getStorageContents(), victim.getInventory().getArmorContents(), victim.getInventory().getExtraContents()};
 
         for (ItemStack[] itemStacks : items) {
             for (ItemStack item : itemStacks) {
