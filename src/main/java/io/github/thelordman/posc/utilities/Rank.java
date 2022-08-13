@@ -2,6 +2,9 @@ package io.github.thelordman.posc.utilities;
 
 import io.github.thelordman.posc.utilities.data.DataManager;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
@@ -37,5 +40,21 @@ public enum Rank {
 
     public static Rank getRank(UUID uuid) {
         return DataManager.getPlayerData(uuid).getRank();
+    }
+
+    public static boolean hasPermission(CommandSender sender, int permissionLevel) {
+        if(sender instanceof ConsoleCommandSender)
+            return true;
+        if(sender instanceof Player player)
+            return getRank(player.getUniqueId()).permissionLevel >= permissionLevel || player.isOp();
+        return false;
+    }
+
+    public static boolean hasDonorPermission(CommandSender sender, int donatorLevel) {
+        if(sender instanceof ConsoleCommandSender)
+            return true;
+        if(sender instanceof Player player)
+            return getRank(player.getUniqueId()).donatorLevel >= donatorLevel || player.isOp();
+        return false;
     }
 }

@@ -26,7 +26,7 @@ import java.util.List;
 public class MuteCommand implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        if (!Methods.checkCommandPermission(sender, (byte) 2)) return true;
+        if (!Rank.hasPermission(sender, (byte) 2)) return true;
         if (args.length < 2) return false;
 
         OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);

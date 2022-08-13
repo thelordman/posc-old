@@ -3,6 +3,7 @@ package io.github.thelordman.posc.commands;
 import io.github.thelordman.posc.discord.Discord;
 import io.github.thelordman.posc.utilities.CommandName;
 import io.github.thelordman.posc.utilities.Methods;
+import io.github.thelordman.posc.utilities.Rank;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -17,7 +18,7 @@ import java.awt.*;
 public class BroadcastCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!Methods.checkCommandPermission(sender, (byte) 4)) return true;
+        if (!Rank.hasPermission(sender, (byte) 4)) return true;
         if (args.length == 0) return false;
         Bukkit.broadcastMessage(Methods.cStr("&6&lCoStrength &8| &f" + Methods.arrayToString(args)));
 

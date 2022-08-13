@@ -3,6 +3,7 @@ package io.github.thelordman.posc.commands;
 import io.github.thelordman.posc.discord.Discord;
 import io.github.thelordman.posc.utilities.CommandName;
 import io.github.thelordman.posc.utilities.Methods;
+import io.github.thelordman.posc.utilities.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,7 +17,7 @@ import java.util.Arrays;
 public class SudoCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!Methods.checkCommandPermission(sender, (byte) 7)) return true;
+        if (!Rank.hasPermission(sender, (byte) 7)) return true;
 
         if (args[0].isEmpty() | args[1].isEmpty()) return false;
         Player target = Bukkit.getPlayer(args[0]);

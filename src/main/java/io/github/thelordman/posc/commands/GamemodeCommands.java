@@ -2,6 +2,7 @@ package io.github.thelordman.posc.commands;
 
 import io.github.thelordman.posc.utilities.CommandName;
 import io.github.thelordman.posc.utilities.Methods;
+import io.github.thelordman.posc.utilities.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -14,7 +15,7 @@ import org.bukkit.entity.Player;
 public class GamemodeCommands implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (!Methods.checkCommandPermission(sender, (byte) 5)) return true;
+        if (!Rank.hasPermission(sender, (byte) 5)) return true;
         if (sender instanceof ConsoleCommandSender && args.length == 0) return false;
 
         GameMode mode;

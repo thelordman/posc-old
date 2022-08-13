@@ -23,7 +23,7 @@ import java.util.List;
 public class WarnCommand implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!Methods.checkCommandPermission(sender, (byte) 1)) return true;
+        if (!Rank.hasPermission(sender, (byte) 1)) return true;
         if (args.length == 0) return false;
 
         OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);

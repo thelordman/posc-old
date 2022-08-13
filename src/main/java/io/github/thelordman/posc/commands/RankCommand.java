@@ -22,7 +22,7 @@ import java.util.List;
 public class RankCommand implements CommandExecutor,TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (!Methods.checkCommandPermission(sender, (byte) 7)) return true;
+        if (!Rank.hasPermission(sender, (byte) 7)) return true;
         if (args.length < 2 | args.length > 3) return false;
         OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
         if (args[1].equals("set")) {

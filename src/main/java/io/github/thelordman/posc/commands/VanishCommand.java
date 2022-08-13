@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class VanishCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        if (!Methods.checkCommandPermission(sender, (byte) 5)) return true;
+        if (!Rank.hasPermission(sender, (byte) 5)) return true;
         if (!(sender instanceof Player) && args.length == 0) return false;
 
         return toggleVanish(args.length > 0 ? Bukkit.getPlayer(args[0]) : (Player) sender);

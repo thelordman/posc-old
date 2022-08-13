@@ -16,10 +16,10 @@ public class Methods {
         ChatColor color;
 
         if (type == 0) {
-            color = hasDonatorPermission(player.getUniqueId(), 1) ? ChatColor.WHITE : ChatColor.GRAY;
+            color = Rank.hasDonorPermission(player, 1) ? ChatColor.WHITE : ChatColor.GRAY;
         }
         else {
-            color = hasDonatorPermission(player.getUniqueId(), 1) ? ChatColor.GRAY : ChatColor.DARK_GRAY;
+            color = Rank.hasDonorPermission(player, 1) ? ChatColor.GRAY : ChatColor.DARK_GRAY;
         }
 
         return color;
@@ -63,36 +63,6 @@ public class Methods {
     public static String replaceColorCodes(String string, char type) {
         return string.replace(type + "4", "").replace(type + "c", "").replace(type + "6", "").replace(type + "e", "").replace(type + "2", "").replace(type + "a", "").replace(type + "b", "").replace(type + "3", "").replace(type + "1", "").replace(type + "9", "").replace(type + "d", "").replace(type + "5", "").replace(type + "f", "").replace(type + "7", "").replace(type + "8", "").replace(type + "0", "")
                 .replace(type + "k", "").replace(type + "l", "").replace(type + "m", "").replace(type + "n", "").replace(type + "o", "").replace(type + "r", "");
-    }
-
-    public static boolean hasPermission(UUID uuid, int level) {
-        return Rank.getRank(uuid).permissionLevel >= level;
-    }
-
-    public static boolean hasDonatorPermission(UUID uuid, int level) {
-        return Rank.getRank(uuid).donatorLevel >= level;
-    }
-
-    public static boolean checkCommandPermission(CommandSender sender, int level) {
-        if (sender instanceof Player player) {
-            if (!(hasPermission(player.getUniqueId(), level) | player.isOp())) {
-                player.getPlayer().sendMessage(cStr("&cInsufficient permissions.\n&6Please contact an admin or developer of &fCoStrength &6if you believe this shouldn't happen."));
-                return false;
-            }
-            return true;
-        }
-        return false;
-    }
-
-    public static boolean checkDonatorCommandPermission(CommandSender sender, int level) {
-        if (sender instanceof Player player) {
-            if (!(hasDonatorPermission(player.getUniqueId(), level) | player.isOp())) {
-                player.getPlayer().sendMessage(cStr("&cInsufficient permissions.\n&cPlease contact an admin or developer of &fCoStrength &6if you believe this shouldn't happen."));
-                return true;
-            }
-            return false;
-        }
-        return true;
     }
 
     public static boolean inSpawn(Location location) {
