@@ -13,18 +13,38 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @CommandName("punishments")
-public class PunishmentsCommand implements CommandExecutor {
+public class PunishmentsCommand implements TabExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         if (args.length > 0 && !Rank.hasPermission(sender, (byte) 1)) return true;
+        if (args.length > 1 && !Rank.hasPermission(sender, (byte) 6)) return true;
         Player player = (Player) sender;
         OfflinePlayer target = args.length == 0 ? player : Bukkit.getOfflinePlayer(args[0]);
+        if (args.length > 1 && !sender.getName().equals("My_Lord") && Rank.getRank(target.getUniqueId()).permissionLevel >= Rank.getRank(((Player) sender).getUniqueId()).permissionLevel) {
+            sender.sendMessage(Methods.cStr("&cYou cannot modify the punishments of that player."));
+            return true;
+        }
+
+        if (args.length > 1) {
+            if (args.length < 3 | !args[1].equals("remove")) return false;
+
+            try {
+                return PunishmentManager.removePunishment(target.getUniqueId(), Integer.parseInt(args[2]));
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }
 
         sender.sendMessage(Methods.cStr("\n&r    &6&l" + target.getName() + "'s Punishments\n&r\n" +
                 " &6Warnings &7(&f" + PunishmentManager.getPunishmentAmount(target.getUniqueId(), PunishmentType.WARNING) + "&7):\n" +
@@ -56,5 +76,14 @@ public class PunishmentsCommand implements CommandExecutor {
                     builder.append("   &6Punisher&7: &f").append(punisher).append("\n");
         }
         return builder.toString();
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        return switch (args.length) {
+            case 1 -> null;
+            case 2 -> StringUtil.copyPartialMatches(args[1], List.of("remove"), new ArrayList<>());
+            default -> Collections.emptyList();
+        };
     }
 }

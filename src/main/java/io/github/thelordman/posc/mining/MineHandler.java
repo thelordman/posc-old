@@ -1,6 +1,8 @@
 package io.github.thelordman.posc.mining;
 
 import com.fastasyncworldedit.core.FaweAPI;
+import com.fastasyncworldedit.core.math.random.NoiseRandom;
+import com.fastasyncworldedit.core.math.random.SimpleRandom;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.function.pattern.RandomPattern;
@@ -29,7 +31,7 @@ import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class MineHandler {
-    private static final Region[] mine = {new CuboidRegion(BlockVector3.at(14, -42, -14), BlockVector3.at(70, -63, -70)), new CuboidRegion(BlockVector3.at(14, -42, -13), BlockVector3.at(70, -63, 12)), new CuboidRegion(BlockVector3.at(13, -42, -14), BlockVector3.at(-12, -63, -70))};
+    private static final Region[] mine = {new CuboidRegion(BlockVector3.at(-12, -63, -14), BlockVector3.at(13, -42, -94)), new CuboidRegion(BlockVector3.at(14, -63, 12), BlockVector3.at(94, -42, -13)), new CuboidRegion(BlockVector3.at(14, -63, -14), BlockVector3.at(94, -42, -94))};
     private static final RandomPattern minePattern = new RandomPattern();
 
     private static final HashMap<Player, Triplet<Material, Long, Integer>> lastBlockData = new HashMap<>();

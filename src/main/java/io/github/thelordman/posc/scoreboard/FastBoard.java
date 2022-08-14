@@ -24,6 +24,7 @@ package io.github.thelordman.posc.scoreboard;
  * SOFTWARE.
  */
 
+import io.github.thelordman.posc.utilities.FastReflection;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
