@@ -25,19 +25,19 @@ commands:
   balance:
     description: Check the balance of an offline or online player.
     aliases: bal
-    usage: /bal [offline-player]
+    usage: /bal [player]
   economy:
     description: Change or get various values about the target's economy.
     aliases: [eco, econ]
-    usage: /eco <offline-player> <set|add|remove|reset|multiply|divide|get|pow> [<amount>]
+    usage: /eco <player> <set | add | remove | reset | multiply | divide | get | pow> [<amount>]
   stats:
     description: Check the stats of an offline or online player.
     aliases: st
-    usage: /stats [offline-player]
+    usage: /stats [player]
   jail:
     description: Send or release a player to or from jail, or set the location of jail.
     aliases: j
-    usage: /jail [offline-player]
+    usage: /jail [player]
   sun:
     description: Set the weather to sunny.
     aliases: [clean, clouds]
@@ -66,7 +66,7 @@ commands:
     usage: /commandspy
   rank:
     description: Give any online player any rank.
-    usage: /rank <offline-player> set <rank>
+    usage: /rank <player> set <rank>
   help:
     description: Link to the wiki.
     usage: /help
@@ -143,7 +143,7 @@ commands:
     usage: /data <player> <statistic | playerdata> <statistic type | playerdata type> <set | add | take | multiply | divide | power | squareroot> <amount>
   mute:
     description: Mute a player.
-    usage: /mute <player> <time | perm> [reason] [-s]
+    usage: /mute <player> [time | perm] [reason] [-s]
   unmute:
     description: Unmute a player.
     usage: /unmute <player> [-s]
@@ -151,5 +151,19 @@ commands:
     description: Kick a player.
     usage: /kick <player> [reason] [-s]
   warn:
-    description: Kick a player.
+    description: Warn a player.
     usage: /warn <player> [reason] [-s]
+  ban:
+    description: Ban a player.
+    usage: /ban <player> [time | perm] [reason] [-s]
+  unban:
+    description: Ban a player.
+    usage: /unban <player> [-s]
+  ipban:
+    description: Ban the IP address of a player.
+    aliases: banip
+    usage: /ipban <player> [time | perm] [reason] [-s]
+  unipban:
+    description: Unban the IP address of a player.
+    aliases: unbanip
+    usage: /unipban <player> [-s]

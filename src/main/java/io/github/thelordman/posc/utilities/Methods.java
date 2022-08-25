@@ -66,7 +66,7 @@ public class Methods {
     }
 
     public static boolean inSpawn(Location location) {
-        return location.getX() < 13 && location.getZ() > -13;
+        return location.getX() < 14 && location.getZ() > -13;
     }
 
     public static boolean inCombat(Player player) {

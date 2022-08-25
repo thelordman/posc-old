@@ -24,6 +24,8 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         DataManager.loadPlayerData(event.getPlayer().getUniqueId());
+        if (DataManager.getAddress(event.getPlayer()) == null) DataManager.getPlayerData(event.getPlayer().getUniqueId()).setAddress(event.getPlayer().getAddress().getAddress().getHostAddress());
+
         if (!event.getPlayer().hasPlayedBefore()) {
             Data.newPlayers.add(event.getPlayer());
             Kit.joinKit(event.getPlayer());

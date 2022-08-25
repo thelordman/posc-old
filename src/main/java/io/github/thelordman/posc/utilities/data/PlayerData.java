@@ -16,6 +16,8 @@ public class PlayerData implements Serializable {
 
     private final UUID uuid;
 
+    private String address;
+
     private double balance = 0d;
     private double bounty = 0d;
     private double xp = 0d;
@@ -27,12 +29,21 @@ public class PlayerData implements Serializable {
     private Rank rank = Rank.DEFAULT;
     private final ArrayList<Punishment> punishments = new ArrayList<>();
 
-    public PlayerData(UUID uuid) {
+    public PlayerData(UUID uuid, String address) {
         this.uuid = uuid;
+        this.address = address;
     }
 
     public UUID getUUID() {
         return uuid;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public double getBalance() {
@@ -100,14 +111,13 @@ public class PlayerData implements Serializable {
     }
 
     public boolean removePunishment(int ID) {
-        AtomicBoolean bool = new AtomicBoolean(false);
-        this.punishments.forEach((p) -> {
-            if (p.getID() == ID) {
-                this.punishments.remove(p);
-                bool.set(true);
+        for (Punishment punishment : punishments) {
+            if (punishment.getID() == ID) {
+                punishments.remove(punishment);
+                return true;
             }
-        });
-        return bool.get();
+        }
+        return false;
     }
 
     public boolean isMuted() {

@@ -1,7 +1,9 @@
 package io.github.thelordman.posc.utilities.data;
 
 import io.github.thelordman.posc.Posc;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 
 import java.io.File;
 import java.util.HashMap;
@@ -22,6 +24,10 @@ public class DataManager {
         }
 
         return loadPlayerData(uuid);
+    }
+
+    public static String getAddress(OfflinePlayer target) {
+        return getPlayerData(target.getUniqueId()).getAddress();
     }
 
     public static void savePlayerData(UUID uuid) {
@@ -58,7 +64,14 @@ public class DataManager {
             }
         }
 
-        data = new PlayerData(uuid);
+        String address;
+        try {
+            address = Bukkit.getPlayer(uuid).getAddress().getAddress().getHostAddress();
+        } catch (NullPointerException e) {
+            address = null;
+        }
+
+        data = new PlayerData(uuid, address);
         playerDataMap.put(uuid, data);
         return data;
     }

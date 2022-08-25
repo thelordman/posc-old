@@ -52,4 +52,17 @@ public class Date {
     public static int nowPlus(int amount) {
         return ((int) Instant.now().getEpochSecond()) + amount;
     }
+
+    public static Integer punishmentLength(String[] args) {
+        if (args.length > 1) {
+            if (Date.secsFromString(args[1].toLowerCase().replace("-", "")) == 0 && !args[1].toLowerCase().startsWith("perm") && !args[1].startsWith("0"))
+                return -1;
+            if (args[1].toLowerCase().startsWith("perm")) return null;
+            else return Date.nowPlus(Date.secsFromString(args[1].toLowerCase().replace("-", "")));
+        } else return null;
+    }
+
+    public static java.util.Date dateFromSecs(int time) {
+        return java.util.Date.from(Instant.ofEpochSecond(time));
+    }
 }

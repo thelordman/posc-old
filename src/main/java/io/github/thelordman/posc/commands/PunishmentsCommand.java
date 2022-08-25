@@ -39,11 +39,15 @@ public class PunishmentsCommand implements TabExecutor {
         if (args.length > 1) {
             if (args.length < 3 | !args[1].equals("remove")) return false;
 
+            int i;
             try {
-                return PunishmentManager.removePunishment(target.getUniqueId(), Integer.parseInt(args[2]));
+                i = Integer.parseInt(args[2]);
             } catch (NumberFormatException e) {
                 return false;
             }
+            if (PunishmentManager.removePunishment(target.getUniqueId(), Integer.parseInt(args[2]))) {
+                sender.sendMessage(Methods.cStr("&6Successfully removed the punishment of the ID &f" + args[2] + "&6."));
+            } else sender.sendMessage(Methods.cStr("&cPunishment of that ID not found."));
         }
 
         sender.sendMessage(Methods.cStr("\n&r    &6&l" + target.getName() + "'s Punishments\n&r\n" +
