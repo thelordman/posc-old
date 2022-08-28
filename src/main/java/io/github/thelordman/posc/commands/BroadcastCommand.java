@@ -20,7 +20,7 @@ public class BroadcastCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!Rank.hasPermission(sender, (byte) 4)) return true;
         if (args.length == 0) return false;
-        Bukkit.broadcastMessage(Methods.cStr("&6&lCoStrength &8| &f" + Methods.arrayToString(args)));
+        Bukkit.broadcastMessage(Methods.cStr("&6&lPosc &8| &f" + Methods.arrayToString(args)));
 
         int averagePing = 0;
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -31,7 +31,7 @@ public class BroadcastCommand implements CommandExecutor {
         builder.setAuthor("Broadcast", null, "https://cdn.discordapp.com/attachments/950090391535890442/955545141467287552/CoStrength.png");
         builder.setColor(Color.CYAN);
         builder.setDescription(Methods.replaceColorCodes(Methods.arrayToString(args), '&'));
-        builder.setFooter("CoStrength.minehut.gg | Average Ping: " + averagePing + "ms | TPS: " + Methods.rStr(Bukkit.getTPS()[0]));
+        builder.setFooter("Posc.minehut.gg | Average Ping: " + averagePing + "ms | TPS: " + Methods.rStr(Bukkit.getTPS()[0]));
 
         Discord.minecraftChatChannel.sendMessageEmbeds(builder.build()).queue();
 

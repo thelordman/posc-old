@@ -103,7 +103,7 @@ public class Methods {
         String mid = rank == Rank.DEFAULT ? "" : " &8| ";
         player.setDisplayName(Methods.cStr(levelPrefix(player.getUniqueId()) + " " + rank.name + mid
                 + rank.color + player.getName() + "&r"));
-        player.setDisplayName(player.getDisplayName().replace("fastskating", "fatskating"));
+        player.setDisplayName(player.getDisplayName().replace("Fast", "Fat"));
         if (EconomyManager.getBounty(player.getUniqueId()) != 0) player.setPlayerListName(player.getDisplayName() + cStr(" &6[&f$" + rStr(EconomyManager.getBounty(player.getUniqueId())) + "&6]"));
         else player.setPlayerListName(player.getDisplayName());
         player.setCustomName(player.getDisplayName());

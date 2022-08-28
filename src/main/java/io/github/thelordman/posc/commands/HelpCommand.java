@@ -21,7 +21,7 @@ public class HelpCommand implements CommandExecutor {
         if (args.length == 0) {
             TextComponent message = new TextComponent("Click here to see the plugin's wiki for help.\nMine ores and kill players for money. Right click to upgrade tools and weapons.");
             message.setColor(ChatColor.GOLD);
-            message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/thelordman/CoStrength/wiki"));
+            message.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/thelordman/Posc/wiki"));
             message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Click here to be sent to the plugin's wiki").color(ChatColor.GRAY).create()));
             player.spigot().sendMessage(message);
             return true;

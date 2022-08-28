@@ -42,7 +42,7 @@ public class Discord {
             jda = JDABuilder.createLight(botToken, GatewayIntent.GUILD_MESSAGES)
                     .addEventListeners(new MessageReceivedListener())
                     .addEventListeners(new SlashCommandInteractionListener())
-                    .setActivity(Activity.playing("CoStrength.minehut.gg"))
+                    .setActivity(Activity.playing("Posc.minehut.gg"))
                     .build();
             jda.awaitReady();
         } catch (LoginException | InterruptedException e) {
@@ -53,7 +53,6 @@ public class Discord {
         minecraftChatChannel = jda.getTextChannelById(minecraftChatChannelId);
         staffChatChannel = jda.getTextChannelById(staffChatChannelId);
         commandLogChannel = jda.getTextChannelById(minecraftLogChannelId);
-        assert guild != null;
         guild.updateCommands()
                 .addCommands(
                         Commands.slash("ping", "Calculate the ping of the bot. Useful for troubleshooting."),

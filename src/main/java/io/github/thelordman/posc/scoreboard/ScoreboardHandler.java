@@ -11,7 +11,7 @@ public class ScoreboardHandler {
 
     public static void updateBoard(Player player) {
         FastBoard scoreboard = Data.scoreboard.containsKey(player.getUniqueId()) ? Data.scoreboard.get(player.getUniqueId()) : new FastBoard(player);
-        scoreboard.updateTitle(Methods.cStr("&6&lCoStrength &7(" + Bukkit.getOnlinePlayers().size() + "&7/" + Bukkit.getMaxPlayers() + "&7)"));
+        scoreboard.updateTitle(Methods.cStr("&6&lPosc &7(" + Bukkit.getOnlinePlayers().size() + "&7/" + Bukkit.getMaxPlayers() + "&7)"));
         scoreboard.updateLines(
                 "",
                 Methods.cStr("&6Balance&7: &f$" + Methods.rStr(EconomyManager.getBalance(player.getUniqueId()))),
@@ -24,7 +24,7 @@ public class ScoreboardHandler {
                 Methods.cStr("&6K/D ratio&7: &f" + Methods.rStr(Methods.getKdr(player))),
                 Methods.cStr("&6Killstreak&7: &f" + Methods.rStr((double) EconomyManager.getKillstreak(player.getUniqueId()))),
                 "",
-                Methods.cStr("&f&nCoStrength.minehut.gg")
+                Methods.cStr("&f&nPosc.minehut.gg")
         );
         Data.scoreboard.put(player.getUniqueId(), scoreboard);
     }

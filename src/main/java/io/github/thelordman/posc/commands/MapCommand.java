@@ -9,7 +9,6 @@ import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.world.block.BlockTypes;
 import io.github.thelordman.posc.mining.MineHandler;
 import io.github.thelordman.posc.utilities.CommandName;
-import io.github.thelordman.posc.utilities.Methods;
 import io.github.thelordman.posc.utilities.Rank;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

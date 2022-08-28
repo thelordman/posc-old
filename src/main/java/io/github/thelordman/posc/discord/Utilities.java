@@ -8,10 +8,10 @@ public class Utilities {
         ChatColor color;
 
         if (type.equals("primary")) {
-            color = (member.getRoles().contains(member.getGuild().getRoleById("996795355268137061")) | member.getRoles().contains(member.getGuild().getRoleById("921439677574160498"))) ? ChatColor.WHITE : ChatColor.GRAY;
+            color = (member.getRoles().contains(member.getGuild().getRoleById("921439677574160498")) | member.getRoles().contains(member.getGuild().getRoleById("995764844584259664"))) ? ChatColor.WHITE : ChatColor.GRAY;
         }
         else {
-            color = (member.getRoles().contains(member.getGuild().getRoleById("996795355268137061")) | member.getRoles().contains(member.getGuild().getRoleById("921439677574160498"))) ? ChatColor.GRAY : ChatColor.DARK_GRAY;
+            color = (member.getRoles().contains(member.getGuild().getRoleById("921439677574160498")) | member.getRoles().contains(member.getGuild().getRoleById("995764844584259664"))) ? ChatColor.GRAY : ChatColor.DARK_GRAY;
         }
 
         return color;

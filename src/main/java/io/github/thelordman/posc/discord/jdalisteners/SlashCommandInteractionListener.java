@@ -27,16 +27,16 @@ public class SlashCommandInteractionListener extends ListenerAdapter {
                 }
                 averagePing = averagePing == 0 ? 0 : averagePing / Bukkit.getOnlinePlayers().size();
                 EmbedBuilder builder = new EmbedBuilder()
-                        .setAuthor("CoStrength", null, "https://cdn.discordapp.com/attachments/950090391535890442/955545141467287552/CoStrength.png")
+                        .setAuthor("Posc", null, "https://cdn.discordapp.com/attachments/921439679574839415/1013438891526721606/posc.png")
                         .setDescription(onlinePlayers)
                         .setColor(Color.BLUE)
-                        .setFooter("CoStrength.minehut.gg | Average Ping: " + averagePing + "ms | TPS: " + Methods.rStr(Bukkit.getTPS()[0]));
+                        .setFooter("Posc.minehut.gg | Average Ping: " + averagePing + "ms | TPS: " + Methods.rStr(Bukkit.getTPS()[0]));
                 event.replyEmbeds(builder.build()).queue();
             }
             case "cmd" -> {
-                if (!event.getMember().hasPermission(Permission.ADMINISTRATOR)) {
-                    event.reply("You lack the permission needed for this command('Administrator').\nPlease contact either b4nter cl4us#6866 or The Lord#8349 if you believe this is a mistake.").setEphemeral(true).queue();
-                    break;
+                if (!event.getMember().getRoles().contains(Discord.jda.getRoleById("1007388503136534528")) && !event.getMember().getRoles().contains(Discord.jda.getRoleById("921439677590949932"))) {
+                    event.reply("You need to be a Sr. Developer or higher to be able to execute this command.").setEphemeral(true).queue();
+                    return;
                 }
                 Bukkit.getScheduler().callSyncMethod(Posc.get(), () ->
                         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), event.getOption("command").getAsString()));
