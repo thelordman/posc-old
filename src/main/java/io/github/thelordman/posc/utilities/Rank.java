@@ -43,11 +43,8 @@ public enum Rank {
     }
 
     public static boolean hasPermission(CommandSender sender, int permissionLevel) {
-        if (sender instanceof ConsoleCommandSender)
-            return true;
-        if (sender instanceof Player player)
-            return getRank(player.getUniqueId()).permissionLevel >= permissionLevel || player.isOp();
-        return false;
+        if (sender instanceof Player player) return getRank(player.getUniqueId()).permissionLevel >= permissionLevel || player.isOp();
+        else return true;
     }
 
     public static boolean hasDonorPermission(CommandSender sender, int donatorLevel) {
