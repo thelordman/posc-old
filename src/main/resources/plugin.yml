@@ -167,3 +167,9 @@ commands:
     description: Unban the IP address of a player.
     aliases: unbanip
     usage: /unipban <player> [-s]
+  fly:
+    description: enables flight for the player
+    usage: /fly
+  flyspeed:
+    description: set fly speed
+    usage: /flyspeed <amount>
