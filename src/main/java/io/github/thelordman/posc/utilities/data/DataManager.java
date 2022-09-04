@@ -16,7 +16,7 @@ public class DataManager {
     private static final File playerDataFolder = new File(Posc.get().getDataFolder() + "/playerdata");
     private static final File globalDataFile = new File(Posc.get().getDataFolder() + "/globaldata.dat");
 
-    public static HashMap<UUID, PlayerData> playerDataMap = new HashMap<>();
+    public static final HashMap<UUID, PlayerData> playerDataMap = new HashMap<>();
 
     public static PlayerData getPlayerData(UUID uuid) {
         if (playerDataMap.containsKey(uuid)) {

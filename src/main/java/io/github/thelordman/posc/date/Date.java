@@ -62,7 +62,7 @@ public class Date {
         } else return null;
     }
 
-    public static java.util.Date dateFromSecs(int time) {
-        return java.util.Date.from(Instant.ofEpochSecond(time));
+    public static java.util.Date dateFromSecs(Integer time) {
+        return time == null ? null : java.util.Date.from(Instant.ofEpochSecond(time));
     }
 }

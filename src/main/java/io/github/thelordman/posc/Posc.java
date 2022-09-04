@@ -1,5 +1,6 @@
 package io.github.thelordman.posc;
 
+import io.github.thelordman.posc.food.FoodManager;
 import io.github.thelordman.posc.utilities.CommandName;
 import io.github.thelordman.posc.discord.Discord;
 import io.github.thelordman.posc.guis.GUIHandler;
@@ -33,6 +34,7 @@ public final class Posc extends JavaPlugin {
         RecipeHandler.registerRecipes();
         registerListeners();
         registerCommands();
+        FoodManager.registerFoodUtil();
 
         DataManager.loadAllData();
 

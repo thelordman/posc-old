@@ -1,8 +1,6 @@
 package io.github.thelordman.posc.mining;
 
 import com.fastasyncworldedit.core.FaweAPI;
-import com.fastasyncworldedit.core.math.random.NoiseRandom;
-import com.fastasyncworldedit.core.math.random.SimpleRandom;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.function.pattern.RandomPattern;

@@ -9,7 +9,7 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 public class EntityExplodeListener implements Listener {
 
     @EventHandler
-    public void onEntityDamageByEntity(EntityExplodeEvent event) {
+    public void onEntityExplode(EntityExplodeEvent event) {
         if (event.isCancelled())
             return;
         for(Block block : event.blockList()) {

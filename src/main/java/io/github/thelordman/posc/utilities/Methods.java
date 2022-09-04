@@ -3,7 +3,6 @@ package io.github.thelordman.posc.utilities;
 import io.github.thelordman.posc.economy.EconomyManager;
 import io.github.thelordman.posc.utilities.data.Data;
 import org.bukkit.*;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
@@ -137,8 +136,7 @@ public class Methods {
 
     public static boolean doesRankExist(String rank) {
         for (Rank rnk : Rank.values()) {
-            if (rnk.name().equals(rank))
-                return true;
+            if (rnk.name().equals(rank)) return true;
         }
         return false;
     }
