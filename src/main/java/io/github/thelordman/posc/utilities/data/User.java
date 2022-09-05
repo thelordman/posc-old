@@ -2,15 +2,17 @@ package io.github.thelordman.posc.utilities.data;
 
 import io.github.thelordman.posc.punishments.Punishment;
 import io.github.thelordman.posc.utilities.Rank;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-public class PlayerData implements Serializable {
+public class User implements Serializable {
+
     @Serial
     private static final long serialVersionUID = 3022193081975011242L;
 
@@ -27,12 +29,30 @@ public class PlayerData implements Serializable {
     private Integer muted = 0;
 
     private Rank rank = Rank.DEFAULT;
+    private Player user;
     private final ArrayList<Punishment> punishments = new ArrayList<>();
 
-    public PlayerData(UUID uuid, String address) {
-        this.uuid = uuid;
-        this.address = address;
+    public User(Player user) {
+        this.user = user;
+        uuid = user.getUniqueId();
+        try {
+            address = Bukkit.getPlayer(uuid).getAddress().getAddress().getHostAddress();
+        } catch (NullPointerException e) {
+            address = null;
+        }
     }
+
+    public User(UUID uuid) {
+        user = Bukkit.getPlayer(uuid);
+        this.uuid = uuid;
+        try {
+            address = Bukkit.getPlayer(uuid).getAddress().getAddress().getHostAddress();
+        } catch (NullPointerException e) {
+            address = null;
+        }
+    }
+
+    public Player getPlayer() { return user; }
 
     public UUID getUUID() {
         return uuid;

@@ -16,9 +16,9 @@ public class DataManager {
     private static final File playerDataFolder = new File(Posc.get().getDataFolder() + "/playerdata");
     private static final File globalDataFile = new File(Posc.get().getDataFolder() + "/globaldata.dat");
 
-    public static final HashMap<UUID, PlayerData> playerDataMap = new HashMap<>();
+    public static final HashMap<UUID, User> playerDataMap = new HashMap<>();
 
-    public static PlayerData getPlayerData(UUID uuid) {
+    public static User getPlayerData(UUID uuid) {
         if (playerDataMap.containsKey(uuid)) {
             return playerDataMap.get(uuid);
         }
@@ -38,7 +38,7 @@ public class DataManager {
         savePlayerData(playerDataMap.get(uuid));
     }
 
-    public static void savePlayerData(PlayerData data) {
+    public static void savePlayerData(User data) {
         if (!playerDataFolder.exists()) {
             playerDataFolder.mkdirs();
         }
@@ -46,9 +46,9 @@ public class DataManager {
         dataSerializer.serialize(data);
     }
 
-    public static PlayerData loadPlayerData(UUID uuid) {
+    public static User loadPlayerData(UUID uuid) {
 
-        PlayerData data;
+        User data;
 
         if (playerDataFolder.exists()) {
             for (File file : playerDataFolder.listFiles(File::isFile)) {
@@ -56,7 +56,7 @@ public class DataManager {
 
                 if (fileName[0].equals(uuid.toString())) {
                     DataSerializer dataSerializer = new DataSerializer(file);
-                    data = (PlayerData) dataSerializer.deserialize();
+                    data = (User) dataSerializer.deserialize();
 
                     playerDataMap.put(uuid, data);
                     return data;
@@ -64,20 +64,13 @@ public class DataManager {
             }
         }
 
-        String address;
-        try {
-            address = Bukkit.getPlayer(uuid).getAddress().getAddress().getHostAddress();
-        } catch (NullPointerException e) {
-            address = null;
-        }
-
-        data = new PlayerData(uuid, address);
+        data = new User(Bukkit.getPlayer(uuid));
         playerDataMap.put(uuid, data);
         return data;
     }
 
     public static void saveAllData() {
-        for (PlayerData playerData : playerDataMap.values()) {
+        for (User playerData : playerDataMap.values()) {
             savePlayerData(playerData);
         }
 
@@ -93,7 +86,7 @@ public class DataManager {
                     continue;
 
                 DataSerializer dataSerializer = new DataSerializer(dataFile);
-                PlayerData data = (PlayerData) dataSerializer.deserialize();
+                User data = (User) dataSerializer.deserialize();
 
                 playerDataMap.put(data.getUUID(), data);
             }
