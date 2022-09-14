@@ -7,11 +7,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
 public class BlockPlaceListener implements Listener {
-
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         if (Methods.inSpawn(event.getBlock().getLocation()) && !event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
             event.setCancelled(true);
+            return;
         }
     }
 }

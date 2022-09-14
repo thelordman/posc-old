@@ -3,7 +3,6 @@ package io.github.thelordman.posc;
 import io.github.thelordman.posc.food.FoodManager;
 import io.github.thelordman.posc.utilities.CommandName;
 import io.github.thelordman.posc.discord.Discord;
-import io.github.thelordman.posc.guis.GUIHandler;
 import io.github.thelordman.posc.mining.MineHandler;
 import io.github.thelordman.posc.utilities.*;
 import io.github.thelordman.posc.utilities.data.DataManager;
@@ -30,8 +29,6 @@ public final class Posc extends JavaPlugin {
 
         Discord.loadJDA();
 
-        GUIHandler.registerInventories();
-        RecipeHandler.registerRecipes();
         registerListeners();
         registerCommands();
         FoodManager.registerFoodUtil();

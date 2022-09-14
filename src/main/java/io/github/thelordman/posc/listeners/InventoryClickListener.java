@@ -2,11 +2,11 @@ package io.github.thelordman.posc.listeners;
 
 import io.github.thelordman.posc.Posc;
 import io.github.thelordman.posc.economy.EconomyManager;
+import io.github.thelordman.posc.food.FoodItem;
 import io.github.thelordman.posc.items.ItemManager;
 import io.github.thelordman.posc.scoreboard.ScoreboardHandler;
 import io.github.thelordman.posc.guis.GUIHandler;
 import io.github.thelordman.posc.utilities.Methods;
-import io.github.thelordman.posc.utilities.data.Data;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
@@ -44,31 +44,31 @@ public class InventoryClickListener implements Listener {
             switch (event.getCurrentItem().getType()) {
                 case BREAD:
                     m = event.getClick().isRightClick() ? 640d : 10d;
-                    item = GUIHandler.quickItem(Material.BREAD, Methods.cStr("&fFresh Bread"), i, Methods.cStr("&6Restores &f2.5 hunger &6and &f3 saturation&6."));
+                    item = FoodItem.FRESH_BREAD;
                     message = Methods.cStr("&6Successfully bought &f" + i + " Fresh Bread&6.");
                     break;
                 case COOKED_CHICKEN:
                     m = event.getClick().isRightClick() ? 3200d : 50d;
-                    item = GUIHandler.quickItem(Material.COOKED_CHICKEN, Methods.cStr("&cHot Wings"), i, Methods.cStr("&6Restores &f3 hunger &6and &f4.5 saturation&6."), Methods.cStr("&6Has a &f10% chance &6of giving &fHaste +1&6."));
+                    item = FoodItem.HOT_WINGS;
                     message = Methods.cStr("&6Successfully bought &f" + i + " &cHot Wings&6.");
                     break;
                 case COOKED_BEEF:
                     m = event.getClick().isRightClick() ? 6400d : 100d;
-                    item = GUIHandler.quickItem(Material.COOKED_BEEF, Methods.cStr("&4Well Done Steak"), i, Methods.cStr("&6Restores &f4 hunger &6and &f6.5 saturation&6."));
+                    item = FoodItem.WELL_DONE_STEAK;
                     message = Methods.cStr("&6Successfully bought &f" + i + " &4Well Done Steak&6.");
                     break;
                 case HONEY_BOTTLE:
                     m = event.getClick().isRightClick() ? 64000d : 1000d;
-                    item = GUIHandler.quickItem(Material.HONEY_BOTTLE, Methods.cStr("&6Beer"), i, Methods.cStr("&6Restores &f3 hunger &6and &f0.5 saturation&6."), Methods.cStr("&6Can be drunk even when full to restore saturation."), Methods.cStr("&6Stats can be modified from the kitchen menu."));
+                    item = FoodItem.BEER;
                     message = Methods.cStr("&6Successfully bought &f" + i + " &4Beer&6.");
                     break;
                 case RABBIT_STEW:
                     m = event.getClick().isRightClick() ? 320000d : 5000d;
-                    item = GUIHandler.quickItem(Material.RABBIT_STEW, Methods.cStr("&3Thick Stew"), i, Methods.cStr("&6Restores &f20 hunger &6and &f20 saturation&6."));
+                    item = FoodItem.THICK_STEW;
                     message = Methods.cStr("&6Successfully bought &f" + i + " &3Thick Stew&6.");
                     break;
                 case CAULDRON:
-                    GUIHandler.openGUI(Data.GUIs[1], player);
+                    GUIHandler.openGUI(GUIHandler.GUIType.KITCHEN, player);
                     player.sendMessage(Methods.cStr("&6Entered kitchen menu."));
                     return;
                 case BARRIER:
@@ -82,22 +82,22 @@ public class InventoryClickListener implements Listener {
             switch (event.getCurrentItem().getType()) {
                 case MELON:
                     m = event.getClick().isRightClick() ? 32000d : 500d;
-                    item = GUIHandler.quickItem(Material.MELON, Methods.cStr("&2Melon"), i, Methods.cStr("&6Restores &f+2 hunger &6after drinking."), "", Methods.cStr("&6Usage&7: &fCraft this with &6Beer&f."));
+                    item = FoodItem.MELON;
                     message = Methods.cStr("&6Successfully bought &f" + i + " &2Melon&6.");
                     break;
                 case SWEET_BERRIES:
                     m = event.getClick().isRightClick() ? 64000d : 1000d;
-                    item = GUIHandler.quickItem(Material.SWEET_BERRIES, Methods.cStr("&cBerries"), i, Methods.cStr("&6Restores &f+7 saturation &6after drinking."), "", Methods.cStr("&6Usage&7: &fCraft this with &6Beer&f."));
+                    item = FoodItem.BERRIES;
                     message = Methods.cStr("&6Successfully bought &f" + i + " &cBerries&6.");
                     break;
                 case SUGAR:
                     m = event.getClick().isRightClick() ? 128000d : 2000d;
-                    item = GUIHandler.quickItem(Material.SUGAR, Methods.cStr("&fSugar"), i, Methods.cStr("&6Gives &fspeed 1 for 20 seconds &6after drinking."), "", Methods.cStr("&6Usage&7: &fCraft this with &6Beer&f."));
+                    item = FoodItem.SUGAR;
                     message = Methods.cStr("&6Successfully bought &f" + i + " Sugar&6.");
                     break;
                 case HONEY_BOTTLE:
                     m = event.getClick().isRightClick() ? 256000d : 4000d;
-                    item = GUIHandler.quickItem(Material.HONEY_BOTTLE, Methods.cStr("&eIrn Bru"), i, Methods.cStr("&6Gives &fstrength 1 for 20 seconds &6after drinking."), "", Methods.cStr("&6Usage&7: &fCraft this with &6Beer&f."));
+                    item = FoodItem.IRN_BRU;
                     message = Methods.cStr("&6Successfully bought &f" + i + " &eIrn Bru&6.");
                     break;
                 case BARRIER:
@@ -110,7 +110,7 @@ public class InventoryClickListener implements Listener {
         else if (event.getView().getTitle().equals("Shop")) {
             switch (event.getCurrentItem().getType()) {
                 case GRASS_BLOCK:
-                    GUIHandler.openGUI(Data.GUIs[3], player);
+                    GUIHandler.openGUI(GUIHandler.GUIType.BLOCK_SHOP, player);
                     player.sendMessage(Methods.cStr("&6Entered block shop."));
                     return;
                 default:
@@ -126,7 +126,7 @@ public class InventoryClickListener implements Listener {
         else if (event.getView().getTitle().equals("Tool Menu")) {
             switch (event.getCurrentItem().getType()) {
                 case ENCHANTED_BOOK -> {
-                    GUIHandler.openGUI(Data.GUIs[5], player);
+                    GUIHandler.openGUI(GUIHandler.GUIType.ENCHANTMENT_MENU, player);
                     player.sendMessage(Methods.cStr("&6Entered enchantment menu."));
                     return;
                 }
@@ -187,7 +187,7 @@ public class InventoryClickListener implements Listener {
                     player.playSound(player, Sound.BLOCK_NOTE_BLOCK_PLING, 1f, 1f);
                     EconomyManager.setBalance(player.getUniqueId(), EconomyManager.getBalance(player.getUniqueId()) - m);
                     player.sendMessage(Methods.cStr("&6Successfully upgraded the material of your item."));
-                    GUIHandler.openGUI(Data.GUIs[4], player);
+                    GUIHandler.openGUI(GUIHandler.GUIType.TOOL_MENU, player);
                     ScoreboardHandler.updateBoard(player);
 
                     return;
@@ -266,7 +266,7 @@ public class InventoryClickListener implements Listener {
         if (item != null) player.getInventory().addItem(item);
         if (message != null) player.sendMessage(message);
 
-        if (event.getView().getTitle().equals("Enchantment Menu")) GUIHandler.openGUI(Data.GUIs[5], player);
+        if (event.getView().getTitle().equals("Enchantment Menu")) GUIHandler.openGUI(GUIHandler.GUIType.ENCHANTMENT_MENU, player);
 
         ScoreboardHandler.updateBoard(player);
     }

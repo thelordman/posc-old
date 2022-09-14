@@ -1,7 +1,6 @@
 package io.github.thelordman.posc.commands;
 
 import io.github.thelordman.posc.utilities.CommandName;
-import io.github.thelordman.posc.utilities.Methods;
 import io.github.thelordman.posc.utilities.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;

@@ -354,11 +354,17 @@ public class ItemManager {
 
     public static void addLore(ItemStack item, String... strings) {
         List<String> lore = item.getLore() == null ? new ArrayList<>() : item.getLore();
-        lore.addAll(List.of(strings));
+        for (String string : strings) {
+            lore.add(Methods.cStr(string));
+        }
         item.setLore(lore);
     }
 
-    public static void setGUIEnchant(ItemStack item, Inventory inventory, int index, String name, Enchantment enchant, byte key, String... lore) {
+    public static ItemStack GUIEnchant(ItemStack item, String name, Enchantment enchant, byte key, int level, int levelReq, String... lore) {
+        if (level < levelReq) {
+            return GUIHandler.quickItem(Material.BARRIER, Methods.cStr("&cLocked"), 1, Methods.cStr("&cUnlocks at &flevel " + levelReq + "&c."));
+        }
+
         ItemStack GUIItem = new ItemStack(Material.ENCHANTED_BOOK);
         ItemMeta meta = GUIItem.getItemMeta();
         meta.setDisplayName(item.getEnchantmentLevel(enchant) == 0
@@ -370,13 +376,12 @@ public class ItemManager {
         GUIItem.setItemMeta(meta);
         String addendum = item.getEnchantmentLevel(enchant) >= getEnchantmentMaxLevel(enchant) ? Methods.cStr("&6&lMAX LEVEL") : Methods.cStr("&eCost&8: &f$" + Methods.rStr(getEnchantmentPrice(item, enchant)));
         addLore(GUIItem, "", addendum);
-        inventory.setItem(index, GUIItem);
+        return GUIItem;
     }
 
-    public static void setGUICE(ItemStack item, Inventory inventory, int index, NamespacedKey key, Material material, int level, int levelReq, String... lore) {
+    public static ItemStack GUICE(ItemStack item, NamespacedKey key, Material material, int level, int levelReq, String... lore) {
         if (level < levelReq) {
-            inventory.setItem(index, GUIHandler.quickItem(Material.BARRIER, Methods.cStr("&cLocked"), 1, Methods.cStr("&cUnlocks at &flevel " + levelReq + "&c.")));
-            return;
+            return GUIHandler.quickItem(Material.BARRIER, Methods.cStr("&cLocked"), 1, Methods.cStr("&cUnlocks at &flevel " + levelReq + "&c."));
         }
 
         ItemStack GUIItem = new ItemStack(material);
@@ -389,7 +394,7 @@ public class ItemManager {
         GUIItem.setItemMeta(meta);
         String addendum = getCELevel(item, key) >= getCEMaxLevel(key) ? Methods.cStr("&6&lMAX LEVEL") : Methods.cStr("&eCost&8: &f$" + Methods.rStr(getCEPrice(item, key)));
         addLore(GUIItem, "", addendum);
-        inventory.setItem(index, GUIItem);
+        return GUIItem;
     }
 
     public static void setEnchant(ItemStack item, Enchantment enchant, byte level) {

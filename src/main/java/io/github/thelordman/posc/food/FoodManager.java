@@ -7,6 +7,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
+
 public class FoodManager {
     public static void registerFoodUtil() {
         FoodUtil.register();
@@ -30,6 +32,9 @@ public class FoodManager {
             player.setFoodLevel(player.getFoodLevel() - FoodUtil.getVanillaHunger(item) + FoodUtil.getHunger(item));
             player.setSaturation(player.getSaturation() - FoodUtil.getVanillaSaturation(item) + FoodUtil.getSaturation(item));
         }
+
+        ArrayList<PotionEffect> potionEffects = FoodUtil.getPotionEffects(item);
+        if (potionEffects != null) player.addPotionEffects(potionEffects);
 
         return true;
     }

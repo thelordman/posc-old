@@ -6,7 +6,6 @@ authors: [thelordman, CatalysmRL, TotallyAl, hotpocket184]
 description: The main plugin used by Posc. posc.minehut.gg | https://discord.gg/YeUacKAWV2
 website: thelordman.github.io
 load: POSTWORLD
-default-permission: op
 depend:
   - FastAsyncWorldEdit
 commands:
