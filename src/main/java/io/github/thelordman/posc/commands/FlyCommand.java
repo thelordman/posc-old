@@ -1,6 +1,7 @@
 package io.github.thelordman.posc.commands;
 
 import io.github.thelordman.posc.utilities.CommandName;
+import io.github.thelordman.posc.utilities.Methods;
 import io.github.thelordman.posc.utilities.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -18,8 +19,8 @@ public class FlyCommand implements CommandExecutor {
         Player target = args.length > 0 ? Bukkit.getPlayer(args[0]) : (Player) sender;
         if (target == null) return false;
 
-        target.setFlying(!target.isFlying());
-        target.sendMessage("&6Flight has been set to " + (target.isFlying() ? "&cFalse" : "&aTrue" + (target == sender ? "&6." : " &6by &f" + sender.getName() + "&6.")));
+        target.setAllowFlight(!target.getAllowFlight());
+        target.sendMessage(Methods.cStr("&6Flight has been set to " + (target.getAllowFlight() ? "&cfalse" : "&atrue" + (target == sender ? "&6." : " &6by &f" + sender.getName() + "&6."))));
         return true;
     }
 }
