@@ -1,0 +1,6 @@
+name: Posc
+version: '${version}'
+main: me.lord.posc.Posc
+api-version: 1.19
+authors: [ Lord ]
+website: https://discord.gg/YeUacKAWV2
