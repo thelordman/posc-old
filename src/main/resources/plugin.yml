@@ -2,5 +2,23 @@ name: Posc
 version: '${version}'
 main: me.lord.posc.Posc
 api-version: 1.19
-authors: [ Lord ]
+author: Lord
 website: https://discord.gg/YeUacKAWV2
+commands:
+  gmc:
+    description: Changes your or an online player's gamemode to creative.
+    usage: /gmc [<player>]
+  gms:
+    description: Changes your or an online player's gamemode to survival.
+    usage: /gms [<player>]
+  gma:
+    description: Changes your or an online player's gamemode to adventure.
+    usage: /gma [<player>]
+  gmsp:
+    description: Changes your or an online player's gamemode to spectator.
+    usage: /gmsp [<player>]
+  kill:
+    description: Kills yourself or an online player.
+    usage: /kill [<player>]
+    aliases:
+      - suicide
