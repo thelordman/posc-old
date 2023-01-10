@@ -1,5 +1,6 @@
 package me.lord.posc;
 
+import me.lord.posc.data.Database;
 import me.lord.posc.utilities.Cmd;
 import me.lord.posc.utilities.Event;
 import org.bukkit.Bukkit;
@@ -9,12 +10,17 @@ import java.util.ServiceLoader;
 public final class Posc extends JavaPlugin {
     private static Posc instance;
 
+    public static String DB_URI;
+
     @Override
     public void onEnable() {
         instance = this;
 
         registerListeners();
         registerCommands();
+
+        DB_URI = getConfig().getString("db_uri");
+        Database.init();
     }
 
     public static Posc get() {

@@ -14,7 +14,7 @@ public class CommandUtil {
 
         private final String message;
 
-        private Error(String message) {
+        Error(String message) {
             this.message = message;
         }
 
