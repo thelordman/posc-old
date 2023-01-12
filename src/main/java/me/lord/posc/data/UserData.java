@@ -1,13 +1,11 @@
-package me.lord.posc.user;
+package me.lord.posc.data;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 /**
- * A user's data which won't be wiped on a server reload
- * or a server restart.
+ * A user's data which won't be wiped on a server reload or a server restart.
  */
-final class UserData {
+public final class UserData {
     private final UUID uuid;
 
     private double balance;

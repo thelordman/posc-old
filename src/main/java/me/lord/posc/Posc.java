@@ -1,26 +1,31 @@
 package me.lord.posc;
 
-import me.lord.posc.data.Database;
+import me.lord.posc.data.Data;
 import me.lord.posc.utilities.Cmd;
 import me.lord.posc.utilities.Event;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ServiceLoader;
+import java.util.logging.Logger;
 
 public final class Posc extends JavaPlugin {
     private static Posc instance;
 
-    public static String DB_URI;
+    public static Logger LOGGER;
 
     @Override
     public void onEnable() {
         instance = this;
+        LOGGER = getLogger();
 
         registerListeners();
         registerCommands();
+        Data.init();
+    }
 
-        DB_URI = getConfig().getString("db_uri");
-        Database.init();
+    @Override
+    public void onDisable() {
+        Data.saveAll();
     }
 
     public static Posc get() {

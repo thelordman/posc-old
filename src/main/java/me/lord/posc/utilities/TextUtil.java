@@ -21,6 +21,7 @@ public class TextUtil {
 
     public static String ordinal(int number) {
         String string = format(number);
+        if (number >= 111) number = Integer.parseInt(Character.toString(string.charAt(string.length() - 2) + string.charAt(string.length() - 1)));
         if (number >= 11 && number <= 13) return string + "th";
         return switch (string.charAt(string.length() - 1)) {
             case '1' -> string + "st";
