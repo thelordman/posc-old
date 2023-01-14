@@ -6,7 +6,7 @@ import org.bukkit.ChatColor;
 import java.text.DecimalFormat;
 
 // TODO: Add documentation to all methods
-public class TextUtil {
+public final class TextUtil {
     public static Component c(String string) {
         return Component.text(ChatColor.translateAlternateColorCodes('&', string));
     }

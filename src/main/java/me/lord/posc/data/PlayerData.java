@@ -3,27 +3,27 @@ package me.lord.posc.data;
 import java.util.UUID;
 
 /**
- * A user's data which won't be wiped on a server reload or a server restart.
+ * A player's data which won't be wiped on a server reload or a server restart.
  */
-public final class UserData {
+public final class PlayerData extends Data {
     private final UUID uuid;
 
     private double balance;
 
-    UserData(UUID uuid) {
+    public PlayerData(UUID uuid) {
         this.uuid = uuid;
         balance = 0d;
     }
 
-    UUID getUUID() {
+    public UUID getUUID() {
         return uuid;
     }
 
-    double getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    void setBalance(double balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 }

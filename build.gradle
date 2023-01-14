@@ -19,7 +19,6 @@ repositories {
 
 dependencies {
     compileOnly 'io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT'
-    implementation 'org.mongodb:mongodb-driver-sync:4.8.1'
 }
 
 def targetJavaVersion = 17

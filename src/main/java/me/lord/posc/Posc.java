@@ -20,7 +20,7 @@ public final class Posc extends JavaPlugin {
 
         registerListeners();
         registerCommands();
-        Data.init();
+        Data.loadAll();
     }
 
     @Override

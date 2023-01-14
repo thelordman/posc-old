@@ -2,7 +2,7 @@ package me.lord.posc.utilities;
 
 import org.bukkit.command.CommandSender;
 
-public class CommandUtil {
+public final class CommandUtil {
     public static boolean error(CommandSender sender, Error error) {
         sender.sendMessage(TextUtil.c("&c" + error.getMessage()));
         return true;
