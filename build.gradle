@@ -1,47 +1,31 @@
 plugins {
-    id 'java'
+    id('java-library')
+    id('io.papermc.paperweight.userdev') version '1.4.0'
+    id('com.github.johnrengelman.shadow') version '7.1.2'
 }
 
 group = 'me.lord'
 version = '1.0-INDEV'
+description = 'Plugin for the Posc Minecraft server.'
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+}
 
 repositories {
     mavenCentral()
-    maven {
-        name = 'papermc-repo'
-        url = 'https://repo.papermc.io/repository/maven-public/'
-    }
-    maven {
-        name = 'sonatype'
-        url = 'https://oss.sonatype.org/content/groups/public/'
-    }
 }
 
 dependencies {
-    compileOnly 'io.papermc.paper:paper-api:1.19.3-R0.1-SNAPSHOT'
+    paperweightDevelopmentBundle("io.papermc.paper:dev-bundle:1.19.3-R0.1-SNAPSHOT")
+    implementation 'com.discord4j:discord4j-core:3.2.3'
 }
 
-def targetJavaVersion = 17
-java {
-    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
-    sourceCompatibility = javaVersion
-    targetCompatibility = javaVersion
-    if (JavaVersion.current() < javaVersion) {
-        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
-    }
+shadowJar {
+    relocate 'io.netty', 'com.discord4j.shaded.io.netty'
+    relocate 'com.fasterxml', 'com.discord4j.shaded.com.fasterxml'
 }
 
-tasks.withType(JavaCompile).configureEach {
-    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
-        options.release = targetJavaVersion
-    }
-}
-
-processResources {
-    def props = [version: version]
-    inputs.properties props
-    filteringCharset 'UTF-8'
-    filesMatching('plugin.yml') {
-        expand props
-    }
+tasks.jar {
+    finalizedBy("shadowJar")
 }

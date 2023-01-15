@@ -1,6 +1,7 @@
 package me.lord.posc;
 
-import me.lord.posc.data.Data;
+import me.lord.posc.data.DataManager;
+import me.lord.posc.discord.Discord;
 import me.lord.posc.utilities.Cmd;
 import me.lord.posc.utilities.Event;
 import org.bukkit.Bukkit;
@@ -18,14 +19,18 @@ public final class Posc extends JavaPlugin {
         instance = this;
         LOGGER = getLogger();
 
+        saveDefaultConfig();
+
         registerListeners();
         registerCommands();
-        Data.loadAll();
+        DataManager.loadAll();
+        Discord.enable();
     }
 
     @Override
     public void onDisable() {
-        Data.saveAll();
+        DataManager.saveAll();
+        Discord.disable();
     }
 
     public static Posc get() {
