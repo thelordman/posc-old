@@ -3,8 +3,7 @@ package me.lord.posc.utilities;
 import org.bukkit.command.TabExecutor;
 
 /**
- * Allows implementing both TabCompleter and CommandExecutor.
- * Also adds functionality to specify the name of the command(s).
+ * Adds functionality to specify the name of the command(s).
  * This interface must be implemented in command classes
  * in order for the command registration to work.
  */

@@ -13,10 +13,10 @@ public class Discord {
 
     private static final String TOKEN = Posc.get().getConfig().getString("bot-token");
 
-    protected static TextChannel MINECRAFT_CHAT;
-    protected static TextChannel MINECRAFT_LOGS;
-    protected static TextChannel STAFF_CHAT;
-    protected static TextChannel ADMIN_CHAT;
+    public static TextChannel MINECRAFT_CHAT;
+    public static TextChannel MINECRAFT_LOGS;
+    public static TextChannel STAFF_CHAT;
+    public static TextChannel ADMIN_CHAT;
 
     public static void enable() {
         client = DiscordClient.create(TOKEN).login().block();

@@ -1,14 +1,21 @@
 package me.lord.posc.utilities;
 
 import net.kyori.adventure.text.Component;
-import org.bukkit.ChatColor;
-
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import java.text.DecimalFormat;
 
 // TODO: Add documentation to all methods
 public final class TextUtil {
     public static Component c(String string) {
-        return Component.text(ChatColor.translateAlternateColorCodes('&', string));
+        return LegacyComponentSerializer.legacyAmpersand().deserialize(string);
+    }
+
+    public static String componentToString(Component component) {
+        return LegacyComponentSerializer.legacyAmpersand().serialize(component);
+    }
+    
+    public static String stripColorCodes(String string) {
+        return string.replaceAll("§[4c6e2ab319d5f780klmnor]", "");
     }
 
     public static String formatMoney(double number) {

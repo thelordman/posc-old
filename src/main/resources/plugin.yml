@@ -1,5 +1,5 @@
 name: Posc
-version: '${version}'
+version: '1.0-INDEV'
 main: me.lord.posc.Posc
 api-version: 1.19
 author: Lord
