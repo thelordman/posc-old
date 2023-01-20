@@ -3,3 +3,4 @@ me.lord.posc.listeners.PlayerQuitListener
 me.lord.posc.listeners.PlayerDeathListener
 me.lord.posc.listeners.AsyncChatListener
 me.lord.posc.listeners.PlayerCommandPreprocessListener
+me.lord.posc.listeners.PlayerAdvancementDoneListener

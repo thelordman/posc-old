@@ -1,15 +1,14 @@
 package me.lord.posc.discord;
 
-import discord4j.common.util.Snowflake;
-import discord4j.core.DiscordClient;
-import discord4j.core.GatewayDiscordClient;
-import discord4j.core.object.entity.channel.TextChannel;
-import discord4j.core.object.presence.ClientActivity;
-import discord4j.core.object.presence.ClientPresence;
 import me.lord.posc.Posc;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 
 public class Discord {
-    public static GatewayDiscordClient client;
+    public static JDA jda;
 
     private static final String TOKEN = Posc.get().getConfig().getString("bot-token");
 
@@ -19,19 +18,26 @@ public class Discord {
     public static TextChannel ADMIN_CHAT;
 
     public static void enable() {
-        client = DiscordClient.create(TOKEN).login().block();
+        jda = JDABuilder.createLight(TOKEN, GatewayIntent.GUILD_MESSAGES)
+                .setActivity(Activity.competing("posc.minehut.gg"))
+                .build();
 
-        MINECRAFT_CHAT = (TextChannel) client.getChannelById(Snowflake.of(Posc.get().getConfig().getString("minecraft-chat-id"))).block();
-        MINECRAFT_LOGS = (TextChannel) client.getChannelById(Snowflake.of(Posc.get().getConfig().getString("minecraft-logs-id"))).block();
-        STAFF_CHAT = (TextChannel) client.getChannelById(Snowflake.of(Posc.get().getConfig().getString("staff-chat-id"))).block();
-        ADMIN_CHAT = (TextChannel) client.getChannelById(Snowflake.of(Posc.get().getConfig().getString("admin-chat-id"))).block();
+        try {
+            jda.awaitReady();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-        client.updatePresence(ClientPresence.online(ClientActivity.competing("posc.minehut.gg"))).block();
+        MINECRAFT_CHAT = jda.getTextChannelById(Posc.get().getConfig().getString("minecraft-chat-id"));
+        MINECRAFT_LOGS = jda.getTextChannelById(Posc.get().getConfig().getString("minecraft-logs-id"));
+        STAFF_CHAT = jda.getTextChannelById(Posc.get().getConfig().getString("staff-chat-id"));
+        ADMIN_CHAT = jda.getTextChannelById(Posc.get().getConfig().getString("admin-chat-id"));
 
-        MINECRAFT_CHAT.createMessage(":green_circle: **Server Online**").block();
+        MINECRAFT_CHAT.sendMessage(":green_circle: **Server Online**").queue();
     }
 
     public static void disable() {
-        MINECRAFT_CHAT.createMessage(":red_circle: **Server Offline**").block();
+        MINECRAFT_CHAT.sendMessage(":red_circle: **Server Offline**").queue();
+        jda.shutdown();
     }
 }

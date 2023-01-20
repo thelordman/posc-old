@@ -6,6 +6,6 @@ import me.lord.posc.utilities.TextUtil;
 
 public class PlayerChat {
     public static void exe(AsyncChatEvent event) {
-        Discord.MINECRAFT_CHAT.createMessage("**" + event.getPlayer().getName() + ":** " + TextUtil.stripColorCodes(TextUtil.componentToString(event.message()))).block();
+        Discord.MINECRAFT_CHAT.sendMessage("**" + event.getPlayer().getName() + ":** " + TextUtil.stripColorCodes(TextUtil.componentToString(event.message()))).queue();
     }
 }

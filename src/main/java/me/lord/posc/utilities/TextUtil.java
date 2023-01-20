@@ -18,6 +18,10 @@ public final class TextUtil {
         return string.replaceAll("§[4c6e2ab319d5f780klmnor]", "");
     }
 
+    public static String stripColorCodes(String string, char c) {
+        return string.replaceAll(c + "[4c6e2ab319d5f780klmnor]", "");
+    }
+
     public static String formatMoney(double number) {
         return new DecimalFormat("$#,###.##").format(number);
     }
