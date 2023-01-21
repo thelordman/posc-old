@@ -13,7 +13,6 @@ public class PlayerJoin {
         Player player = event.getPlayer();
         Discord.MINECRAFT_CHAT.sendMessageEmbeds(new EmbedBuilder()
                 .setAuthor(player.getName() + " Joined", null, "https://crafatar.com/avatars/" + player.getUniqueId())
-                .setDescription(TextUtil.stripColorCodes(TextUtil.componentToString(event.joinMessage())))
                 .setColor(Color.GREEN)
                 .build()).queue();
 

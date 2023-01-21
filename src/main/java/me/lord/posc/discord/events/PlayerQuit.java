@@ -13,7 +13,6 @@ public class PlayerQuit {
         Player player = event.getPlayer();
         Discord.MINECRAFT_CHAT.sendMessageEmbeds(new EmbedBuilder()
                 .setAuthor(player.getName() + " Left", null, "https://crafatar.com/avatars/" + player.getUniqueId())
-                .setDescription(TextUtil.stripColorCodes(TextUtil.componentToString(event.quitMessage())))
                 .setColor(Color.RED)
                 .build()).queue();
 
