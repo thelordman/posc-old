@@ -22,3 +22,6 @@ commands:
     usage: /kill [<player>]
     aliases:
       - suicide
+  nick:
+    description: Nicknames you.
+    usage: /nick <string>

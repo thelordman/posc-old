@@ -13,7 +13,7 @@ public class AsyncChatListener implements Event {
     public void onAsyncChat(AsyncChatEvent event) {
         event.setCancelled(true);
         Player player = event.getPlayer();
-        Bukkit.broadcast(TextUtil.c(player.getName() + "&7: &f").append(event.message()));
+        Bukkit.broadcast(TextUtil.c(player.getDisplayName() + "&7: &f").append(event.message()));
         PlayerChat.exe(event);
     }
 }
