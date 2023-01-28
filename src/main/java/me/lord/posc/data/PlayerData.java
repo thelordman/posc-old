@@ -2,6 +2,12 @@ package me.lord.posc.data;
 
 import me.lord.posc.Posc;
 import me.lord.posc.economy.Account;
+import me.lord.posc.ranks.Rank;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionAttachment;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,6 +28,7 @@ public final class PlayerData implements Data {
     private UUID uuid;
 
     private Account account = null;
+    private Rank rank = Rank.DEFAULT;
 
     public PlayerData(@NotNull UUID uuid) {
         this.uuid = uuid;
@@ -45,6 +52,33 @@ public final class PlayerData implements Data {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public Rank getRank() {
+        return rank;
+    }
+
+    public void setRank(Rank rank) {
+        Player player = Bukkit.getPlayer(getUUID());
+        if (player != null) {
+            for (PermissionAttachmentInfo info : player.getEffectivePermissions()) {
+                if (info.getAttachment() != null)
+                    player.removeAttachment(info.getAttachment());
+            }
+        }
+        this.rank = rank;
+        initPermissions();
+    }
+
+    public void initPermissions() {
+        Player player = Bukkit.getPlayer(getUUID());
+        if (player != null) {
+            PermissionAttachment attachment = player.addAttachment(Posc.get());
+            for (String permission : getRank().getPermissions()) {
+                if (!player.hasPermission(permission))
+                    attachment.setPermission(permission, true);
+            }
+        }
     }
 
     @Override

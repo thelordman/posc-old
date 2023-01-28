@@ -2,12 +2,17 @@ package me.lord.posc.utilities;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.bukkit.ChatColor;
+
 import java.text.DecimalFormat;
 
 // TODO: Add documentation to all methods
 public final class TextUtil {
     public static Component c(String string) {
         return LegacyComponentSerializer.legacyAmpersand().deserialize(string);
+    }
+    public static String cs(String string) {
+        return ChatColor.translateAlternateColorCodes('&', string);
     }
 
     public static String componentToString(Component component) {
