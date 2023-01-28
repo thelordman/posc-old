@@ -2,7 +2,7 @@ name: Posc
 version: '1.0-INDEV'
 main: me.lord.posc.Posc
 api-version: 1.19
-author: Lord
+authors: [Lord, hotpocket, Kiip]
 website: https://discord.gg/YeUacKAWV2
 commands:
   gmc:
@@ -24,4 +24,4 @@ commands:
       - suicide
   nick:
     description: Nicknames you.
-    usage: /nick <string>
+    usage: /nick <text>

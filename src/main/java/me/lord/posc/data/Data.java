@@ -7,7 +7,7 @@ import java.util.zip.GZIPOutputStream;
 /**
  * The superclass of all persistent data storing classes.
  */
-public interface Data extends Externalizable {
+public interface Data extends Serializable {
     default void serialize(String path) {
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new GZIPOutputStream(new FileOutputStream(path)))) {
             outputStream.writeObject(this);

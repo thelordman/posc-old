@@ -1,7 +1,5 @@
 package me.lord.posc.data;
 
-import me.lord.posc.Posc;
-
 import java.io.*;
 
 /**
@@ -17,33 +15,8 @@ public final class GlobalData implements Data {
         return totalUsers;
     }
 
-    public void setTotalUsers(int totalUsers) {
-        this.totalUsers = totalUsers;
-    }
-
     public void incrementTotalUsers() {
         totalUsers++;
     }
 
-    @Override
-    public void writeExternal(ObjectOutput out) throws IOException {
-        try {
-            out.writeInt(totalUsers);
-        } catch (IOException e) {
-            String field = "totalUsers";
-            Posc.LOGGER.warning("Could not write + '" + field + "', writing default value");
-            out.writeInt(0);
-        }
-    }
-
-    @Override
-    public void readExternal(ObjectInput in) {
-        try {
-            setTotalUsers(in.readInt());
-        } catch (IOException e) {
-            String field = "totalUsers";
-            Posc.LOGGER.warning("Could not read + '" + field + "', setting to default value");
-            setTotalUsers(0);
-        }
-    }
 }
