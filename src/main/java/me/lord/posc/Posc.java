@@ -5,24 +5,30 @@ import me.lord.posc.discord.Discord;
 import me.lord.posc.utilities.Cmd;
 import me.lord.posc.utilities.Event;
 import org.bukkit.Bukkit;
+import org.bukkit.Difficulty;
+import org.bukkit.GameRule;
+import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ServiceLoader;
 import java.util.logging.Logger;
 
 public final class Posc extends JavaPlugin {
-    private static Posc instance;
+    private static Posc INSTANCE;
 
     public static Logger LOGGER;
+    public static World MAIN_WORLD;
 
     @Override
     public void onEnable() {
-        instance = this;
+        INSTANCE = this;
         LOGGER = getLogger();
+        MAIN_WORLD = Bukkit.getWorld("world");
 
         saveDefaultConfig();
 
         registerListeners();
         registerCommands();
+        configureServer();
         DataManager.loadAll();
         Discord.enable();
     }
@@ -34,7 +40,7 @@ public final class Posc extends JavaPlugin {
     }
 
     public static Posc get() {
-        return instance;
+        return INSTANCE;
     }
 
     /**
@@ -69,5 +75,18 @@ public final class Posc extends JavaPlugin {
                 }
             }
         }
+    }
+
+    /**
+     * Configures server related settings on startup to make sure
+     * nothing unexpected happens.
+     * This makes modifications to GameRules made with the
+     * /gamerule command reset on server reload and restart.
+     */
+    private static void configureServer() {
+        MAIN_WORLD.setDifficulty(Difficulty.HARD);
+
+        MAIN_WORLD.setGameRule(GameRule.SHOW_DEATH_MESSAGES, false);
+        MAIN_WORLD.setGameRule(GameRule.SPAWN_RADIUS, 0);
     }
 }

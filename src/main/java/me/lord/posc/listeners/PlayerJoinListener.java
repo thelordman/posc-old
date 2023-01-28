@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 public final class PlayerJoinListener implements Event {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        DataManager.getGlobal().incrementTotalUsers();
+        if (!event.getPlayer().hasPlayedBefore()) DataManager.getGlobal().incrementTotalUsers();
         DataManager.loadPlayerData(event.getPlayer());
         event.joinMessage(TextUtil.c("&7[&a+&7] &f" + event.getPlayer().getName() + (event.getPlayer().hasPlayedBefore() ? "" : " &8| &6" + TextUtil.ordinal(DataManager.getGlobal().getTotalUsers()) + " join")));
 

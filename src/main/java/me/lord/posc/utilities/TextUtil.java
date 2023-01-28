@@ -35,6 +35,10 @@ public final class TextUtil {
         return new DecimalFormat("#,###").format(number);
     }
 
+    public static String format(double number) {
+        return new DecimalFormat("#,###.##").format(number);
+    }
+
     public static String ordinal(int number) {
         String string = format(number);
         if (number >= 111) number = Integer.parseInt(Character.toString(string.charAt(string.length() - 2) + string.charAt(string.length() - 1)));
