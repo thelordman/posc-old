@@ -3,10 +3,6 @@ package me.lord.posc.commands;
 import me.lord.posc.utilities.Cmd;
 import me.lord.posc.utilities.CommandUtil;
 import me.lord.posc.utilities.TextUtil;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.ComponentBuilder;
-import net.kyori.adventure.text.TextComponent;
-import net.minecraft.network.chat.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -45,7 +41,18 @@ public final class GamemodeCommands implements Cmd {
     }
 
     @Override
-    public String[] getNames() {
+    public String[] names() {
         return new String[]{"gmc", "gms", "gma", "gmsp"};
+    }
+
+    @Override
+    public String permissions(@NotNull String command) {
+        return switch (command) {
+            case "gmc" -> "posc.command.gamemode.creative";
+            case "gms" -> "posc.command.gamemode.survival";
+            case "gma" -> "posc.command.gamemode.adventure";
+            case "gmsp" -> "posc.command.gamemode.spectator";
+            default -> null;
+        };
     }
 }

@@ -7,7 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,7 +34,12 @@ public final class KillCommand implements Cmd {
     }
 
     @Override
-    public String getName() {
+    public String name() {
         return "kill";
+    }
+
+    @Override
+    public String permission() {
+        return "posc.command.kill";
     }
 }

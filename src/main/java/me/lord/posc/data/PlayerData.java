@@ -30,9 +30,6 @@ public final class PlayerData implements Data {
         this.uuid = uuid;
     }
 
-    public PlayerData() {
-    }
-
     @Nullable
     public UUID getUUID() {
         return uuid;

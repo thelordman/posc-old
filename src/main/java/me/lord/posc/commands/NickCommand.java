@@ -1,18 +1,15 @@
 package me.lord.posc.commands;
 
 import me.lord.posc.utilities.Cmd;
-import me.lord.posc.utilities.CommandUtil;
-import me.lord.posc.utilities.TextUtil;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
 import java.util.List;
 
+// TODO: Cleanup
 public class NickCommand implements Cmd {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -24,7 +21,7 @@ public class NickCommand implements Cmd {
     }
 
     @Override
-    public String getName() {
+    public String name() {
         return "nick";
     }
 

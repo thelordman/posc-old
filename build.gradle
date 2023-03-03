@@ -23,6 +23,12 @@ dependencies {
     }
 }
 
+tasks {
+    assemble {
+        dependsOn(reobfJar)
+    }
+}
+
 tasks.jar {
     finalizedBy("shadowJar")
 }

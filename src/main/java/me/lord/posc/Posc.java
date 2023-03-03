@@ -64,14 +64,20 @@ public final class Posc extends JavaPlugin {
     private static void registerCommands() throws NullPointerException {
         ServiceLoader<Cmd> loader = ServiceLoader.load(Cmd.class, Cmd.class.getClassLoader());
         for (Cmd cmd : loader) {
-            if (cmd.getName() == null && cmd.getNames() == null) {
+            if (cmd.name() == null && cmd.names() == null) {
                 throw new NullPointerException("getName() and getNames() cannot both return null; " + cmd.getClass().getSimpleName());
             }
-            if (cmd.getNames() == null) {
-                get().getCommand(cmd.getName()).setExecutor(cmd);
+            if (cmd.names() == null) {
+                get().getCommand(cmd.name()).setExecutor(cmd);
+                if (cmd.permission() != null) {
+                    get().getCommand(cmd.name()).setPermission(cmd.permission());
+                }
             } else {
-                for (String name : cmd.getNames()) {
+                for (String name : cmd.names()) {
                     get().getCommand(name).setExecutor(cmd);
+                    if (cmd.permission() != null) {
+                        get().getCommand(name).setPermission(cmd.permissions(name));
+                    }
                 }
             }
         }

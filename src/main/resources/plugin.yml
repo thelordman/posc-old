@@ -25,3 +25,6 @@ commands:
   nick:
     description: Nicknames you.
     usage: /nick <text>
+  npc:
+    description: Command to create and modify NPCs.
+    usage: /npc <create>
