@@ -59,7 +59,7 @@ public class NPC {
             HttpsURLConnection connection = (HttpsURLConnection) new URL("https://api.ashcon.app/mojang/v2/user/" + username).openConnection();
             if (connection.getResponseCode() == HttpsURLConnection.HTTP_OK) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String reply = String.join(" ", (String[]) reader.lines().toArray());
+                String reply = String.join(" ", reader.lines().toList());
                 int indexOfValue = reply.indexOf("\"value\": \"");
                 int indexOfSignature = reply.indexOf("\"signature\": \"");
                 String skin = reply.substring(indexOfValue + 10, reply.indexOf("\"", indexOfValue + 10));
