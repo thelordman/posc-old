@@ -3,13 +3,16 @@ package me.lord.posc.npc;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import me.lord.posc.Posc;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.network.protocol.game.ClientboundAddPlayerPacket;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
+import net.minecraft.network.protocol.game.ClientboundRespawnPacket;
 import net.minecraft.network.protocol.game.ClientboundRotateHeadPacket;
 import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import org.bukkit.Bukkit;
@@ -26,6 +29,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Optional;
 import java.util.UUID;
 
 public class NPC {
@@ -64,10 +68,13 @@ public class NPC {
                 int indexOfSignature = reply.indexOf("\"signature\": \"");
                 String skin = reply.substring(indexOfValue + 10, reply.indexOf("\"", indexOfValue + 10));
                 String signature = reply.substring(indexOfSignature + 14, reply.indexOf("\"", indexOfSignature + 14));
-
                 player.getGameProfile().getProperties().put("textures", new Property("textures", skin, signature));
-                Bukkit.getOnlinePlayers().forEach(this::sendSkinPacket);
-
+                //Bukkit.getOnlinePlayers().forEach(this::sendSkinPacket);
+                ClientboundRespawnPacket packet = new ClientboundRespawnPacket(player.getLevel().dimensionTypeId(), player.getLevel().dimension(), new CraftPlayer((CraftServer) Bukkit.getServer(), player).getPlayer().getWorld().getSeed(), player.gameMode.getGameModeForPlayer(), player.gameMode.getPreviousGameModeForPlayer(), player.getLevel().isDebug(), player.getLevel().isFlat(), ClientboundRespawnPacket.KEEP_ALL_DATA, Optional.of(GlobalPos.of(player.getLevel().dimension(), player.blockPosition())));
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    ServerGamePacketListenerImpl con = ((CraftPlayer) player).getHandle().connection;
+                    con.send(packet);
+                }
                 return true;
             } else {
                 Posc.LOGGER.warning("Couldn't open connection to https://api.ashcon.app/mojang/v2/user/" + username + "(Response code " + connection.getResponseCode() + ", " + connection.getResponseMessage() + ")");

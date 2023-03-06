@@ -9,10 +9,12 @@ import java.awt.*;
 
 public class PlayerJoin {
     public static void exe(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
-        Discord.MINECRAFT_CHAT.sendMessageEmbeds(new PoscEmbedBuilder()
-                .setAuthor(player.getName() + " Joined", null, "https://crafatar.com/avatars/" + player.getUniqueId())
-                .setColor(Color.GREEN)
-                .build()).queue();
+        if (Discord.TOKEN != null) {
+            Player player = event.getPlayer();
+            Discord.MINECRAFT_CHAT.sendMessageEmbeds(new PoscEmbedBuilder()
+                    .setAuthor(player.getName() + " Joined", null, "https://crafatar.com/avatars/" + player.getUniqueId())
+                    .setColor(Color.GREEN)
+                    .build()).queue();
+        }
     }
 }

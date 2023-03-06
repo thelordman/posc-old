@@ -1,5 +1,6 @@
 package me.lord.posc.ranks;
 
+import kotlin.CharCodeJVMKt;
 import me.lord.posc.utilities.TextUtil;
 import org.bukkit.ChatColor;
 
@@ -10,7 +11,7 @@ public enum Rank {
 
     DEFAULT("&7[DEFAULT]", ChatColor.GRAY),
     DEVELOPER("&d[DEVELOPER]"),
-    ADMIN("&6[ADMIN]"),
+    ADMIN("&6[ADMIN]", List.of("posc.nick")),
     OWNER("&c[OWNER]");
 
     private final String prefix;
@@ -25,6 +26,12 @@ public enum Rank {
     Rank(String prefix, ChatColor chatColor) {
         this.prefix = TextUtil.cs(prefix);
         this.chatColor = chatColor;
+    }
+
+    Rank(String prefix, List<String> permissions) {
+        this.prefix = TextUtil.cs(prefix);
+        this.chatColor = ChatColor.WHITE;
+        this.permissions = permissions;
     }
 
     Rank(String prefix, ChatColor chatColor, List<String> permissions) {
