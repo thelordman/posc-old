@@ -1,6 +1,5 @@
 package me.lord.posc.commands;
 
-import me.lord.posc.Posc;
 import me.lord.posc.npc.NPCManager;
 import me.lord.posc.utilities.Cmd;
 import me.lord.posc.utilities.TextUtil;

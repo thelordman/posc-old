@@ -7,9 +7,7 @@ import java.time.Instant;
 
 public class PlayerCommand {
     public static void exe(PlayerCommandPreprocessEvent event) {
-        if (Discord.TOKEN != null) {
-            long time = Instant.now().getEpochSecond();
-            Discord.MINECRAFT_LOGS.sendMessage("<t:" + time + ":d> " + "<t:" + time + ":T> **" + event.getPlayer().getName() + ":** `" + event.getMessage() + "`").queue();
-        }
+        long time = Instant.now().getEpochSecond();
+        Discord.MINECRAFT_LOGS.sendMessage("<t:" + time + ":d> " + "<t:" + time + ":T> **" + event.getPlayer().getName() + ":** `" + event.getMessage() + "`").queue();
     }
 }

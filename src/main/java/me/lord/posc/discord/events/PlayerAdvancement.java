@@ -11,16 +11,14 @@ import java.awt.*;
 
 public class PlayerAdvancement {
     public static void exe(PlayerAdvancementDoneEvent event) {
-        if (Discord.TOKEN != null) {
-            if (event.message() == null) return;
+        if (event.message() == null) return;
 
-            Player player = event.getPlayer();
-            AdvancementDisplay display = event.getAdvancement().getDisplay();
-            Discord.MINECRAFT_CHAT.sendMessageEmbeds(new PoscEmbedBuilder()
-                    .setAuthor(player.getName(), null, "https://crafatar.com/avatars/" + player.getUniqueId())
-                    .setDescription(TextUtil.stripColorCodes(TextUtil.componentToString(event.message()), '&').replaceAll("[\\[\\]]", "**"))
-                    .setColor(display == null ? Color.BLUE : Color.decode(display.frame().color().asHexString()))
-                    .build()).queue();
-        }
+        Player player = event.getPlayer();
+        AdvancementDisplay display = event.getAdvancement().getDisplay();
+        Discord.MINECRAFT_CHAT.sendMessageEmbeds(new PoscEmbedBuilder()
+                .setAuthor(player.getName(), null, "https://crafatar.com/avatars/" + player.getUniqueId())
+                .setDescription(TextUtil.stripColorCodes(TextUtil.componentToString(event.message()), '&').replaceAll("[\\[\\]]", "**"))
+                .setColor(display == null ? Color.BLUE : Color.decode(display.frame().color().asHexString()))
+                .build()).queue();
     }
 }
