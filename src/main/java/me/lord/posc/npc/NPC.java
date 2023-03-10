@@ -43,7 +43,7 @@ public class NPC {
             player.setXRot(location.getPitch());
         }
 
-        Bukkit.getOnlinePlayers().forEach(this::sendInitPacket);
+        sendInitPacket();
     }
 
     public int getIndex() {
@@ -66,11 +66,10 @@ public class NPC {
                 String signature = reply.substring(indexOfSignature + 14, reply.indexOf("\"", indexOfSignature + 14));
 
                 player.getGameProfile().getProperties().put("textures", new Property("textures", skin, signature));
-                Bukkit.getOnlinePlayers().forEach(this::sendSkinPacket);
 
                 return true;
             } else {
-                Posc.LOGGER.warning("Couldn't open connection to https://api.ashcon.app/mojang/v2/user/" + username + "(Response code " + connection.getResponseCode() + ", " + connection.getResponseMessage() + ")");
+                Posc.LOGGER.warning("Couldn't open connection to https://api.ashcon.app/mojang/v2/user/" + username + " (Response code " + connection.getResponseCode() + ", " + connection.getResponseMessage() + ")");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -79,16 +78,24 @@ public class NPC {
         return false;
     }
 
-    private void sendInitPacket(Player player) {
+    public void sendInitPacket(Player player) {
         ServerGamePacketListenerImpl connection = ((CraftPlayer) player).getHandle().connection;
         connection.send(new ClientboundPlayerInfoUpdatePacket(ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER, this.player));
         connection.send(new ClientboundAddPlayerPacket(this.player));
         connection.send(new ClientboundRotateHeadPacket(this.player, (byte) (this.player.getYRot() * 256 / 360)));
     }
 
-    private void sendSkinPacket(Player player) {
+    public void sendInitPacket() {
+        Bukkit.getOnlinePlayers().forEach(this::sendInitPacket);
+    }
+
+    public void sendSkinPacket(Player player) {
         SynchedEntityData data = this.player.getEntityData();
         data.set(new EntityDataAccessor<>(17, EntityDataSerializers.BYTE), (byte) 126);
         ((CraftPlayer) player).getHandle().connection.send(new ClientboundSetEntityDataPacket(this.player.getId(), data.getNonDefaultValues()));
+    }
+
+    public void sendSkinPacket() {
+        Bukkit.getOnlinePlayers().forEach(this::sendSkinPacket);
     }
 }

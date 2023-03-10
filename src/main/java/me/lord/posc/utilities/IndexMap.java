@@ -1,5 +1,6 @@
 package me.lord.posc.utilities;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 public class IndexMap<V> {
@@ -31,5 +32,9 @@ public class IndexMap<V> {
 
     public V remove(int index) {
         return map.remove(index);
+    }
+
+    public Collection<V> values() {
+        return map.values();
     }
 }

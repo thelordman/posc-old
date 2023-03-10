@@ -1,7 +1,9 @@
 package me.lord.posc.npc;
 
 import me.lord.posc.utilities.IndexMap;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
 public class NPCManager {
@@ -15,6 +17,7 @@ public class NPCManager {
         }
 
         addNPC(npc);
+        npc.sendSkinPacket();
     }
 
     public static NPC getNPC(int index) {
@@ -27,5 +30,21 @@ public class NPCManager {
 
     public static void removeNPC(int index) {
         npcMap.remove(index);
+    }
+
+    public static void sendInitPacketAll(Player player) {
+        npcMap.values().forEach(npc -> npc.sendInitPacket(player));
+    }
+
+    public static void sendInitPacketAll() {
+        Bukkit.getOnlinePlayers().forEach(NPCManager::sendInitPacketAll);
+    }
+
+    public static void sendSkinPacketAll(Player player) {
+        npcMap.values().forEach(npc -> npc.sendSkinPacket(player));
+    }
+
+    public static void sendSkinPacketAll() {
+        Bukkit.getOnlinePlayers().forEach(NPCManager::sendSkinPacketAll);
     }
 }
