@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: Redo rank system according to Liami's wishes (high customizability with commands and config file)
 public enum Rank {
 
     DEFAULT("&7[DEFAULT]", ChatColor.GRAY),

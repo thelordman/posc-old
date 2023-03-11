@@ -1,7 +1,9 @@
 package me.lord.posc.data;
 
 import me.lord.posc.Posc;
+import me.lord.posc.npc.NPCManager;
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_19_R2.util.DatFileFilter;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -12,6 +14,7 @@ public class DataManager {
     private static final HashMap<UUID, PlayerData> playerDataMap = new HashMap<>();
 
     private static final File PLAYER_DATA_FOLDER = new File(Posc.get().getDataFolder() + File.separator + "playerdata");
+    private static final File NPC_DATA_FOLDER = new File(Posc.get().getDataFolder() + File.separator + "npcdata");
     private static final File GLOBAL_DATA_FILE = new File(Posc.get().getDataFolder() + File.separator + "globaldata.dat");
 
     private static GlobalData globalData = null;
@@ -44,6 +47,12 @@ public class DataManager {
         for (Player player : Bukkit.getOnlinePlayers()) {
             loadPlayerData(player);
         }
+
+        if (!NPC_DATA_FOLDER.exists()) NPC_DATA_FOLDER.mkdir();
+        for (File file : NPC_DATA_FOLDER.listFiles(new DatFileFilter())) {
+            NPCData npcData = (NPCData) Data.deserialize(file.getPath());
+            NPCManager.createNPC(npcData.getName(), npcData.getLocation(), npcData.getSkin());
+        }
     }
 
     public static void saveAll() {
@@ -54,6 +63,7 @@ public class DataManager {
         }
 
         if (!PLAYER_DATA_FOLDER.exists()) PLAYER_DATA_FOLDER.mkdir();
+        if (!NPC_DATA_FOLDER.exists()) NPC_DATA_FOLDER.mkdir();
         for (Player player : Bukkit.getOnlinePlayers()) {
             savePlayerData(player);
         }

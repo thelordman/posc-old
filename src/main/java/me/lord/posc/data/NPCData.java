@@ -1,5 +1,6 @@
 package me.lord.posc.data;
 
+import me.lord.posc.npc.NPC;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -34,6 +35,10 @@ public class NPCData implements Data {
         pitch = location.getPitch();
         yaw = location.getYaw();
         skin = skinUsername;
+    }
+
+    public static NPCData fromNPC(NPC npc) {
+        return new NPCData(npc.getIndex(), npc.getName(), npc.getLocation(), npc.getSkinUsername());
     }
 
     public Location getLocation() {

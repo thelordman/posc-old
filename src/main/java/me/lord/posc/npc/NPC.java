@@ -10,6 +10,7 @@ import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import org.bukkit.Bukkit;
@@ -29,29 +30,52 @@ import java.net.URL;
 import java.util.UUID;
 
 public class NPC {
-    private final ServerPlayer player;
+    private final UUID uuid;
     private final int index;
+    private String skin;
 
     protected NPC(int index, @NotNull String name, @Nullable Location location) {
-        player = new ServerPlayer(((CraftServer) Bukkit.getServer()).getServer(), ((CraftWorld) Posc.MAIN_WORLD).getHandle(), new GameProfile(UUID.randomUUID(), name));
+        UUID uuid = UUID.randomUUID();
+
+        new ServerPlayer(((CraftServer) Bukkit.getServer()).getServer(),
+                ((CraftWorld) Posc.MAIN_WORLD).getHandle(),
+                new GameProfile(uuid, name));
+
+        this.uuid = uuid;
 
         this.index = index;
 
         if (location != null) {
-            player.setPos(location.getX(), location.getY(), location.getZ());
-            player.setYRot(location.getYaw());
-            player.setXRot(location.getPitch());
+            getPlayer().setPos(location.getX(), location.getY(), location.getZ());
+            getPlayer().setYRot(location.getYaw());
+            getPlayer().setXRot(location.getPitch());
         }
 
         sendInitPacket();
+    }
+
+    private ServerPlayer getPlayer() {
+        return MinecraftServer.getServer().getPlayerList().getPlayer(uuid);
+    }
+
+    public UUID getUUID() {
+        return uuid;
     }
 
     public int getIndex() {
         return index;
     }
 
+    public String getName() {
+        return getPlayer().displayName;
+    }
+
     public Location getLocation() {
-        return new Location(player.getBukkitEntity().getWorld(), player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
+        return new Location(getPlayer().getBukkitEntity().getWorld(), getPlayer().getX(), getPlayer().getY(), getPlayer().getZ(), getPlayer().getYRot(), getPlayer().getXRot());
+    }
+
+    public String getSkinUsername() {
+        return skin;
     }
 
     public boolean setSkin(String username) {
@@ -65,7 +89,8 @@ public class NPC {
                 String skin = reply.substring(indexOfValue + 10, reply.indexOf("\"", indexOfValue + 10));
                 String signature = reply.substring(indexOfSignature + 14, reply.indexOf("\"", indexOfSignature + 14));
 
-                player.getGameProfile().getProperties().put("textures", new Property("textures", skin, signature));
+                getPlayer().getGameProfile().getProperties().put("textures", new Property("textures", skin, signature));
+                skin = username;
 
                 return true;
             } else {
@@ -80,9 +105,9 @@ public class NPC {
 
     public void sendInitPacket(Player player) {
         ServerGamePacketListenerImpl connection = ((CraftPlayer) player).getHandle().connection;
-        connection.send(new ClientboundPlayerInfoUpdatePacket(ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER, this.player));
-        connection.send(new ClientboundAddPlayerPacket(this.player));
-        connection.send(new ClientboundRotateHeadPacket(this.player, (byte) (this.player.getYRot() * 256 / 360)));
+        connection.send(new ClientboundPlayerInfoUpdatePacket(ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER, getPlayer()));
+        connection.send(new ClientboundAddPlayerPacket(getPlayer()));
+        connection.send(new ClientboundRotateHeadPacket(getPlayer(), (byte) (getPlayer().getYRot() * 256 / 360)));
     }
 
     public void sendInitPacket() {
@@ -90,9 +115,9 @@ public class NPC {
     }
 
     public void sendSkinPacket(Player player) {
-        SynchedEntityData data = this.player.getEntityData();
+        SynchedEntityData data = getPlayer().getEntityData();
         data.set(new EntityDataAccessor<>(17, EntityDataSerializers.BYTE), (byte) 126);
-        ((CraftPlayer) player).getHandle().connection.send(new ClientboundSetEntityDataPacket(this.player.getId(), data.getNonDefaultValues()));
+        ((CraftPlayer) player).getHandle().connection.send(new ClientboundSetEntityDataPacket(getPlayer().getId(), data.getNonDefaultValues()));
     }
 
     public void sendSkinPacket() {
