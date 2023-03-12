@@ -1,13 +1,12 @@
 package me.lord.posc.utilities;
 
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 
 public class IndexMap<V> {
     private final HashMap<Integer, V> map = new HashMap<>();
 
     public int highestIndex() {
-        return map.keySet().stream().mapToInt(t -> t).max().orElse(0);
+        return map.keySet().stream().mapToInt(t -> t).max().orElse(-1);
     }
 
     public int nextIndex() {
@@ -36,5 +35,9 @@ public class IndexMap<V> {
 
     public Collection<V> values() {
         return map.values();
+    }
+
+    public Set<Map.Entry<Integer, V>> entrySet() {
+        return map.entrySet();
     }
 }

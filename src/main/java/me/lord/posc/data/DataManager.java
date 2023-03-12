@@ -1,6 +1,7 @@
 package me.lord.posc.data;
 
 import me.lord.posc.Posc;
+import me.lord.posc.npc.NPC;
 import me.lord.posc.npc.NPCManager;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_19_R2.util.DatFileFilter;
@@ -8,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class DataManager {
@@ -51,7 +53,8 @@ public class DataManager {
         if (!NPC_DATA_FOLDER.exists()) NPC_DATA_FOLDER.mkdir();
         for (File file : NPC_DATA_FOLDER.listFiles(new DatFileFilter())) {
             NPCData npcData = (NPCData) Data.deserialize(file.getPath());
-            NPCManager.createNPC(npcData.getName(), npcData.getLocation(), npcData.getSkin());
+            assert npcData != null : "Wrong and/or corrupted file at " + file.getPath();
+            NPCManager.createNPC(npcData.getName(), npcData.getLocation(), npcData.getSkin(), Integer.parseInt(file.getName().split("\\.")[0]));
         }
     }
 
@@ -63,9 +66,13 @@ public class DataManager {
         }
 
         if (!PLAYER_DATA_FOLDER.exists()) PLAYER_DATA_FOLDER.mkdir();
-        if (!NPC_DATA_FOLDER.exists()) NPC_DATA_FOLDER.mkdir();
         for (Player player : Bukkit.getOnlinePlayers()) {
             savePlayerData(player);
+        }
+
+        if (!NPC_DATA_FOLDER.exists()) NPC_DATA_FOLDER.mkdir();
+        for (Map.Entry<Integer, NPC> entry : NPCManager.getNPCMap().entrySet()) {
+            NPCData.fromNPC(entry.getValue()).serialize(NPC_DATA_FOLDER.getPath() + File.separator + entry.getKey() + ".dat");
         }
     }
 
