@@ -2,17 +2,14 @@ package me.lord.posc;
 
 import me.lord.posc.data.DataManager;
 import me.lord.posc.discord.Discord;
-import me.lord.posc.npc.NPCManager;
 import me.lord.posc.utilities.Cmd;
 import me.lord.posc.utilities.Event;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.GameRule;
 import org.bukkit.World;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Collection;
 import java.util.ServiceLoader;
 import java.util.logging.Logger;
 

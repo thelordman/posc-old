@@ -14,7 +14,9 @@ java {
 
 dependencies {
     paperweight.paperDevBundle("1.19.3-R0.1-SNAPSHOT")
-    implementation("net.dv8tion", "JDA", "5.0.0-beta.3")
+    implementation("net.dv8tion", "JDA", "5.0.0-beta.3") {
+        exclude("club.minnced", "opus-java")
+    }
 }
 
 tasks {
