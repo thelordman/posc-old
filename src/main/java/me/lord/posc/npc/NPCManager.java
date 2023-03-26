@@ -11,13 +11,8 @@ public class NPCManager {
     private static final IndexMap<NPC> npcMap = new IndexMap<>();
 
     public static void createNPC(@Nullable String name, @Nullable Location location, @Nullable String skinUsername, @NotNull Integer index) {
-        name = name == null ? "Unnamed" : name;
-        NPC npc = new NPC(index, name, location);
-
-        npc.setSkin(skinUsername == null ? name : skinUsername);
-
+        NPC npc = new NPC(index, name == null ? "Unnamed" : name, location, skinUsername == null ? name : skinUsername);
         addNPC(npc);
-        npc.sendSkinPacket();
     }
 
     public static void createNPC(@Nullable String name, @Nullable Location location, @Nullable String skinUsername) {

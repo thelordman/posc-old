@@ -15,7 +15,7 @@ public final class PlayerJoinListener implements Event {
         DataManager.loadPlayerData(event.getPlayer());
 
         NPCManager.sendInitPacketAll(event.getPlayer());
-        NPCManager.sendInitPacketAll(event.getPlayer());
+        NPCManager.sendSkinPacketAll(event.getPlayer());
 
         event.joinMessage(TextUtil.c("&7[&a+&7] &f" + event.getPlayer().getName() + (event.getPlayer().hasPlayedBefore() ? "" : " &8| &6" + TextUtil.ordinal(DataManager.getGlobal().getTotalUsers()) + " join")));
 

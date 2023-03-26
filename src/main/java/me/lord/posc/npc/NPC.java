@@ -10,7 +10,6 @@ import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import org.bukkit.Bukkit;
@@ -27,6 +26,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.UUID;
 
 public class NPC {
@@ -34,7 +34,7 @@ public class NPC {
     private final int index;
     private String skin;
 
-    protected NPC(int index, @NotNull String name, @Nullable Location location) {
+    protected NPC(int index, @NotNull String name, @Nullable Location location, @NotNull String skinUsername) {
         UUID uuid = UUID.randomUUID();
 
         player = new ServerPlayer(((CraftServer) Bukkit.getServer()).getServer(),
@@ -42,7 +42,7 @@ public class NPC {
                 new GameProfile(uuid, name));
 
         this.index = index;
-        this.skin = name;
+        this.skin = skinUsername;
 
         if (location != null) {
             player.setPos(location.getX(), location.getY(), location.getZ());
@@ -50,7 +50,10 @@ public class NPC {
             player.setXRot(location.getPitch());
         }
 
+        setSkin(skinUsername);
+
         sendInitPacket();
+        sendSkinPacket();
     }
 
     public int getIndex() {

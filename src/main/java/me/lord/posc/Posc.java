@@ -35,11 +35,6 @@ public final class Posc extends JavaPlugin {
         configureServer();
         DataManager.loadAll();
         Discord.enable();
-
-        if (Bukkit.getOnlinePlayers().size() > 0) {
-            NPCManager.sendInitPacketAll();
-            NPCManager.sendSkinPacketAll();
-        }
     }
 
     @Override
