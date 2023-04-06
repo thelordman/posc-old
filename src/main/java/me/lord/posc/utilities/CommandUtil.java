@@ -14,7 +14,7 @@ public final class CommandUtil {
 
     public enum Error {
         PLAYER_ONLY("Only players can execute this command."),
-        PLAYER_NOT_ONLINE("Target player must be online.");
+        TARGET_NOT_ONLINE("Target player must be online.");
 
         private final String message;
 

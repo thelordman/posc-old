@@ -15,9 +15,9 @@ import java.util.UUID;
 public class DataManager {
     private static final HashMap<UUID, PlayerData> playerDataMap = new HashMap<>();
 
-    private static final File PLAYER_DATA_FOLDER = new File(Posc.get().getDataFolder() + File.separator + "playerdata");
-    private static final File NPC_DATA_FOLDER = new File(Posc.get().getDataFolder() + File.separator + "npcdata");
-    private static final File GLOBAL_DATA_FILE = new File(Posc.get().getDataFolder() + File.separator + "globaldata.dat");
+    public static final File PLAYER_DATA_FOLDER = new File(Posc.get().getDataFolder() + File.separator + "playerdata");
+    public static final File NPC_DATA_FOLDER = new File(Posc.get().getDataFolder() + File.separator + "npcdata");
+    public static final File GLOBAL_DATA_FILE = new File(Posc.get().getDataFolder() + File.separator + "globaldata.dat");
 
     private static GlobalData globalData = null;
 

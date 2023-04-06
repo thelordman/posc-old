@@ -19,7 +19,7 @@ public final class GamemodeCommands implements Cmd {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player) && args.length == 0) return CommandUtil.error(sender, CommandUtil.Error.PLAYER_ONLY);
         Player target = args.length == 0 ? (Player) sender : Bukkit.getPlayer(args[0]);
-        if (target == null) return CommandUtil.error(sender, CommandUtil.Error.PLAYER_NOT_ONLINE);
+        if (target == null) return CommandUtil.error(sender, CommandUtil.Error.TARGET_NOT_ONLINE);
 
         GameMode gameMode = switch (command.getName()) {
             case "gmc" -> GameMode.CREATIVE;

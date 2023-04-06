@@ -1,15 +1,12 @@
 package me.lord.posc.npc;
 
 import com.mojang.authlib.properties.Property;
-import me.lord.posc.Posc;
+import me.lord.posc.data.DataManager;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_19_R2.CraftWorld;
 import org.bukkit.craftbukkit.v1_19_R2.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_19_R2.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
@@ -17,9 +14,9 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Optional;
 
 public class NPCManager {
@@ -81,17 +78,9 @@ public class NPCManager {
     }
 
     public static boolean isNPC(Entity entity) {
-        Posc.LOGGER.info("entity might be null");
         if (entity == null) return false;
-        Posc.LOGGER.info("entity != null");
         net.minecraft.world.entity.Entity nmsEntity = ((CraftEntity) entity).getHandle();
-        Posc.LOGGER.info("entity successfully casted to nms");
-        if (nmsEntity instanceof NPC) {
-            Posc.LOGGER.info("entity was instance of NPC");
-            return true;
-        }
-        Posc.LOGGER.info("entity was NOT instance of NPC");
-        return false;
+        return nmsEntity instanceof NPC;
     }
 
     public static NPC getNPC(Entity entity) {
@@ -116,6 +105,8 @@ public class NPCManager {
             npc.sendRemovePacket();
         }
         npcMap.remove(index);
+        File npcFile = new File(DataManager.NPC_DATA_FOLDER.getPath() + File.separator + index + ".dat");
+        if (npcFile.exists()) npcFile.delete();
     }
 
     public static void sendInitPacketAll(Player player) {

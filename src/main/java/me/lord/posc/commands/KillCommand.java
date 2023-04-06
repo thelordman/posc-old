@@ -19,7 +19,7 @@ public final class KillCommand implements Cmd {
         if (args.length > 0 && label.equals("suicide") && (!args[0].equals(sender.getName()) || !(sender instanceof Player))) return false;
         if (!(sender instanceof Player) && args.length == 0) return CommandUtil.error(sender, CommandUtil.Error.PLAYER_ONLY);
         Player target = args.length == 0 ? (Player) sender : Bukkit.getPlayer(args[0]);
-        if (target == null) return CommandUtil.error(sender, CommandUtil.Error.PLAYER_NOT_ONLINE);
+        if (target == null) return CommandUtil.error(sender, CommandUtil.Error.TARGET_NOT_ONLINE);
 
         if (target != sender) sender.sendMessage(TextUtil.c("&6" + target.getName() + " &ehas been killed."));
         target.sendMessage(TextUtil.c("&eYou were killed by " + (target != sender ? "&6" + sender.getName() + "&e." : "yourself.")));
