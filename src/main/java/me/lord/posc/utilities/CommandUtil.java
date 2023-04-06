@@ -1,6 +1,10 @@
 package me.lord.posc.utilities;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.util.StringUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class CommandUtil {
     public static boolean error(CommandSender sender, Error error) {
@@ -21,5 +25,9 @@ public final class CommandUtil {
         public String getMessage() {
             return message;
         }
+    }
+
+    public static ArrayList<String> partialMatches(String token, List<String> originals) {
+        return StringUtil.copyPartialMatches(token, originals, new ArrayList<>(originals.size()));
     }
 }

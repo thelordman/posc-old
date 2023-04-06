@@ -66,8 +66,11 @@ public class DataManager {
         }
 
         if (!PLAYER_DATA_FOLDER.exists()) PLAYER_DATA_FOLDER.mkdir();
+
         for (Player player : Bukkit.getOnlinePlayers()) {
             savePlayerData(player);
+
+            NPCManager.sendRemovePacketAll(player);
         }
 
         if (!NPC_DATA_FOLDER.exists()) NPC_DATA_FOLDER.mkdir();

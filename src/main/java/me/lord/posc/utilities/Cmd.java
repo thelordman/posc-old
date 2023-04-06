@@ -3,9 +3,6 @@ package me.lord.posc.utilities;
 import org.bukkit.command.TabExecutor;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Adds functionality to specify the name of the command(s).
  * This interface must be implemented in command classes

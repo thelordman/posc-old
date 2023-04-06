@@ -1,10 +1,12 @@
 package me.lord.posc.data;
 
+import com.mojang.authlib.properties.Property;
 import me.lord.posc.npc.NPC;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import java.io.Serial;
+import java.util.Collection;
 
 /**
  * An NPC's data which won't be wiped on a server reload or a server restart.
@@ -21,12 +23,13 @@ public class NPCData implements Data {
     private final float pitch;
     private final float yaw;
 
-    private final int index;
-    private final String name;
-    private final String skin;
+    // Skin Property
+    private final String skinValue;
+    private final String skinSignature;
 
-    public NPCData(int index, String name, Location location, String skinUsername) {
-        this.index = index;
+    private final String name;
+
+    public NPCData(String name, Location location, Property skinProperty) {
         this.name = name;
         world = location.getWorld().getName();
         x = location.x();
@@ -34,26 +37,28 @@ public class NPCData implements Data {
         z = location.z();
         pitch = location.getPitch();
         yaw = location.getYaw();
-        skin = skinUsername;
+        skinValue = skinProperty == null ? null : skinProperty.getValue();
+        skinSignature = skinProperty == null ? null : skinProperty.getSignature();
     }
 
     public static NPCData fromNPC(NPC npc) {
-        return new NPCData(npc.getIndex(), npc.getName(), npc.getLocation(), npc.getSkinUsername());
+        Collection<Property> properties = npc.getGameProfile().getProperties().get("textures");
+        Property property = properties.stream()
+                .filter(p -> p.getName().equals("textures"))
+                .findFirst()
+                .orElse(null);
+        return new NPCData(npc.getNameString(), npc.getLocation(), property);
     }
 
     public Location getLocation() {
         return new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
     }
 
-    public int getIndex() {
-        return index;
-    }
-
     public String getName() {
         return name;
     }
 
-    public String getSkin() {
-        return skin;
+    public Property getSkin() {
+        return skinValue == null | skinSignature == null ? null : new Property("textures", skinValue, skinSignature);
     }
 }

@@ -26,6 +26,8 @@ public final class PlayerData implements Data {
     private Account account = null;
     private Rank rank = Rank.DEFAULT;
 
+    private transient Integer selectedNPC = null;
+
     public PlayerData(@NotNull UUID uuid) {
         this.uuid = uuid;
     }
@@ -61,6 +63,14 @@ public final class PlayerData implements Data {
         }
         this.rank = rank;
         initPermissions();
+    }
+
+    public Integer getSelectedNPC() {
+        return selectedNPC;
+    }
+
+    public void setSelectedNPC(Integer selectedNPC) {
+        this.selectedNPC = selectedNPC;
     }
 
     public void initPermissions() {

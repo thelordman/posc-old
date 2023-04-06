@@ -3,10 +3,7 @@ package me.lord.posc.npc;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import me.lord.posc.Posc;
-import net.minecraft.network.protocol.game.ClientboundAddPlayerPacket;
-import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
-import net.minecraft.network.protocol.game.ClientboundRotateHeadPacket;
-import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
+import net.minecraft.network.protocol.game.*;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -26,50 +23,41 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.HashSet;
 import java.util.UUID;
 
-public class NPC {
-    private final ServerPlayer player;
+public class NPC extends ServerPlayer {
     private final int index;
-    private String skin;
 
-    protected NPC(int index, @NotNull String name, @Nullable Location location, @NotNull String skinUsername) {
-        UUID uuid = UUID.randomUUID();
-
-        player = new ServerPlayer(((CraftServer) Bukkit.getServer()).getServer(),
+    protected NPC(int index, @NotNull String name, @Nullable Location location) {
+        super(((CraftServer) Bukkit.getServer()).getServer(),
                 ((CraftWorld) Posc.MAIN_WORLD).getHandle(),
-                new GameProfile(uuid, name));
+                new GameProfile(UUID.randomUUID(), name));
+
+        isRealPlayer = false;
 
         this.index = index;
-        this.skin = skinUsername;
 
         if (location != null) {
-            player.setPos(location.getX(), location.getY(), location.getZ());
-            player.setYRot(location.getYaw());
-            player.setXRot(location.getPitch());
+            setPos(location.getX(), location.getY(), location.getZ());
+            setYRot(location.getYaw());
+            setXRot(location.getPitch());
         }
-
-        setSkin(skinUsername);
-
-        sendInitPacket();
-        sendSkinPacket();
     }
 
     public int getIndex() {
         return index;
     }
 
-    public String getName() {
-        return player.displayName;
+    public String getNameString() {
+        return displayName;
     }
 
     public Location getLocation() {
-        return new Location(player.getBukkitEntity().getWorld(), player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
+        return new Location(getBukkitEntity().getWorld(), getX(), getY(), getZ(), getYRot(), getXRot());
     }
 
-    public String getSkinUsername() {
-        return skin;
+    public void setSkin(Property property) {
+        getGameProfile().getProperties().put("textures", property);
     }
 
     public boolean setSkin(String username) {
@@ -83,12 +71,11 @@ public class NPC {
                 String skin = reply.substring(indexOfValue + 10, reply.indexOf("\"", indexOfValue + 10));
                 String signature = reply.substring(indexOfSignature + 14, reply.indexOf("\"", indexOfSignature + 14));
 
-                player.getGameProfile().getProperties().put("textures", new Property("textures", skin, signature));
-                this.skin = username;
+                setSkin(new Property("textures", skin, signature));
 
                 return true;
             } else {
-                Posc.LOGGER.warning("Couldn't open connection to https://api.ashcon.app/mojang/v2/user/" + username + " (Response code " + connection.getResponseCode() + ", " + connection.getResponseMessage() + ")");
+                Posc.LOGGER.warning("Couldn't open connection to https://api.ashcon.app/mojang/v2/user/" + username + " (Response code " + connection.getResponseCode() + ": " + connection.getResponseMessage() + ")");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -99,19 +86,28 @@ public class NPC {
 
     public void sendInitPacket(Player player) {
         ServerGamePacketListenerImpl connection = ((CraftPlayer) player).getHandle().connection;
-        connection.send(new ClientboundPlayerInfoUpdatePacket(ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER, this.player));
-        connection.send(new ClientboundAddPlayerPacket(this.player));
-        connection.send(new ClientboundRotateHeadPacket(this.player, (byte) (this.player.getYRot() * 256 / 360)));
+        connection.send(new ClientboundPlayerInfoUpdatePacket(ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER, this));
+        connection.send(new ClientboundAddPlayerPacket(this));
+        connection.send(new ClientboundRotateHeadPacket(this, (byte) (getYRot() * 256 / 360)));
     }
 
     public void sendInitPacket() {
         Bukkit.getOnlinePlayers().forEach(this::sendInitPacket);
     }
 
+
+    public void sendRemovePacket(Player player) {
+        ((CraftPlayer) player).getHandle().connection.send(new ClientboundRemoveEntitiesPacket(getId()));
+    }
+
+    public void sendRemovePacket() {
+        Bukkit.getOnlinePlayers().forEach(this::sendRemovePacket);
+    }
+
     public void sendSkinPacket(Player player) {
-        SynchedEntityData data = this.player.getEntityData();
+        SynchedEntityData data = getEntityData();
         data.set(new EntityDataAccessor<>(17, EntityDataSerializers.BYTE), (byte) 126);
-        ((CraftPlayer) player).getHandle().connection.send(new ClientboundSetEntityDataPacket(this.player.getId(), data.getNonDefaultValues()));
+        ((CraftPlayer) player).getHandle().connection.send(new ClientboundSetEntityDataPacket(getId(), data.getNonDefaultValues()));
     }
 
     public void sendSkinPacket() {

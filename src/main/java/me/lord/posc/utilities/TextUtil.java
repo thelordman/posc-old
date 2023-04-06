@@ -3,16 +3,24 @@ package me.lord.posc.utilities;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 
 import java.text.DecimalFormat;
 
-// TODO: Add documentation to all methods
 public final class TextUtil {
     public static Component c(String string) {
         return LegacyComponentSerializer.legacyAmpersand().deserialize(string);
     }
     public static String cs(String string) {
         return ChatColor.translateAlternateColorCodes('&', string);
+    }
+
+    public static Component nl() {
+        return c("&r\n");
+    }
+
+    public static Component empty() {
+        return c("&r");
     }
 
     public static String componentToString(Component component) {
@@ -49,5 +57,19 @@ public final class TextUtil {
             case '3' -> string + "rd";
             default -> string + "th";
         };
+    }
+
+    public static String sexyLocation(Location location) {
+        return Math.round(location.x()) + ", " + Math.round(location.y()) + ", " + Math.round(location.z());
+    }
+
+    public static boolean isNumber(String string) {
+        try {
+            Integer.parseInt(string);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
+        return true;
     }
 }

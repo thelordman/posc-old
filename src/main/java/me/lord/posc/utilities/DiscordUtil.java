@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.entities.Role;
 
 import static me.lord.posc.discord.Discord.jda;
 
-public class DiscordUtil {
+public final class DiscordUtil {
     private static final Role[] privilegedRoles = {jda.getRoleById("921439677574160498"), jda.getRoleById("995764844584259664")};
 
     public static boolean isPrivileged(Member member) {

@@ -11,6 +11,8 @@ public final class GlobalData implements Data {
 
     private int totalUsers = 0;
 
+    private transient Integer consoleSelectedNPC = null;
+
     public int getTotalUsers() {
         return totalUsers;
     }
@@ -19,4 +21,11 @@ public final class GlobalData implements Data {
         totalUsers++;
     }
 
+    public Integer getConsoleSelectedNPC() {
+        return consoleSelectedNPC;
+    }
+
+    public void setConsoleSelectedNPC(Integer selectedNPC) {
+        consoleSelectedNPC = selectedNPC;
+    }
 }

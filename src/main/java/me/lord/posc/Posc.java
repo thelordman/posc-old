@@ -13,7 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ServiceLoader;
 import java.util.logging.Logger;
 
-public final class Posc extends JavaPlugin {
+public class Posc extends JavaPlugin {
     private static Posc INSTANCE;
 
     public static Logger LOGGER;
