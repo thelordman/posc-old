@@ -22,26 +22,28 @@ import java.util.Optional;
 public class NPCManager {
     private static final HashMap<Integer, NPC> npcMap = new HashMap<>();
 
-    public static void createNPC(@Nullable String name, @Nullable Location location, @Nullable Property skinProperty, @NotNull Integer index) {
+    public static int createNPC(@Nullable String name, @Nullable Location location, @Nullable Property skinProperty, @NotNull Integer index) {
         name = name == null ? "Unnamed" : name;
         NPC npc = new NPC(index, name, location);
         if (skinProperty != null) npc.setSkin(skinProperty);
         npc.sendInitPacket();
         npc.sendSkinPacket();
         npcMap.put(index, npc);
+        return npc.getIndex();
     }
 
-    public static void createNPC(@Nullable String name, @Nullable Location location, @Nullable String skinUsername, @NotNull Integer index) {
+    public static int createNPC(@Nullable String name, @Nullable Location location, @Nullable String skinUsername, @NotNull Integer index) {
         name = name == null ? "Unnamed" : name;
         NPC npc = new NPC(index, name, location);
         npc.setSkin(skinUsername == null ? name : skinUsername);
         npc.sendInitPacket();
         npc.sendSkinPacket();
         npcMap.put(index, npc);
+        return npc.getIndex();
     }
 
-    public static void createNPC(@Nullable String name, @Nullable Location location, @Nullable String skinUsername) {
-        createNPC(name, location, skinUsername, npcMap.keySet().stream().mapToInt(t -> t).max().orElse(-1) + 1);
+    public static int createNPC(@Nullable String name, @Nullable Location location, @Nullable String skinUsername) {
+        return createNPC(name, location, skinUsername, npcMap.keySet().stream().mapToInt(t -> t).max().orElse(-1) + 1);
     }
 
     public static HashMap<Integer, NPC> getNPCMap() {

@@ -29,12 +29,10 @@ public class NPCCommand implements Cmd {
                 if (!(sender instanceof Player player)) return false;
                 if (args.length == 1) return false;
 
-                String name = args[1];
+                String name = TextUtil.joinArray(args, 1);
                 Location location = player.getLocation();
-                String skin = null;
-                if (args.length > 2) skin = args[2];
 
-                NPCManager.createNPC(name, location, skin);
+                DataManager.getPlayerData(player).setSelectedNPC(NPCManager.createNPC(name, location, name));
                 player.sendMessage(TextUtil.c("&eNPC &6" + name + " &ecreated at your location."));
             }
             case "sel" -> {
@@ -57,17 +55,19 @@ public class NPCCommand implements Cmd {
                         break;
                     }
                 } else {
-                    if (TextUtil.isNumber(args[1])) {
-                        int index = Integer.parseInt(args[1]);
+                    String targetName = TextUtil.joinArray(args, 1);
+
+                    if (TextUtil.isNumber(targetName)) {
+                        int index = Integer.parseInt(targetName);
 
                         target = NPCManager.getNPC(index);
 
                         if (target == null) {
-                            target = handleNPCFromName(args, sender, false);
+                            target = handleNPCFromName(targetName, sender, false);
                             if (target == null) break;
                         }
                     } else {
-                        target = handleNPCFromName(args, sender, false);
+                        target = handleNPCFromName(targetName, sender, false);
                         if (target == null) break;
                     }
                 }
@@ -104,17 +104,19 @@ public class NPCCommand implements Cmd {
                     }
                     target = selectedNPC;
                 } else {
-                    if (TextUtil.isNumber(args[1])) {
-                        int index = Integer.parseInt(args[1]);
+                    String targetName = TextUtil.joinArray(args, 1);
+
+                    if (TextUtil.isNumber(targetName)) {
+                        int index = Integer.parseInt(targetName);
 
                         target = NPCManager.getNPC(index);
 
                         if (target == null) {
-                            target = handleNPCFromName(args, sender, true);
+                            target = handleNPCFromName(targetName, sender, true);
                             if (target == null) break;
                         }
                     } else {
-                        target = handleNPCFromName(args, sender, true);
+                        target = handleNPCFromName(targetName, sender, true);
                         if (target == null) break;
                     }
                 }
@@ -122,13 +124,30 @@ public class NPCCommand implements Cmd {
                 NPCManager.removeNPC(target.getIndex());
                 sender.sendMessage(TextUtil.c("&eDeleted &6" + target.getNameString() + " &e(ID: &6" + target.getIndex() + "&e)"));
             }
+            case "rename" -> {
+                if (args.length == 1) return false;
+                NPC target = null;
+                Integer selectedIndex = sender instanceof Player player ? DataManager.getPlayerData(player).getSelectedNPC() : DataManager.getGlobal().getConsoleSelectedNPC();
+                String name = TextUtil.joinArray(args, 1);
+
+                if (selectedIndex != null) {
+                    target = NPCManager.getNPC(selectedIndex);
+                }
+                if (selectedIndex == null || target == null) {
+                    sender.sendMessage(TextUtil.c("&cYou must select an NPC first"));
+                    break;
+                }
+
+                sender.sendMessage(TextUtil.c("&6" + target.getNameString() + " &ewas renamed to &6" + name));
+                target.setName(name);
+            }
         }
 
         return true;
     }
 
-    private NPC handleNPCFromName(String[] args, CommandSender sender, boolean delete) {
-        String name = args[1].replace("\"", "");
+    private NPC handleNPCFromName(String name, CommandSender sender, boolean delete) {
+        name = name.replace("\"", "");
 
         NPC[] npcs = NPCManager.getNPC(name);
         if (npcs.length == 0) {

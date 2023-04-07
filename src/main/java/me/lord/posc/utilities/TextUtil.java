@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 
 public final class TextUtil {
     public static Component c(String string) {
@@ -71,5 +72,9 @@ public final class TextUtil {
         }
 
         return true;
+    }
+
+    public static String joinArray(String[] strings, int from) {
+        return String.join(" ", Arrays.copyOfRange(strings, from, strings.length));
     }
 }

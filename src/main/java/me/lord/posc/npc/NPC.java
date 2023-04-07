@@ -22,6 +22,7 @@ import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.management.GarbageCollectorMXBean;
 import java.net.URL;
 import java.util.UUID;
 
@@ -48,8 +49,18 @@ public class NPC extends ServerPlayer {
         return index;
     }
 
+    // TODO: If possible, find a way to update the name without having to create an entirely new object
+    public void setName(String name) {
+        sendRemovePacket();
+        NPC npc = new NPC(getIndex(), name, getLocation());
+        npc.getGameProfile().getProperties().putAll(getGameProfile().getProperties());
+        npc.sendInitPacket();
+        npc.sendSkinPacket();
+        NPCManager.getNPCMap().put(index, npc);
+    }
+
     public String getNameString() {
-        return displayName;
+        return getGameProfile().getName();
     }
 
     public Location getLocation() {
@@ -94,7 +105,6 @@ public class NPC extends ServerPlayer {
     public void sendInitPacket() {
         Bukkit.getOnlinePlayers().forEach(this::sendInitPacket);
     }
-
 
     public void sendRemovePacket(Player player) {
         ((CraftPlayer) player).getHandle().connection.send(new ClientboundRemoveEntitiesPacket(getId()));
