@@ -15,6 +15,7 @@ import org.bukkit.craftbukkit.v1_19_R2.CraftServer;
 import org.bukkit.craftbukkit.v1_19_R2.CraftWorld;
 import org.bukkit.craftbukkit.v1_19_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,8 +23,8 @@ import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.management.GarbageCollectorMXBean;
 import java.net.URL;
+import java.util.Collection;
 import java.util.UUID;
 
 public class NPC extends ServerPlayer {
@@ -49,13 +50,24 @@ public class NPC extends ServerPlayer {
         return index;
     }
 
+    public void refresh() {
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            player.hidePlayer(Posc.get(), getBukkitEntity().getPlayer());
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    player.showPlayer(Posc.get(), getBukkitEntity().getPlayer());
+                }
+            }.runTaskLater(Posc.get(), 2);
+        });
+    }
+
     // TODO: If possible, find a way to update the name without having to create an entirely new object
     public void setName(String name) {
         sendRemovePacket();
         NPC npc = new NPC(getIndex(), name, getLocation());
         npc.getGameProfile().getProperties().putAll(getGameProfile().getProperties());
         npc.sendInitPacket();
-        npc.sendSkinPacket();
         NPCManager.getNPCMap().put(index, npc);
     }
 
@@ -67,7 +79,16 @@ public class NPC extends ServerPlayer {
         return new Location(getBukkitEntity().getWorld(), getX(), getY(), getZ(), getYRot(), getXRot());
     }
 
+    public Property getSkinProperty() {
+        Collection<Property> properties = getGameProfile().getProperties().get("textures");
+        return properties.stream()
+                .filter(p -> p.getName().equals("textures"))
+                .findFirst()
+                .orElse(null);
+    }
+
     public void setSkin(Property property) {
+        getGameProfile().getProperties().removeAll("textures");
         getGameProfile().getProperties().put("textures", property);
     }
 
@@ -100,6 +121,9 @@ public class NPC extends ServerPlayer {
         connection.send(new ClientboundPlayerInfoUpdatePacket(ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER, this));
         connection.send(new ClientboundAddPlayerPacket(this));
         connection.send(new ClientboundRotateHeadPacket(this, (byte) (getYRot() * 256 / 360)));
+        SynchedEntityData data = getEntityData();
+        data.set(new EntityDataAccessor<>(17, EntityDataSerializers.BYTE), (byte) 126);
+        connection.send(new ClientboundSetEntityDataPacket(getId(), data.getNonDefaultValues()));
     }
 
     public void sendInitPacket() {
@@ -112,15 +136,5 @@ public class NPC extends ServerPlayer {
 
     public void sendRemovePacket() {
         Bukkit.getOnlinePlayers().forEach(this::sendRemovePacket);
-    }
-
-    public void sendSkinPacket(Player player) {
-        SynchedEntityData data = getEntityData();
-        data.set(new EntityDataAccessor<>(17, EntityDataSerializers.BYTE), (byte) 126);
-        ((CraftPlayer) player).getHandle().connection.send(new ClientboundSetEntityDataPacket(getId(), data.getNonDefaultValues()));
-    }
-
-    public void sendSkinPacket() {
-        Bukkit.getOnlinePlayers().forEach(this::sendSkinPacket);
     }
 }

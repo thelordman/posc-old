@@ -42,12 +42,7 @@ public class NPCData implements Data {
     }
 
     public static NPCData fromNPC(NPC npc) {
-        Collection<Property> properties = npc.getGameProfile().getProperties().get("textures");
-        Property property = properties.stream()
-                .filter(p -> p.getName().equals("textures"))
-                .findFirst()
-                .orElse(null);
-        return new NPCData(npc.getNameString(), npc.getLocation(), property);
+        return new NPCData(npc.getNameString(), npc.getLocation(), npc.getSkinProperty());
     }
 
     public Location getLocation() {

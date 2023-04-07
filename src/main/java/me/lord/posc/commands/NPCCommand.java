@@ -141,6 +141,24 @@ public class NPCCommand implements Cmd {
                 sender.sendMessage(TextUtil.c("&6" + target.getNameString() + " &ewas renamed to &6" + name));
                 target.setName(name);
             }
+            case "skin" -> {
+                if (args.length == 1) return false;
+                NPC target = null;
+                Integer selectedIndex = sender instanceof Player player ? DataManager.getPlayerData(player).getSelectedNPC() : DataManager.getGlobal().getConsoleSelectedNPC();
+                String name = args[1];
+
+                if (selectedIndex != null) {
+                    target = NPCManager.getNPC(selectedIndex);
+                }
+                if (selectedIndex == null || target == null) {
+                    sender.sendMessage(TextUtil.c("&cYou must select an NPC first"));
+                    break;
+                }
+
+                target.sendRemovePacket();
+                NPCManager.createNPC(target.getNameString(), target.getLocation(), name, target.getIndex());
+                sender.sendMessage(TextUtil.c("&eSkin of &6" + target.getNameString() + " &ewas changed to &6" + name));
+            }
         }
 
         return true;

@@ -27,7 +27,6 @@ public class NPCManager {
         NPC npc = new NPC(index, name, location);
         if (skinProperty != null) npc.setSkin(skinProperty);
         npc.sendInitPacket();
-        npc.sendSkinPacket();
         npcMap.put(index, npc);
         return npc.getIndex();
     }
@@ -37,7 +36,6 @@ public class NPCManager {
         NPC npc = new NPC(index, name, location);
         npc.setSkin(skinUsername == null ? name : skinUsername);
         npc.sendInitPacket();
-        npc.sendSkinPacket();
         npcMap.put(index, npc);
         return npc.getIndex();
     }
@@ -125,13 +123,5 @@ public class NPCManager {
 
     public static void sendRemovePacketAll() {
         Bukkit.getOnlinePlayers().forEach(NPCManager::sendRemovePacketAll);
-    }
-
-    public static void sendSkinPacketAll(Player player) {
-        npcMap.values().forEach(npc -> npc.sendSkinPacket(player));
-    }
-
-    public static void sendSkinPacketAll() {
-        Bukkit.getOnlinePlayers().forEach(NPCManager::sendSkinPacketAll);
     }
 }
