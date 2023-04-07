@@ -129,6 +129,10 @@ public class NPCCommand implements Cmd {
                 NPC target = null;
                 Integer selectedIndex = sender instanceof Player player ? DataManager.getPlayerData(player).getSelectedNPC() : DataManager.getGlobal().getConsoleSelectedNPC();
                 String name = TextUtil.joinArray(args, 1);
+                if (name.length() > 16) {
+                    sender.sendMessage(TextUtil.c("&cName is too long (limit is 16 characters)"));
+                    break;
+                }
 
                 if (selectedIndex != null) {
                     target = NPCManager.getNPC(selectedIndex);
@@ -159,6 +163,18 @@ public class NPCCommand implements Cmd {
                 NPCManager.createNPC(target.getNameString(), target.getLocation(), name, target.getIndex());
                 sender.sendMessage(TextUtil.c("&eSkin of &6" + target.getNameString() + " &ewas changed to &6" + name));
             }
+            case "help" -> sender.sendMessage(TextUtil.c("""
+                    
+                    &6&l/NPC Subcommands
+                    
+                    &6/npc create <name> &e- &fCreates an NPC in your location, with your head rotation and the specified name
+                    &6/npc sel [name | id] &e- &fIf the second argument is left blank, selects the NPC you are pointing at or the closest NPC, otherwise selects the NPC with the specified name or ID
+                    &6/npc list &e- &fSends a list of all NPCs, their IDs, names, and locations
+                    &6/npc delete [name | id] &e- &fIf the second argument is left blank, deletes the selected NPC, otherwise deletes the NPC with the specified name or ID
+                    &6/npc rename <name> &e- &fRenames the selected NPC with the specified name (must not be longer than 16 characters)
+                    &6/npc skin <name> &e- &fChanges the skin of the selected NPC to the skin of the player with the specified name
+                    
+                    """));
         }
 
         return true;
