@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 public class NPC extends ServerPlayer {
@@ -67,7 +68,11 @@ public class NPC extends ServerPlayer {
         sendRemovePacket();
         NPC npc = new NPC(getIndex(), name, getLocation());
         npc.getGameProfile().getProperties().putAll(getGameProfile().getProperties());
+        npc.sendRemovePlayerPacket();
         npc.sendInitPacket();
+        npc.sendRemovePacket();
+        npc.sendNamedSpawnPacket();
+        npc.sendRotateHeadPacket();
         NPCManager.getNPCMap().put(index, npc);
     }
 
@@ -130,11 +135,35 @@ public class NPC extends ServerPlayer {
         Bukkit.getOnlinePlayers().forEach(this::sendInitPacket);
     }
 
+    public void sendRotateHeadPacket(Player player) {
+        ((CraftPlayer) player).getHandle().connection.send(new ClientboundRotateHeadPacket(this, (byte) (getYRot() * 256 / 360)));
+    }
+
+    public void sendRotateHeadPacket() {
+        Bukkit.getOnlinePlayers().forEach(this::sendRotateHeadPacket);
+    }
+
     public void sendRemovePacket(Player player) {
         ((CraftPlayer) player).getHandle().connection.send(new ClientboundRemoveEntitiesPacket(getId()));
     }
 
     public void sendRemovePacket() {
         Bukkit.getOnlinePlayers().forEach(this::sendRemovePacket);
+    }
+
+    public void sendNamedSpawnPacket(Player player) {
+        ((CraftPlayer) player).getHandle().connection.send(new ClientboundAddPlayerPacket(this));
+    }
+
+    public void sendNamedSpawnPacket() {
+        Bukkit.getOnlinePlayers().forEach(this::sendNamedSpawnPacket);
+    }
+
+    public void sendRemovePlayerPacket(Player player) {
+        ((CraftPlayer) player).getHandle().connection.send(new ClientboundPlayerInfoRemovePacket(List.of(getUUID())));
+    }
+
+    public void sendRemovePlayerPacket() {
+        Bukkit.getOnlinePlayers().forEach(this::sendRemovePlayerPacket);
     }
 }
