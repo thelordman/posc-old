@@ -18,6 +18,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.mineskin.MineskinClient;
+import org.mineskin.SkinOptions;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
@@ -82,11 +84,7 @@ public class NPC extends ServerPlayer {
         sendRemovePacket();
         NPC npc = new NPC(getIndex(), name, getLocation());
         npc.getGameProfile().getProperties().putAll(getGameProfile().getProperties());
-        npc.sendRemovePlayerPacket();
         npc.sendInitPacket();
-        npc.sendRemovePacket();
-        npc.sendNamedSpawnPacket();
-        npc.sendRotateHeadPacket();
         NPCManager.getNPCMap().put(index, npc);
     }
 
@@ -133,6 +131,13 @@ public class NPC extends ServerPlayer {
         }
 
         return false;
+    }
+
+    public void setSkinByURL(String url) {
+        MineskinClient client = new MineskinClient();
+        client.generateUrl(url).thenAccept(skin -> {
+            setSkin(new Property("textures", skin.data.texture.value, skin.data.texture.signature));
+        });
     }
 
     public void sendInitPacket(Player player) {
