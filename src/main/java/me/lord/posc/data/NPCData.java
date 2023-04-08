@@ -29,7 +29,10 @@ public class NPCData implements Data {
 
     private final String name;
 
-    public NPCData(String name, Location location, Property skinProperty) {
+    // Other
+    private final boolean lookClose;
+
+    public NPCData(String name, Location location, Property skinProperty, boolean lookClose) {
         this.name = name;
         world = location.getWorld().getName();
         x = location.x();
@@ -39,10 +42,11 @@ public class NPCData implements Data {
         yaw = location.getYaw();
         skinValue = skinProperty == null ? null : skinProperty.getValue();
         skinSignature = skinProperty == null ? null : skinProperty.getSignature();
+        this.lookClose = lookClose;
     }
 
     public static NPCData fromNPC(NPC npc) {
-        return new NPCData(npc.getNameString(), npc.getLocation(), npc.getSkinProperty());
+        return new NPCData(npc.getNameString(), npc.getLocation(), npc.getSkinProperty(), npc.doesLookClose());
     }
 
     public Location getLocation() {
@@ -55,5 +59,9 @@ public class NPCData implements Data {
 
     public Property getSkin() {
         return skinValue == null | skinSignature == null ? null : new Property("textures", skinValue, skinSignature);
+    }
+
+    public boolean doesLookClose() {
+        return lookClose;
     }
 }

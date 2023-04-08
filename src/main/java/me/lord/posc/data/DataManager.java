@@ -54,7 +54,7 @@ public class DataManager {
         for (File file : NPC_DATA_FOLDER.listFiles(new DatFileFilter())) {
             NPCData npcData = (NPCData) Data.deserialize(file.getPath());
             assert npcData != null : "Wrong and/or corrupted file at " + file.getPath();
-            NPCManager.createNPC(npcData.getName(), npcData.getLocation(), npcData.getSkin(), Integer.parseInt(file.getName().split("\\.")[0]));
+            NPCManager.createNPC(npcData.getName(), npcData.getLocation(), npcData.getSkin(), Integer.parseInt(file.getName().split("\\.")[0]), npcData.doesLookClose());
         }
     }
 

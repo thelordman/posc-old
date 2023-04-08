@@ -30,6 +30,7 @@ import java.util.UUID;
 
 public class NPC extends ServerPlayer {
     private final int index;
+    private boolean lookClose;
 
     protected NPC(int index, @NotNull String name, @Nullable Location location) {
         super(((CraftServer) Bukkit.getServer()).getServer(),
@@ -45,6 +46,8 @@ public class NPC extends ServerPlayer {
             setYRot(location.getYaw());
             setXRot(location.getPitch());
         }
+
+        lookClose = false;
     }
 
     public int getIndex() {
@@ -61,6 +64,17 @@ public class NPC extends ServerPlayer {
                 }
             }.runTaskLater(Posc.get(), 2);
         });
+    }
+
+    public boolean doesLookClose() {
+        return lookClose;
+    }
+
+    public void shouldLookClose(boolean shouldLookClose) {
+        lookClose = shouldLookClose;
+        if (shouldLookClose) {
+            // TODO: Do look close stuff here
+        }
     }
 
     // TODO: If possible, find a way to update the name without having to create an entirely new object

@@ -22,6 +22,16 @@ import java.util.Optional;
 public class NPCManager {
     private static final HashMap<Integer, NPC> npcMap = new HashMap<>();
 
+    public static int createNPC(@Nullable String name, @Nullable Location location, @Nullable Property skinProperty, @NotNull Integer index, boolean shouldLookClose) {
+        name = name == null ? "Unnamed" : name;
+        NPC npc = new NPC(index, name, location);
+        npc.shouldLookClose(shouldLookClose);
+        if (skinProperty != null) npc.setSkin(skinProperty);
+        npc.sendInitPacket();
+        npcMap.put(index, npc);
+        return npc.getIndex();
+    }
+
     public static int createNPC(@Nullable String name, @Nullable Location location, @Nullable Property skinProperty, @NotNull Integer index) {
         name = name == null ? "Unnamed" : name;
         NPC npc = new NPC(index, name, location);
