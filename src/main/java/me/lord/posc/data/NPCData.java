@@ -6,7 +6,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import java.io.Serial;
-import java.util.Collection;
 
 /**
  * An NPC's data which won't be wiped on a server reload or a server restart.
@@ -29,10 +28,7 @@ public class NPCData implements Data {
 
     private final String name;
 
-    // Other
-    private final boolean lookClose;
-
-    public NPCData(String name, Location location, Property skinProperty, boolean lookClose) {
+    public NPCData(String name, Location location, Property skinProperty) {
         this.name = name;
         world = location.getWorld().getName();
         x = location.x();
@@ -42,11 +38,10 @@ public class NPCData implements Data {
         yaw = location.getYaw();
         skinValue = skinProperty == null ? null : skinProperty.getValue();
         skinSignature = skinProperty == null ? null : skinProperty.getSignature();
-        this.lookClose = lookClose;
     }
 
     public static NPCData fromNPC(NPC npc) {
-        return new NPCData(npc.getNameString(), npc.getLocation(), npc.getSkinProperty(), npc.doesLookClose());
+        return new NPCData(npc.getNameString(), npc.getLocation(), npc.getSkinProperty());
     }
 
     public Location getLocation() {
@@ -59,9 +54,5 @@ public class NPCData implements Data {
 
     public Property getSkin() {
         return skinValue == null | skinSignature == null ? null : new Property("textures", skinValue, skinSignature);
-    }
-
-    public boolean doesLookClose() {
-        return lookClose;
     }
 }

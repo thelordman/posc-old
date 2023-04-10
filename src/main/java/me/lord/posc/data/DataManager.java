@@ -4,7 +4,7 @@ import me.lord.posc.Posc;
 import me.lord.posc.npc.NPC;
 import me.lord.posc.npc.NPCManager;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_19_R2.util.DatFileFilter;
+import org.bukkit.craftbukkit.v1_19_R3.util.DatFileFilter;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -54,7 +54,7 @@ public class DataManager {
         for (File file : NPC_DATA_FOLDER.listFiles(new DatFileFilter())) {
             NPCData npcData = (NPCData) Data.deserialize(file.getPath());
             assert npcData != null : "Wrong and/or corrupted file at " + file.getPath();
-            NPCManager.createNPC(npcData.getName(), npcData.getLocation(), npcData.getSkin(), Integer.parseInt(file.getName().split("\\.")[0]), npcData.doesLookClose());
+            NPCManager.createNPC(npcData.getName(), npcData.getLocation(), npcData.getSkin(), Integer.parseInt(file.getName().split("\\.")[0]));
         }
     }
 

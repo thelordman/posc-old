@@ -7,19 +7,21 @@ import net.minecraft.network.protocol.game.*;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ChunkHolder;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_19_R2.CraftServer;
-import org.bukkit.craftbukkit.v1_19_R2.CraftWorld;
-import org.bukkit.craftbukkit.v1_19_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_19_R3.CraftServer;
+import org.bukkit.craftbukkit.v1_19_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_19_R3.entity.CraftPlayer;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Interaction;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.mineskin.MineskinClient;
-import org.mineskin.SkinOptions;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
@@ -32,9 +34,10 @@ import java.util.UUID;
 
 public class NPC extends ServerPlayer {
     private final int index;
-    private boolean lookClose;
 
-    protected NPC(int index, @NotNull String name, @Nullable Location location) {
+    private final int interactionId;
+
+    protected NPC(int index, @NotNull String name, @NotNull Location location) {
         super(((CraftServer) Bukkit.getServer()).getServer(),
                 ((CraftWorld) Posc.MAIN_WORLD).getHandle(),
                 new GameProfile(UUID.randomUUID(), name));
@@ -43,40 +46,21 @@ public class NPC extends ServerPlayer {
 
         this.index = index;
 
-        if (location != null) {
-            setPos(location.getX(), location.getY(), location.getZ());
-            setYRot(location.getYaw());
-            setXRot(location.getPitch());
-        }
+        setPos(location.getX(), location.getY(), location.getZ());
+        setYRot(location.getYaw());
+        setXRot(location.getPitch());
 
-        lookClose = false;
+        Interaction interaction = (Interaction) Posc.MAIN_WORLD.spawnEntity(location, EntityType.INTERACTION);
+        interaction.setInteractionHeight(2.0f);
+        interactionId = interaction.getEntityId();
     }
 
     public int getIndex() {
         return index;
     }
 
-    public void refresh() {
-        Bukkit.getOnlinePlayers().forEach(player -> {
-            player.hidePlayer(Posc.get(), getBukkitEntity().getPlayer());
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    player.showPlayer(Posc.get(), getBukkitEntity().getPlayer());
-                }
-            }.runTaskLater(Posc.get(), 2);
-        });
-    }
-
-    public boolean doesLookClose() {
-        return lookClose;
-    }
-
-    public void shouldLookClose(boolean shouldLookClose) {
-        lookClose = shouldLookClose;
-        if (shouldLookClose) {
-            // TODO: Do look close stuff here
-        }
+    public int getInteractionId() {
+        return interactionId;
     }
 
     // TODO: If possible, find a way to update the name without having to create an entirely new object
@@ -131,13 +115,6 @@ public class NPC extends ServerPlayer {
         }
 
         return false;
-    }
-
-    public void setSkinByURL(String url) {
-        MineskinClient client = new MineskinClient();
-        client.generateUrl(url).thenAccept(skin -> {
-            setSkin(new Property("textures", skin.data.texture.value, skin.data.texture.signature));
-        });
     }
 
     public void sendInitPacket(Player player) {

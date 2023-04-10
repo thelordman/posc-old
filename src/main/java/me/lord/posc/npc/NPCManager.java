@@ -7,8 +7,8 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_19_R2.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_19_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_19_R3.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_19_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -22,17 +22,7 @@ import java.util.Optional;
 public class NPCManager {
     private static final HashMap<Integer, NPC> npcMap = new HashMap<>();
 
-    public static int createNPC(@Nullable String name, @Nullable Location location, @Nullable Property skinProperty, @NotNull Integer index, boolean shouldLookClose) {
-        name = name == null ? "Unnamed" : name;
-        NPC npc = new NPC(index, name, location);
-        npc.shouldLookClose(shouldLookClose);
-        if (skinProperty != null) npc.setSkin(skinProperty);
-        npc.sendInitPacket();
-        npcMap.put(index, npc);
-        return npc.getIndex();
-    }
-
-    public static int createNPC(@Nullable String name, @Nullable Location location, @Nullable Property skinProperty, @NotNull Integer index) {
+    public static int createNPC(@Nullable String name, @NotNull Location location, @Nullable Property skinProperty, @NotNull Integer index, boolean shouldLookClose) {
         name = name == null ? "Unnamed" : name;
         NPC npc = new NPC(index, name, location);
         if (skinProperty != null) npc.setSkin(skinProperty);
@@ -41,7 +31,16 @@ public class NPCManager {
         return npc.getIndex();
     }
 
-    public static int createNPC(@Nullable String name, @Nullable Location location, @Nullable String skinUsername, @NotNull Integer index) {
+    public static int createNPC(@Nullable String name, @NotNull Location location, @Nullable Property skinProperty, @NotNull Integer index) {
+        name = name == null ? "Unnamed" : name;
+        NPC npc = new NPC(index, name, location);
+        if (skinProperty != null) npc.setSkin(skinProperty);
+        npc.sendInitPacket();
+        npcMap.put(index, npc);
+        return npc.getIndex();
+    }
+
+    public static int createNPC(@Nullable String name, @NotNull Location location, @Nullable String skinUsername, @NotNull Integer index) {
         name = name == null ? "Unnamed" : name;
         NPC npc = new NPC(index, name, location);
         npc.setSkin(skinUsername == null ? name : skinUsername);
@@ -50,7 +49,7 @@ public class NPCManager {
         return npc.getIndex();
     }
 
-    public static int createNPC(@Nullable String name, @Nullable Location location, @Nullable String skinUsername) {
+    public static int createNPC(@Nullable String name, @NotNull Location location, @Nullable String skinUsername) {
         return createNPC(name, location, skinUsername, npcMap.keySet().stream().mapToInt(t -> t).max().orElse(-1) + 1);
     }
 

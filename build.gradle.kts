@@ -1,6 +1,6 @@
 plugins {
     `java-library`
-    id("io.papermc.paperweight.userdev") version "1.5.2"
+    id("io.papermc.paperweight.userdev") version "1.5.4"
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
@@ -13,7 +13,7 @@ java {
 }
 
 dependencies {
-    paperweight.paperDevBundle("1.19.3-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.19.4-R0.1-SNAPSHOT")
     implementation("net.dv8tion", "JDA", "5.0.0-beta.3") {
         exclude("club.minnced", "opus-java")
     }

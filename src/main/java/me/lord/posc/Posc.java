@@ -4,13 +4,15 @@ import me.lord.posc.data.DataManager;
 import me.lord.posc.discord.Discord;
 import me.lord.posc.utilities.Cmd;
 import me.lord.posc.utilities.Event;
+import me.lord.posc.utilities.ReflectionUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.ServiceLoader;
+import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Logger;
 
 public class Posc extends JavaPlugin {
@@ -44,43 +46,50 @@ public class Posc extends JavaPlugin {
         return INSTANCE;
     }
 
+    public static ClassLoader getInstanceClassLoader() {
+        return get().getClassLoader();
+    }
+
     /**
      * A method to automate the registration of listeners.
-     * When adding a new listener add the path of the class to
-     * META-INF\services\me.lord.posc.utilities.Event.
      */
     private static void registerListeners() {
-        ServiceLoader<Event> loader = ServiceLoader.load(Event.class, Event.class.getClassLoader());
-        for (Event event : loader) {
-            Bukkit.getPluginManager().registerEvents(event, get());
+        try {
+            for (Class<? extends Event> eventClass : ReflectionUtil.getSubclasses(Event.class, "me.lord.posc.listeners")) {
+                Bukkit.getPluginManager().registerEvents(eventClass.getDeclaredConstructor().newInstance(), get());
+            }
+        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
         }
     }
 
     /**
      * A method to automate the registration of commands.
-     * When adding a new command add the path of the class to
-     * META-INF\services\me.lord.posc.utilities.Cmd.
      * Also add the command to plugin.yml.
      */
     private static void registerCommands() throws NullPointerException {
-        ServiceLoader<Cmd> loader = ServiceLoader.load(Cmd.class, Cmd.class.getClassLoader());
-        for (Cmd cmd : loader) {
-            if (cmd.name() == null && cmd.names() == null) {
-                throw new NullPointerException("getName() and getNames() cannot both return null; " + cmd.getClass().getSimpleName());
-            }
-            if (cmd.names() == null) {
-                get().getCommand(cmd.name()).setExecutor(cmd);
-                if (cmd.permission() != null) {
-                    get().getCommand(cmd.name()).setPermission(cmd.permission());
+        try {
+            for (Class<? extends Cmd> cmdClass : ReflectionUtil.getSubclasses(Cmd.class, "me.lord.posc.commands")) {
+                Cmd cmd = cmdClass.getDeclaredConstructor().newInstance();
+                if (cmd.name() == null && cmd.names() == null) {
+                    throw new NullPointerException("getName() and getNames() cannot both return null; " + cmd.getClass().getSimpleName());
                 }
-            } else {
-                for (String name : cmd.names()) {
-                    get().getCommand(name).setExecutor(cmd);
+                if (cmd.names() == null) {
+                    get().getCommand(cmd.name()).setExecutor(cmd);
                     if (cmd.permission() != null) {
-                        get().getCommand(name).setPermission(cmd.permissions(name));
+                        get().getCommand(cmd.name()).setPermission(cmd.permission());
+                    }
+                } else {
+                    for (String name : cmd.names()) {
+                        get().getCommand(name).setExecutor(cmd);
+                        if (cmd.permission() != null) {
+                            get().getCommand(name).setPermission(cmd.permissions(name));
+                        }
                     }
                 }
             }
+        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
         }
     }
 
