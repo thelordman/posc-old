@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 public class NPC extends ServerPlayer {
@@ -117,6 +116,13 @@ public class NPC extends ServerPlayer {
         return false;
     }
 
+    public void teleport(Location location) {
+        setPos(location.getX(), location.getY(), location.getZ());
+        setYRot(location.getYaw());
+        setXRot(location.getPitch());
+        sendTeleportPacket();
+    }
+
     public void message(Player player, String message, long delay) {
         Bukkit.getScheduler().runTaskLater(Posc.get(),
                 () -> {
@@ -148,11 +154,11 @@ public class NPC extends ServerPlayer {
         Bukkit.getOnlinePlayers().forEach(this::sendRemovePacket);
     }
 
-    public void sendRemovePlayerPacket(Player player) {
-        ((CraftPlayer) player).getHandle().connection.send(new ClientboundPlayerInfoRemovePacket(List.of(getUUID())));
+    public void sendTeleportPacket(Player player) {
+        ((CraftPlayer) player).getHandle().connection.send(new ClientboundTeleportEntityPacket(this));
     }
 
-    public void sendRemovePlayerPacket() {
-        Bukkit.getOnlinePlayers().forEach(this::sendRemovePlayerPacket);
+    public void sendTeleportPacket() {
+        Bukkit.getOnlinePlayers().forEach(this::sendTeleportPacket);
     }
 }

@@ -34,7 +34,7 @@ public class NPCCommand implements Cmd {
                 Location location = player.getLocation();
 
                 DataManager.getPlayerData(player).setSelectedNPC(NPCManager.createNPC(name, location, name));
-                player.sendMessage(TextUtil.c("&eNPC &6" + name + " &ecreated at your location."));
+                player.sendMessage(TextUtil.c("&eNPC &6" + name + " &e(ID: &6" + DataManager.getPlayerData(player).getSelectedNPC() + "&e) created at your location."));
             }
             case "sel" -> {
                 NPC target;
@@ -177,6 +177,42 @@ public class NPCCommand implements Cmd {
                     &6/npc skin <name> &e- &fChanges the skin of the selected NPC to the skin of the player with the specified name
                     
                     """));
+            case "move" -> {
+                if (!(sender instanceof Player player)) return false;
+                NPC target;
+
+                if (args.length == 1) {
+                    Integer selectedIndex = DataManager.getPlayerData(player).getSelectedNPC();
+                    NPC selectedNPC = null;
+                    if (selectedIndex != null) {
+                        selectedNPC = NPCManager.getNPC(selectedIndex);
+                    }
+                    if (selectedIndex == null || selectedNPC == null) {
+                        sender.sendMessage(TextUtil.c("&cYou must select an NPC first, or do /npc move [id | name]"));
+                        break;
+                    }
+                    target = selectedNPC;
+                } else {
+                    String targetName = TextUtil.joinArray(args, 1);
+
+                    if (TextUtil.isNumber(targetName)) {
+                        int index = Integer.parseInt(targetName);
+
+                        target = NPCManager.getNPC(index);
+
+                        if (target == null) {
+                            target = handleNPCFromName(targetName, sender, true);
+                            if (target == null) break;
+                        }
+                    } else {
+                        target = handleNPCFromName(targetName, sender, true);
+                        if (target == null) break;
+                    }
+                }
+
+                target.teleport(player.getLocation());
+                sender.sendMessage(TextUtil.c("&eMoved &6" + target.getNameString() + " &e(ID: &6" + target.getIndex() + "&e)"));
+            }
         }
 
         return true;
@@ -206,9 +242,9 @@ public class NPCCommand implements Cmd {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         return switch (args.length) {
-            case 1 -> CommandUtil.partialMatches(args[0], List.of("create", "sel", "list", "delete", "rename", "skin", "help"));
+            case 1 -> CommandUtil.partialMatches(args[0], List.of("create", "sel", "list", "delete", "move", "rename", "skin", "help"));
             case 2 -> switch (args[0]) {
-                case "sel", "delete" -> CommandUtil.partialMatches(args[1], NPCManager.getNPCMap().values().stream()
+                case "sel", "delete", "move" -> CommandUtil.partialMatches(args[1], NPCManager.getNPCMap().values().stream()
                         .map(NPC::getIndex)
                         .map(String::valueOf)
                         .toList());
