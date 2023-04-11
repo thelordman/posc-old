@@ -73,6 +73,10 @@ public class DataManager {
             NPCManager.sendRemovePacketAll(player);
         }
 
+        NPCManager.getNPCMap().values().forEach(
+                npc -> Posc.MAIN_WORLD.getEntity(npc.getInteractionId()).remove()
+        );
+
         if (!NPC_DATA_FOLDER.exists()) NPC_DATA_FOLDER.mkdir();
         for (Map.Entry<Integer, NPC> entry : NPCManager.getNPCMap().entrySet()) {
             NPCData.fromNPC(entry.getValue()).serialize(NPC_DATA_FOLDER.getPath() + File.separator + entry.getKey() + ".dat");

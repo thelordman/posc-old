@@ -2,6 +2,7 @@ package me.lord.posc.data;
 
 import me.lord.posc.Posc;
 import me.lord.posc.economy.Account;
+import me.lord.posc.npc.interaction.NPCInteraction;
 import me.lord.posc.ranks.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -27,6 +28,7 @@ public final class PlayerData implements Data {
     private Rank rank = Rank.DEFAULT;
 
     private transient Integer selectedNPC = null;
+    private transient NPCInteraction currentInteraction = null;
 
     public PlayerData(@NotNull UUID uuid) {
         this.uuid = uuid;
@@ -71,6 +73,14 @@ public final class PlayerData implements Data {
 
     public void setSelectedNPC(Integer selectedNPC) {
         this.selectedNPC = selectedNPC;
+    }
+
+    public NPCInteraction getCurrentInteraction() {
+        return currentInteraction;
+    }
+
+    public void setCurrentInteraction(NPCInteraction currentInteraction) {
+        this.currentInteraction = currentInteraction;
     }
 
     public void initPermissions() {

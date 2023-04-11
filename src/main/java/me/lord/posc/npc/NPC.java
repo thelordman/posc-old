@@ -3,18 +3,17 @@ package me.lord.posc.npc;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import me.lord.posc.Posc;
+import me.lord.posc.utilities.TextUtil;
 import net.minecraft.network.protocol.game.*;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ChunkHolder;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import org.bukkit.Bukkit;
+import org.bukkit.Instrument;
 import org.bukkit.Location;
+import org.bukkit.Note;
 import org.bukkit.craftbukkit.v1_19_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_19_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_19_R3.entity.CraftPlayer;
@@ -35,7 +34,7 @@ import java.util.UUID;
 public class NPC extends ServerPlayer {
     private final int index;
 
-    private final int interactionId;
+    private final UUID interactionId;
 
     protected NPC(int index, @NotNull String name, @NotNull Location location) {
         super(((CraftServer) Bukkit.getServer()).getServer(),
@@ -52,20 +51,21 @@ public class NPC extends ServerPlayer {
 
         Interaction interaction = (Interaction) Posc.MAIN_WORLD.spawnEntity(location, EntityType.INTERACTION);
         interaction.setInteractionHeight(2.0f);
-        interactionId = interaction.getEntityId();
+        interactionId = interaction.getUniqueId();
     }
 
     public int getIndex() {
         return index;
     }
 
-    public int getInteractionId() {
+    public UUID getInteractionId() {
         return interactionId;
     }
 
     // TODO: If possible, find a way to update the name without having to create an entirely new object
     public void setName(String name) {
         sendRemovePacket();
+        Posc.MAIN_WORLD.getEntity(getInteractionId()).remove();
         NPC npc = new NPC(getIndex(), name, getLocation());
         npc.getGameProfile().getProperties().putAll(getGameProfile().getProperties());
         npc.sendInitPacket();
@@ -117,6 +117,15 @@ public class NPC extends ServerPlayer {
         return false;
     }
 
+    public void message(Player player, String message, long delay) {
+        Bukkit.getScheduler().runTaskLater(Posc.get(),
+                () -> {
+                    player.sendMessage(TextUtil.c("\n&e&lNPC &6" + getNameString() + "&f: " + message + "\n"));
+                    player.playNote(player.getLocation(), Instrument.PLING, Note.sharp(0, Note.Tone.C));
+                },
+                delay);
+    }
+
     public void sendInitPacket(Player player) {
         ServerGamePacketListenerImpl connection = ((CraftPlayer) player).getHandle().connection;
         connection.send(new ClientboundPlayerInfoUpdatePacket(ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER, this));
@@ -131,28 +140,12 @@ public class NPC extends ServerPlayer {
         Bukkit.getOnlinePlayers().forEach(this::sendInitPacket);
     }
 
-    public void sendRotateHeadPacket(Player player) {
-        ((CraftPlayer) player).getHandle().connection.send(new ClientboundRotateHeadPacket(this, (byte) (getYRot() * 256 / 360)));
-    }
-
-    public void sendRotateHeadPacket() {
-        Bukkit.getOnlinePlayers().forEach(this::sendRotateHeadPacket);
-    }
-
     public void sendRemovePacket(Player player) {
         ((CraftPlayer) player).getHandle().connection.send(new ClientboundRemoveEntitiesPacket(getId()));
     }
 
     public void sendRemovePacket() {
         Bukkit.getOnlinePlayers().forEach(this::sendRemovePacket);
-    }
-
-    public void sendNamedSpawnPacket(Player player) {
-        ((CraftPlayer) player).getHandle().connection.send(new ClientboundAddPlayerPacket(this));
-    }
-
-    public void sendNamedSpawnPacket() {
-        Bukkit.getOnlinePlayers().forEach(this::sendNamedSpawnPacket);
     }
 
     public void sendRemovePlayerPacket(Player player) {

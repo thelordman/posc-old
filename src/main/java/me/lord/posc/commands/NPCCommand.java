@@ -1,5 +1,6 @@
 package me.lord.posc.commands;
 
+import me.lord.posc.Posc;
 import me.lord.posc.data.DataManager;
 import me.lord.posc.npc.NPC;
 import me.lord.posc.npc.NPCManager;
@@ -160,6 +161,7 @@ public class NPCCommand implements Cmd {
                 }
 
                 target.sendRemovePacket();
+                Posc.MAIN_WORLD.getEntity(target.getInteractionId()).remove();
                 NPCManager.createNPC(target.getNameString(), target.getLocation(), name, target.getIndex());
                 sender.sendMessage(TextUtil.c("&eSkin of &6" + target.getNameString() + " &ewas changed to &6" + name));
             }

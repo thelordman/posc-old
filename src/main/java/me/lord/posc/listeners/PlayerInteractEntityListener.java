@@ -1,5 +1,7 @@
 package me.lord.posc.listeners;
 
+import me.lord.posc.Posc;
+import me.lord.posc.data.DataManager;
 import me.lord.posc.npc.NPC;
 import me.lord.posc.npc.NPCManager;
 import me.lord.posc.npc.interaction.NPCInteraction;
@@ -17,14 +19,25 @@ public class PlayerInteractEntityListener implements Event {
         Entity entity = event.getRightClicked();
 
         if (entity instanceof Interaction) {
+
             NPC npc = NPCManager.getNPCMap().values().stream()
-                    .filter(n -> n.getInteractionId() == entity.getEntityId())
+                    .filter(n -> n.getInteractionId() == entity.getUniqueId())
                     .findFirst()
                     .orElse(null);
+
             if (npc != null) {
-                NPCInteraction npcInteraction = NPCInteraction.create(player, npc);
+                NPCInteraction npcInteraction = NPCInteraction.create(npc);
                 if (npcInteraction != null) {
-                    npcInteraction.callEvent();
+                    NPCInteraction currentInteraction = DataManager.getPlayerData(player).getCurrentInteraction();
+                    NPC currentInteractionNPC = null;
+                    if (currentInteraction != null) {
+                        currentInteractionNPC = currentInteraction.getNPC();
+                    }
+                    if (currentInteractionNPC != npc) {
+                        npcInteraction.setPlayer(player);
+                        npcInteraction.setNpc(npc);
+                        npcInteraction.callEvent();
+                    }
                 }
             }
         }

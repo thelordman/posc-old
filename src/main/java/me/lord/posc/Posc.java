@@ -2,6 +2,7 @@ package me.lord.posc;
 
 import me.lord.posc.data.DataManager;
 import me.lord.posc.discord.Discord;
+import me.lord.posc.npc.interaction.NPCInteraction;
 import me.lord.posc.utilities.Cmd;
 import me.lord.posc.utilities.Event;
 import me.lord.posc.utilities.ReflectionUtil;
@@ -31,6 +32,7 @@ public class Posc extends JavaPlugin {
 
         registerListeners();
         registerCommands();
+        NPCInteraction.registerInteractions();
         configureServer();
         DataManager.loadAll();
         Discord.enable();

@@ -1,12 +1,14 @@
 package me.lord.posc.npc;
 
 import com.mojang.authlib.properties.Property;
+import me.lord.posc.Posc;
 import me.lord.posc.data.DataManager;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_19_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_19_R3.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_19_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
@@ -111,6 +113,7 @@ public class NPCManager {
     public static void removeNPC(int index) {
         NPC npc = npcMap.get(index);
         if (npc != null) {
+            Posc.MAIN_WORLD.getEntity(npc.getInteractionId()).remove();
             npc.sendRemovePacket();
         }
         npcMap.remove(index);

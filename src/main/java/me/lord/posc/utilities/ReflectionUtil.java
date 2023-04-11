@@ -37,7 +37,7 @@ public class ReflectionUtil {
                         String path = file.toString().replace(File.separatorChar, '.');
                         String name = path.substring(path.indexOf(packName), path.length() - extension.length());
                         Class<? extends T> c1 = (Class<? extends T>) Class.forName(name);
-                        if (c.isAssignableFrom(c1)) {
+                        if (c.isAssignableFrom(c1) && c != c1) {
                             if (!except.test(c1)) {
                                 classes.add(c1);
                             }
