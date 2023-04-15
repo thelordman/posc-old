@@ -1,5 +1,7 @@
 package me.lord.posc.data;
 
+import me.lord.posc.economy.Market;
+
 import java.io.*;
 
 /**
@@ -10,6 +12,7 @@ public final class GlobalData implements Data {
     private static final long serialVersionUID = 1532434026207612324L;
 
     private int totalUsers = 0;
+    private Market market = new Market();
 
     private transient Integer consoleSelectedNPC = null;
 
@@ -19,6 +22,14 @@ public final class GlobalData implements Data {
 
     public void incrementTotalUsers() {
         totalUsers++;
+    }
+
+    public Market getMarket() {
+        return market;
+    }
+
+    public void setMarket(Market market) {
+        this.market = market;
     }
 
     public Integer getConsoleSelectedNPC() {

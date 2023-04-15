@@ -1,7 +1,6 @@
 package me.lord.posc.data;
 
 import me.lord.posc.Posc;
-import me.lord.posc.economy.Account;
 import me.lord.posc.npc.interaction.NPCInteraction;
 import me.lord.posc.ranks.Rank;
 import org.bukkit.Bukkit;
@@ -23,8 +22,7 @@ public final class PlayerData implements Data {
 
     @Nullable
     private UUID uuid;
-
-    private Account account = null;
+    private double balance = 0d;
     private Rank rank = Rank.DEFAULT;
 
     private transient Integer selectedNPC = null;
@@ -41,14 +39,6 @@ public final class PlayerData implements Data {
 
     public void setUUID(UUID uuid) {
         this.uuid = uuid;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
     }
 
     public Rank getRank() {
@@ -92,5 +82,21 @@ public final class PlayerData implements Data {
                     attachment.setPermission(permission, true);
             }
         }
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public void addBalance(double amount) {
+        this.balance += amount;
+    }
+
+    public void removeBalance(double amount) {
+        this.balance -= amount;
     }
 }

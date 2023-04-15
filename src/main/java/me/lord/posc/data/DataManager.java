@@ -11,6 +11,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 public class DataManager {
     private static final HashMap<UUID, PlayerData> playerDataMap = new HashMap<>();
@@ -21,14 +22,20 @@ public class DataManager {
 
     private static GlobalData globalData = null;
 
-    public static void loadPlayerData(Player player) {
-        UUID uuid = player.getUniqueId();
+    public static void loadPlayerData(UUID uuid) {
         playerDataMap.put(uuid, getPlayerDataFromFile(uuid) == null ? new PlayerData(uuid) : getPlayerDataFromFile(uuid));
     }
 
-    public static void savePlayerData(Player player) {
-        UUID uuid = player.getUniqueId();
+    public static void loadPlayerData(Player player) {
+        loadPlayerData(player.getUniqueId());
+    }
+
+    public static void savePlayerData(UUID uuid) {
         playerDataMap.get(uuid).serialize(PLAYER_DATA_FOLDER.getPath() + File.separator + uuid + ".dat");
+    }
+
+    public static void savePlayerData(Player player) {
+        savePlayerData(player.getUniqueId());
     }
 
     public static GlobalData getGlobal() {
@@ -100,4 +107,11 @@ public class DataManager {
         return playerDataMap.get(uuid);
     }
 
+    public static void modifyPlayerData(UUID uuid, Consumer<PlayerData> consumer) {
+        PlayerData playerData = playerDataMap.containsKey(uuid) ? getPlayerData(uuid) : getPlayerDataFromFile(uuid);
+        if (playerData != null) {
+            consumer.accept(playerData);
+            playerData.serialize(PLAYER_DATA_FOLDER.getPath() + File.separator + uuid + ".dat");
+        }
+    }
 }
