@@ -30,4 +30,8 @@ public final class CommandUtil {
     public static ArrayList<String> partialMatches(String token, List<String> originals) {
         return StringUtil.copyPartialMatches(token, originals, new ArrayList<>(originals.size()));
     }
+
+    public static boolean hasFlag(String[] args, String flag) {
+        return String.join(" ", args).contains(" -" + flag);
+    }
 }

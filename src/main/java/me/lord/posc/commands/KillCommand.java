@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-public final class KillCommand implements Cmd {
+public class KillCommand implements Cmd {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length > 0 && label.equals("suicide") && (!args[0].equals(sender.getName()) || !(sender instanceof Player))) return false;

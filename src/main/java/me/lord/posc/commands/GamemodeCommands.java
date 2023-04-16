@@ -1,5 +1,6 @@
 package me.lord.posc.commands;
 
+import me.lord.posc.events.Event;
 import me.lord.posc.utilities.Cmd;
 import me.lord.posc.utilities.CommandUtil;
 import me.lord.posc.utilities.TextUtil;
@@ -14,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-public final class GamemodeCommands implements Cmd {
+public class GamemodeCommands implements Cmd {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player) && args.length == 0) return CommandUtil.error(sender, CommandUtil.Error.PLAYER_ONLY);

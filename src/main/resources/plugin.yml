@@ -27,4 +27,7 @@ commands:
     usage: /nick <text>
   npc:
     description: Command to create and modify NPCs.
-    usage: /npc <create>
+    usage: /npc <create | sel | list | delete | rename | move | skin | help> [<text>]
+  world:
+    description: Command to create and modify Worlds.
+    usage: /world <create | list | delete | join> [<name>]

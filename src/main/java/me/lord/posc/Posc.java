@@ -4,14 +4,13 @@ import me.lord.posc.data.DataManager;
 import me.lord.posc.discord.Discord;
 import me.lord.posc.npc.interaction.NPCInteraction;
 import me.lord.posc.utilities.Cmd;
-import me.lord.posc.utilities.Event;
 import me.lord.posc.utilities.ReflectionUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.GameRule;
 import org.bukkit.World;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Logger;
@@ -57,7 +56,8 @@ public class Posc extends JavaPlugin {
      */
     private static void registerListeners() {
         try {
-            for (Class<? extends Event> eventClass : ReflectionUtil.getSubclasses(Event.class, "me.lord.posc.listeners")) {
+            for (Class<? extends Listener> eventClass : ReflectionUtil.getSubclasses(Listener.class, "me.lord.posc.listeners")) {
+                LOGGER.info(eventClass.getName());
                 Bukkit.getPluginManager().registerEvents(eventClass.getDeclaredConstructor().newInstance(), get());
             }
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
@@ -72,6 +72,7 @@ public class Posc extends JavaPlugin {
     private static void registerCommands() throws NullPointerException {
         try {
             for (Class<? extends Cmd> cmdClass : ReflectionUtil.getSubclasses(Cmd.class, "me.lord.posc.commands")) {
+                LOGGER.info(cmdClass.getName());
                 Cmd cmd = cmdClass.getDeclaredConstructor().newInstance();
                 if (cmd.name() == null && cmd.names() == null) {
                     throw new NullPointerException("getName() and getNames() cannot both return null; " + cmd.getClass().getSimpleName());

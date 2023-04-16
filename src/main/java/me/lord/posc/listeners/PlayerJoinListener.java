@@ -3,12 +3,12 @@ package me.lord.posc.listeners;
 import me.lord.posc.data.DataManager;
 import me.lord.posc.discord.events.PlayerJoin;
 import me.lord.posc.npc.NPCManager;
-import me.lord.posc.utilities.Event;
 import me.lord.posc.utilities.TextUtil;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-public final class PlayerJoinListener implements Event {
+public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (!event.getPlayer().hasPlayedBefore()) DataManager.getGlobal().incrementTotalUsers();

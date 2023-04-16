@@ -13,7 +13,7 @@ import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public class ReflectionUtil {
+public final class ReflectionUtil {
     public static <T> Class<? extends T>[] getSubclasses(Class<T> c, String packName, Predicate<Class<? extends T>> except) {
         ArrayList<Class<? extends T>> classes = new ArrayList<>();
         try {

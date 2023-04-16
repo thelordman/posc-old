@@ -4,7 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class InventoryUtil {
+public final class InventoryUtil {
     public static void remove(Inventory inventory, Material material, int amount) {
         ItemStack[] contents = inventory.getStorageContents();
 

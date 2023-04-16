@@ -1,18 +1,17 @@
 package me.lord.posc.listeners;
 
-import me.lord.posc.Posc;
 import me.lord.posc.data.DataManager;
 import me.lord.posc.npc.NPC;
 import me.lord.posc.npc.NPCManager;
 import me.lord.posc.npc.interaction.NPCInteraction;
-import me.lord.posc.utilities.Event;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Interaction;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
-public class PlayerInteractEntityListener implements Event {
+public class PlayerInteractEntityListener implements Listener {
     @EventHandler
     public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
         Player player = event.getPlayer();
