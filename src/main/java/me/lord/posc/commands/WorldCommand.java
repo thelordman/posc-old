@@ -1,6 +1,7 @@
 package me.lord.posc.commands;
 
 import me.lord.posc.Posc;
+import me.lord.posc.data.DataManager;
 import me.lord.posc.utilities.Cmd;
 import me.lord.posc.utilities.CommandUtil;
 import me.lord.posc.utilities.TextUtil;
@@ -33,6 +34,7 @@ public class WorldCommand implements Cmd {
                 String name = TextUtil.joinArray(args, 1).replace(" -f", "");
 
                 Bukkit.createWorld(WorldCreator.name(name).type(CommandUtil.hasFlag(args, "f") ? WorldType.FLAT : WorldType.NORMAL));
+                DataManager.getGlobal().getWorlds().add(name);
                 sender.sendMessage(TextUtil.c("&eWorld &6" + name + " &ecreated &7(" + (CommandUtil.hasFlag(args, "f") ? "flat" : "normal") + ")"));
             }
             case "list" -> {

@@ -48,6 +48,7 @@ public class DataManager {
 
         if (GLOBAL_DATA_FILE.exists()) {
             globalData = (GlobalData) Data.deserialize(GLOBAL_DATA_FILE.getPath());
+            globalData.setTotalUsers(Bukkit.getOfflinePlayers().length);
         } else if (globalData == null) {
             globalData = new GlobalData();
         }

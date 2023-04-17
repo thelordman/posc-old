@@ -4,12 +4,15 @@ import java.time.Duration;
 import java.time.Instant;
 
 public interface Event {
-
-    void initiate();
-
     Instant getDate();
 
-    Duration getDuration();
+    default Duration getDuration() {
+        return Duration.ofHours(1L);
+    }
+
+    default Instant getEnd() {
+        return getDate().plus(getDuration());
+    }
 
     Instant getNextOccurrence();
 

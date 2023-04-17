@@ -1,8 +1,10 @@
 package me.lord.posc.data;
 
 import me.lord.posc.economy.Market;
+import org.bukkit.Bukkit;
 
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * Stores data that is global (not attached to an entity, item or a block).
@@ -11,9 +13,10 @@ public final class GlobalData implements Data {
     @Serial
     private static final long serialVersionUID = 1532434026207612324L;
 
-    private int totalUsers = 0;
     private Market market = new Market();
+    private final ArrayList<String> worlds = new ArrayList<>();
 
+    private transient int totalUsers = Bukkit.getOfflinePlayers().length;
     private transient Integer consoleSelectedNPC = null;
 
     public int getTotalUsers() {
@@ -22,6 +25,10 @@ public final class GlobalData implements Data {
 
     public void incrementTotalUsers() {
         totalUsers++;
+    }
+
+    public void setTotalUsers(int totalUsers) {
+        this.totalUsers = totalUsers;
     }
 
     public Market getMarket() {
@@ -38,5 +45,9 @@ public final class GlobalData implements Data {
 
     public void setConsoleSelectedNPC(Integer selectedNPC) {
         consoleSelectedNPC = selectedNPC;
+    }
+
+    public ArrayList<String> getWorlds() {
+        return worlds;
     }
 }
