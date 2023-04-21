@@ -64,6 +64,10 @@ public final class TextUtil {
         return Math.round(location.x()) + ", " + Math.round(location.y()) + ", " + Math.round(location.z());
     }
 
+    public static String sexyString(String string) {
+        return Character.toUpperCase(string.charAt(0)) + string.substring(1);
+    }
+
     public static boolean isNumber(String string) {
         try {
             Integer.parseInt(string);

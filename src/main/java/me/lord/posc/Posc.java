@@ -5,6 +5,7 @@ import me.lord.posc.discord.Discord;
 import me.lord.posc.npc.interaction.NPCInteraction;
 import me.lord.posc.utilities.Cmd;
 import me.lord.posc.utilities.ReflectionUtil;
+import me.lord.posc.utilities.TextUtil;
 import org.bukkit.*;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -95,12 +96,14 @@ public class Posc extends JavaPlugin {
                 }
                 if (cmd.names() == null) {
                     get().getCommand(cmd.name()).setExecutor(cmd);
+                    get().getCommand(cmd.name()).permissionMessage(TextUtil.c("&cYou need the permission \"" + cmd.permission() + "\" to use this command."));
                     if (cmd.permission() != null) {
                         get().getCommand(cmd.name()).setPermission(cmd.permission());
                     }
                 } else {
                     for (String name : cmd.names()) {
                         get().getCommand(name).setExecutor(cmd);
+                        get().getCommand(name).permissionMessage(TextUtil.c("&cYou need the permission \"" + cmd.permission() + "\" to use this command."));
                         if (cmd.permission() != null) {
                             get().getCommand(name).setPermission(cmd.permissions(name));
                         }
@@ -127,6 +130,7 @@ public class Posc extends JavaPlugin {
             PARKOUR_WORLD.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
             PARKOUR_WORLD.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
             PARKOUR_WORLD.setGameRule(GameRule.DO_MOB_SPAWNING, false);
+            PARKOUR_WORLD.setGameRule(GameRule.DO_IMMEDIATE_RESPAWN, true);
         }
     }
 }

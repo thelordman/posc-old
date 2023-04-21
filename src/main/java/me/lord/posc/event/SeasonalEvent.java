@@ -1,4 +1,4 @@
-package me.lord.posc.events;
+package me.lord.posc.event;
 
 import java.time.*;
 
@@ -7,6 +7,12 @@ public abstract class SeasonalEvent extends AbstractEvent {
 
     public abstract MonthDay getEndDay();
 
+    @Override
+    public String getFrequency() {
+        return "Seasonal";
+    }
+
+    @Override
     public Duration getDuration() {
         return Duration.ofDays(getEndDay().getDayOfMonth() - getStartDay().getDayOfMonth() + 1L);
     }

@@ -1,6 +1,7 @@
 package me.lord.posc.data;
 
 import me.lord.posc.Posc;
+import me.lord.posc.event.Event;
 import me.lord.posc.npc.interaction.NPCInteraction;
 import me.lord.posc.ranks.Rank;
 import org.bukkit.Bukkit;
@@ -27,6 +28,8 @@ public final class PlayerData implements Data {
 
     private transient Integer selectedNPC = null;
     private transient NPCInteraction currentInteraction = null;
+    private transient Event.Data eventData = null;
+    private transient boolean godMode = false;
 
     public PlayerData(@NotNull UUID uuid) {
         this.uuid = uuid;
@@ -98,5 +101,21 @@ public final class PlayerData implements Data {
 
     public void removeBalance(double amount) {
         this.balance -= amount;
+    }
+
+    public Event.Data getEventData() {
+        return eventData;
+    }
+
+    public void setEventData(Event.Data eventData) {
+        this.eventData = eventData;
+    }
+
+    public boolean godMode() {
+        return godMode;
+    }
+
+    public void setGodMode(boolean godMode) {
+        this.godMode = godMode;
     }
 }

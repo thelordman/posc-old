@@ -31,3 +31,6 @@ commands:
   world:
     description: Command to create and modify Worlds.
     usage: /world <create | list | delete | join> [<name>]
+  event:
+    description: Join or start an event.
+    usage: /event <join | start> [<name>]

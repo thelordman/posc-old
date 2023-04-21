@@ -1,6 +1,5 @@
 package me.lord.posc.commands;
 
-import me.lord.posc.events.Event;
 import me.lord.posc.utilities.Cmd;
 import me.lord.posc.utilities.CommandUtil;
 import me.lord.posc.utilities.TextUtil;

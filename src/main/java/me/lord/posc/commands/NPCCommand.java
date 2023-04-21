@@ -27,7 +27,7 @@ public class NPCCommand implements Cmd {
 
         switch (args[0]) {
             case "create" -> {
-                if (!(sender instanceof Player player)) return false;
+                if (!(sender instanceof Player player)) return CommandUtil.error(sender, CommandUtil.Error.PLAYER_ONLY);
                 if (args.length == 1) return false;
 
                 String name = TextUtil.joinArray(args, 1);
@@ -52,7 +52,7 @@ public class NPCCommand implements Cmd {
                     }
 
                     if (target == null) {
-                        player.sendMessage(TextUtil.c("&cNo NPC found.\n&cTry /npc sel [id | name]"));
+                        player.sendMessage(TextUtil.c("&cNo NPC found\n&cTry /npc sel [id | name]"));
                         break;
                     }
                 } else {
