@@ -20,4 +20,9 @@ public interface LimitedEvent extends AdventureEvent {
     default boolean canMoveItems() {
         return false;
     }
+
+    @Override
+    default boolean hunger() {
+        return false;
+    }
 }

@@ -22,8 +22,8 @@ public class PlayerMoveListener implements Listener {
                 if (eventData instanceof ParkourEvent.Data parkourData) {
                     Location location = player.getLocation();
                     location = new Location(Posc.PARKOUR_WORLD, location.x(), location.y() - 1, location.z());
-                    if (ParkourEvent.Checkpoint.isCheckpoint(location)) {
-                        ParkourEvent.Checkpoint checkpoint = ParkourEvent.Checkpoint.fromLocation(location);
+                    ParkourEvent.Checkpoint checkpoint = ParkourEvent.Checkpoint.fromLocation(location);
+                    if (checkpoint != null) {
                         if (parkourData.getCheckpoint() != checkpoint) {
                             parkourData.setCheckpoint(checkpoint);
                             player.sendMessage(TextUtil.c("&6Checkpoint Reached"));

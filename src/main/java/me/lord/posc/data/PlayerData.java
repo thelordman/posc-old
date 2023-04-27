@@ -4,6 +4,7 @@ import me.lord.posc.Posc;
 import me.lord.posc.event.Event;
 import me.lord.posc.npc.interaction.NPCInteraction;
 import me.lord.posc.ranks.Rank;
+import me.lord.posc.scoreboard.FastBoard;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
@@ -30,9 +31,12 @@ public final class PlayerData implements Data {
     private transient NPCInteraction currentInteraction = null;
     private transient Event.Data eventData = null;
     private transient boolean godMode = false;
+    private transient boolean hunger = true;
+    private transient FastBoard scoreboard;
 
     public PlayerData(@NotNull UUID uuid) {
         this.uuid = uuid;
+        scoreboard = new FastBoard(uuid);
     }
 
     @Nullable
@@ -93,14 +97,15 @@ public final class PlayerData implements Data {
 
     public void setBalance(double balance) {
         this.balance = balance;
+        getScoreboard().updateBalance();
     }
 
     public void addBalance(double amount) {
-        this.balance += amount;
+        setBalance(getBalance() + amount);
     }
 
     public void removeBalance(double amount) {
-        this.balance -= amount;
+        setBalance(getBalance() - amount);
     }
 
     public Event.Data getEventData() {
@@ -117,5 +122,24 @@ public final class PlayerData implements Data {
 
     public void setGodMode(boolean godMode) {
         this.godMode = godMode;
+    }
+
+    public boolean hunger() {
+        return hunger;
+    }
+
+    public void setHunger(boolean hunger) {
+        this.hunger = hunger;
+    }
+
+    public FastBoard getScoreboard() {
+        if (scoreboard == null) {
+            scoreboard = new FastBoard(uuid);
+        }
+        return scoreboard;
+    }
+
+    public void setScoreboard(FastBoard scoreboard) {
+        this.scoreboard = scoreboard;
     }
 }

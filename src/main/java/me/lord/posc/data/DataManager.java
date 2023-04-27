@@ -3,6 +3,7 @@ package me.lord.posc.data;
 import me.lord.posc.Posc;
 import me.lord.posc.npc.NPC;
 import me.lord.posc.npc.NPCManager;
+import me.lord.posc.scoreboard.FastBoard;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_19_R3.util.DatFileFilter;
 import org.bukkit.entity.Player;
@@ -23,7 +24,8 @@ public class DataManager {
     private static GlobalData globalData = null;
 
     public static void loadPlayerData(UUID uuid) {
-        playerDataMap.put(uuid, getPlayerDataFromFile(uuid) == null ? new PlayerData(uuid) : getPlayerDataFromFile(uuid));
+        PlayerData data = getPlayerDataFromFile(uuid);
+        playerDataMap.put(uuid, data == null ? new PlayerData(uuid) : data);
     }
 
     public static void loadPlayerData(Player player) {
@@ -56,6 +58,7 @@ public class DataManager {
         if (!PLAYER_DATA_FOLDER.exists()) PLAYER_DATA_FOLDER.mkdir();
         for (Player player : Bukkit.getOnlinePlayers()) {
             loadPlayerData(player);
+            getPlayerData(player).getScoreboard().updateAll();
         }
 
         if (!NPC_DATA_FOLDER.exists()) NPC_DATA_FOLDER.mkdir();
@@ -96,7 +99,10 @@ public class DataManager {
         File file = new File(PLAYER_DATA_FOLDER.getPath() + File.separator + uuid.toString() + ".dat");
         if (!file.exists()) return null;
         PlayerData data = (PlayerData) Data.deserialize(file.getPath());
-        if (data.getUUID() == null) data.setUUID(uuid);
+        if (data != null) {
+            if (data.getUUID() == null) data.setUUID(uuid);
+            if (data.getScoreboard() == null && Bukkit.getOfflinePlayer(uuid).isOnline()) data.setScoreboard(new FastBoard(uuid));
+        }
         return data;
     }
 
@@ -108,6 +114,9 @@ public class DataManager {
         return playerDataMap.get(uuid);
     }
 
+    /**
+     * Use this method to modify the PlayerData of offline players.
+     */
     public static void modifyPlayerData(UUID uuid, Consumer<PlayerData> consumer) {
         PlayerData playerData = playerDataMap.containsKey(uuid) ? getPlayerData(uuid) : getPlayerDataFromFile(uuid);
         if (playerData != null) {

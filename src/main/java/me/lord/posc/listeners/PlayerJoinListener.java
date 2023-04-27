@@ -12,7 +12,9 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (!event.getPlayer().hasPlayedBefore()) DataManager.getGlobal().incrementTotalUsers();
+
         DataManager.loadPlayerData(event.getPlayer());
+        DataManager.getPlayerData(event.getPlayer()).getScoreboard().updateAll();
 
         NPCManager.sendInitPacketAll(event.getPlayer());
 

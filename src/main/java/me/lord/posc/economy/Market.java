@@ -1,6 +1,5 @@
 package me.lord.posc.economy;
 
-import me.lord.posc.Posc;
 import me.lord.posc.data.DataManager;
 import org.bukkit.Material;
 

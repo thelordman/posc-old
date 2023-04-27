@@ -1,6 +1,8 @@
-package me.lord.posc.event;
+package me.lord.posc.listeners;
 
 import me.lord.posc.data.DataManager;
+import me.lord.posc.event.Event;
+import me.lord.posc.event.ParkourEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

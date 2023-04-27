@@ -1,12 +1,14 @@
 package me.lord.posc;
 
 import me.lord.posc.data.DataManager;
+import me.lord.posc.data.PlayerData;
 import me.lord.posc.discord.Discord;
 import me.lord.posc.npc.interaction.NPCInteraction;
 import me.lord.posc.utilities.Cmd;
 import me.lord.posc.utilities.ReflectionUtil;
 import me.lord.posc.utilities.TextUtil;
 import org.bukkit.*;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -54,6 +56,15 @@ public class Posc extends JavaPlugin {
         registerCommands();
         NPCInteraction.registerInteractions();
         Discord.enable();
+
+        Bukkit.getScheduler().runTaskTimer(get(), () -> {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                PlayerData data = DataManager.getPlayerData(player);
+                if (data != null) {
+                    data.getScoreboard().updateConstant();
+                }
+            }
+        }, 0L, 100L);
     }
 
     @Override

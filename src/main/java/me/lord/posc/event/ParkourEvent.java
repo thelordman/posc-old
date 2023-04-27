@@ -123,18 +123,10 @@ public class ParkourEvent extends BiDailyEvent implements WorldEvent, LimitedEve
             player.teleport(getSpawn());
         }
 
-        public static boolean isCheckpoint(Location location) {
-            for (Checkpoint checkpoint : Checkpoint.values()) {
-                if (checkpoint.getLocation() == location.getBlock().getLocation()) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
         public static Checkpoint fromLocation(Location location) {
+            int[] xyz = {location.getBlockX(), location.getBlockY(), location.getBlockZ()};
             for (Checkpoint checkpoint : Checkpoint.values()) {
-                if (checkpoint.getLocation() == location.getBlock().getLocation()) {
+                if (checkpoint.getLocation().getBlockX() == xyz[0] && checkpoint.getLocation().getBlockY() == xyz[1] && checkpoint.getLocation().getBlockZ() == xyz[2]) {
                     return checkpoint;
                 }
             }

@@ -63,7 +63,7 @@ public interface Event {
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.showTitle(Title.title(TextUtil.c("&6" + TextUtil.sexyString(getName()) + " Event"), TextUtil.c("&f/event join")));
             Component component = TextUtil.c("\n&e&l" + getFrequency() + " Event: &6&l" + TextUtil.sexyString(getName()) + (isJoinable() ? "\n&6&nClick To Join" : ""));
-            if (isJoinable()) component.clickEvent(ClickEvent.runCommand("/event join"));
+            if (isJoinable()) component = component.clickEvent(ClickEvent.runCommand("/event join"));
             player.sendMessage(component);
         }
     }
@@ -96,6 +96,10 @@ public interface Event {
         return true;
     }
 
+    default boolean hunger() {
+        return true;
+    }
+
     default String getName() {
         return this.getClass().getAnnotation(EventName.class).name();
     }
@@ -116,6 +120,9 @@ public interface Event {
         if (isGodMode()) {
             DataManager.getPlayerData(player).setGodMode(true);
         }
+        if (!hunger()) {
+            DataManager.getPlayerData(player).setHunger(false);
+        }
     }
 
     default void playerLeave(Player player) {
@@ -127,6 +134,9 @@ public interface Event {
         }
         if (isGodMode()) {
             DataManager.getPlayerData(player).setGodMode(false);
+        }
+        if (!hunger()) {
+            DataManager.getPlayerData(player).setHunger(true);
         }
         player.setGameMode(GameMode.SURVIVAL);
     }
