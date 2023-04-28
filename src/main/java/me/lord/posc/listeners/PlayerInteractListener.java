@@ -10,20 +10,20 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class PlayerInteractListener implements Listener {
-    @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
-        ItemStack item = event.getItem();
+	@EventHandler
+	public void onPlayerInteract(PlayerInteractEvent event) {
+		Player player = event.getPlayer();
+		ItemStack item = event.getItem();
 
-        Event.Data eventData = DataManager.getPlayerData(player).getEventData();
-        if (eventData instanceof ParkourEvent.Data parkourData) {
-            if (item != null) {
-                switch (item.getType()) {
-                    case GOLD_BLOCK -> parkourData.teleportCheckpoint();
-                    case MAGENTA_GLAZED_TERRACOTTA -> ParkourEvent.Checkpoint.START.teleport(player);
-                    case BARRIER -> parkourData.getEvent().playerLeave(player);
-                }
-            }
-        }
-    }
+		Event.Data eventData = DataManager.getPlayerData(player).getEventData();
+		if (eventData instanceof ParkourEvent.Data parkourData) {
+			if (item != null) {
+				switch (item.getType()) {
+					case GOLD_BLOCK -> parkourData.teleportCheckpoint();
+					case MAGENTA_GLAZED_TERRACOTTA -> ParkourEvent.Checkpoint.START.teleport(player);
+					case BARRIER -> parkourData.getEvent().playerLeave(player);
+				}
+			}
+		}
+	}
 }

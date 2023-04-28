@@ -6,8 +6,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 
 public class PlayerAdvancementDoneListener implements Listener {
-    @EventHandler
-    public void onPlayerAdvancementDone(PlayerAdvancementDoneEvent event) {
-        PlayerAdvancement.exe(event);
-    }
+	@EventHandler
+	public void onPlayerAdvancementDone(PlayerAdvancementDoneEvent event) {
+		PlayerAdvancement.exe(event);
+	}
 }

@@ -8,11 +8,11 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.awt.*;
 
 public class PlayerQuit {
-    public static void exe(PlayerQuitEvent event) {
-        Player player = event.getPlayer();
-        Discord.MINECRAFT_CHAT.sendMessageEmbeds(new PoscEmbedBuilder()
-                .setAuthor(player.getName() + " Left", null, "https://crafatar.com/avatars/" + player.getUniqueId())
-                .setColor(Color.RED)
-                .build()).queue();
-    }
+	public static void exe(PlayerQuitEvent event) {
+		Player player = event.getPlayer();
+		Discord.MINECRAFT_CHAT.sendMessageEmbeds(new PoscEmbedBuilder()
+				.setAuthor(player.getName() + " Left", null, "https://crafatar.com/avatars/" + player.getUniqueId())
+				.setColor(Color.RED)
+				.build()).queue();
+	}
 }

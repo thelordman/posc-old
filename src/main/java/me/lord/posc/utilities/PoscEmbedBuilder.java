@@ -10,8 +10,8 @@ import java.time.Instant;
  * and/or the timestamp of the embed.
  */
 public class PoscEmbedBuilder extends EmbedBuilder {
-    public PoscEmbedBuilder() {
-        setFooter("posc.minehut.gg");
-        setTimestamp(Instant.now());
-    }
+	public PoscEmbedBuilder() {
+		setFooter("posc.minehut.gg");
+		setTimestamp(Instant.now());
+	}
 }

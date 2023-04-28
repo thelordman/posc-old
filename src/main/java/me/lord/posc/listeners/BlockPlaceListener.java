@@ -8,15 +8,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
 public class BlockPlaceListener implements Listener {
-    @EventHandler
-    public void onBlockPlace(BlockPlaceEvent event) {
-        Player player = event.getPlayer();
+	@EventHandler
+	public void onBlockPlace(BlockPlaceEvent event) {
+		Player player = event.getPlayer();
 
-        Event.Data eventData = DataManager.getPlayerData(player).getEventData();
-        if (eventData != null) {
-            if (!eventData.getEvent().canPlace()) {
-                event.setCancelled(true);
-            }
-        }
-    }
+		Event.Data eventData = DataManager.getPlayerData(player).getEventData();
+		if (eventData != null) {
+			if (!eventData.getEvent().canPlace()) {
+				event.setCancelled(true);
+			}
+		}
+	}
 }

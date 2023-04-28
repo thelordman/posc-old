@@ -11,20 +11,20 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 public class EntityDamageListener implements Listener {
-    @EventHandler
-    public void onEntityDamage(EntityDamageEvent event) {
-        Entity entity = event.getEntity();
+	@EventHandler
+	public void onEntityDamage(EntityDamageEvent event) {
+		Entity entity = event.getEntity();
 
-        if (entity instanceof Player player) {
-            PlayerData data = DataManager.getPlayerData(player);
-            if (data.godMode()) {
-                event.setCancelled(true);
-            }
+		if (entity instanceof Player player) {
+			PlayerData data = DataManager.getPlayerData(player);
+			if (data.godMode()) {
+				event.setCancelled(true);
+			}
 
-            Event.Data eventData = data.getEventData();
-            if (eventData instanceof ParkourEvent.Data parkourData && event.getCause() == EntityDamageEvent.DamageCause.LAVA) {
-                parkourData.teleportCheckpoint();
-            }
-        }
-    }
+			Event.Data eventData = data.getEventData();
+			if (eventData instanceof ParkourEvent.Data parkourData && event.getCause() == EntityDamageEvent.DamageCause.LAVA) {
+				parkourData.teleportCheckpoint();
+			}
+		}
+	}
 }

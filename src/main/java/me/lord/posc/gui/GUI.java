@@ -8,24 +8,24 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public interface GUI {
-    ItemStack[] getItems();
+	ItemStack[] getItems();
 
-    InventoryType getType();
+	InventoryType getType();
 
-    default Inventory createInventory() {
-        Inventory inventory;
-        if (getType() == InventoryType.CHEST) {
-            inventory = Bukkit.createInventory(null, getItems().length, getTitle());
-        } else {
-            inventory = Bukkit.createInventory(null, getType(), getTitle());
-        }
-        inventory.setContents(getItems());
-        return inventory;
-    }
+	default Inventory createInventory() {
+		Inventory inventory;
+		if (getType() == InventoryType.CHEST) {
+			inventory = Bukkit.createInventory(null, getItems().length, getTitle());
+		} else {
+			inventory = Bukkit.createInventory(null, getType(), getTitle());
+		}
+		inventory.setContents(getItems());
+		return inventory;
+	}
 
-    Component getTitle();
+	Component getTitle();
 
-    default void open(Player player) {
-        player.openInventory(createInventory());
-    }
+	default void open(Player player) {
+		player.openInventory(createInventory());
+	}
 }

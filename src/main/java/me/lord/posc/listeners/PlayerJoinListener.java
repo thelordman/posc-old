@@ -10,18 +10,18 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PlayerJoinListener implements Listener {
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        Posc.onlinePlayers++;
-        if (!event.getPlayer().hasPlayedBefore()) DataManager.getGlobal().incrementTotalUsers();
+	@EventHandler
+	public void onPlayerJoin(PlayerJoinEvent event) {
+		Posc.onlinePlayers++;
+		if (!event.getPlayer().hasPlayedBefore()) DataManager.getGlobal().incrementTotalUsers();
 
-        DataManager.loadPlayerData(event.getPlayer());
-        DataManager.getPlayerData(event.getPlayer()).getScoreboard().updateAll();
+		DataManager.loadPlayerData(event.getPlayer());
+		DataManager.getPlayerData(event.getPlayer()).getScoreboard().updateAll();
 
-        NPCManager.sendInitPacketAll(event.getPlayer());
+		NPCManager.sendInitPacketAll(event.getPlayer());
 
-        event.joinMessage(TextUtil.c("&7[&a+&7] &f" + event.getPlayer().getName() + (event.getPlayer().hasPlayedBefore() ? "" : " &8| &6" + TextUtil.ordinal(DataManager.getGlobal().getTotalUsers()) + " join")));
+		event.joinMessage(TextUtil.c("&7[&a+&7] &f" + event.getPlayer().getName() + (event.getPlayer().hasPlayedBefore() ? "" : " &8| &6" + TextUtil.ordinal(DataManager.getGlobal().getTotalUsers()) + " join")));
 
-        PlayerJoin.exe(event);
-    }
+		PlayerJoin.exe(event);
+	}
 }

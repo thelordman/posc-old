@@ -11,26 +11,26 @@ import java.io.Serial;
 import java.util.UUID;
 
 public class SellOffer extends Offer {
-    @Serial
-    private static final long serialVersionUID = 3437573305369222148L;
+	@Serial
+	private static final long serialVersionUID = 3437573305369222148L;
 
-    protected SellOffer(Material type, int amount, double value, UUID player) {
-        super(type, amount, value, player);
-        InventoryUtil.remove(Bukkit.getPlayer(player).getInventory(), type, amount);
-    }
+	protected SellOffer(Material type, int amount, double value, UUID player) {
+		super(type, amount, value, player);
+		InventoryUtil.remove(Bukkit.getPlayer(player).getInventory(), type, amount);
+	}
 
-    @Override
-    public void fill(Player player, int amount) {
-        this.amount -= amount;
-        DataManager.getPlayerData(player).removeBalance(value * amount);
-        player.getInventory().addItem(new ItemStack(type, amount));
-    }
+	@Override
+	public void fill(Player player, int amount) {
+		this.amount -= amount;
+		DataManager.getPlayerData(player).removeBalance(value * amount);
+		player.getInventory().addItem(new ItemStack(type, amount));
+	}
 
-    @Override
-    public void claim() {
-        DataManager.getPlayerData(player).addBalance(value * getProcessed());
-        if (isComplete()) {
-            getEntry().getSellOffers().remove(this);
-        }
-    }
+	@Override
+	public void claim() {
+		DataManager.getPlayerData(player).addBalance(value * getProcessed());
+		if (isComplete()) {
+			getEntry().getSellOffers().remove(this);
+		}
+	}
 }

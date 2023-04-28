@@ -11,22 +11,22 @@ import java.util.List;
 
 // TODO: Cleanup
 public class NickCommand implements Cmd {
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (args.length > 0) {
-            if (sender instanceof Player player)
-                player.setDisplayName(args[0]);
-        }
-        return true;
-    }
+	@Override
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+		if (args.length > 0) {
+			if (sender instanceof Player player)
+				player.setDisplayName(args[0]);
+		}
+		return true;
+	}
 
-    @Override
-    public String name() {
-        return "nick";
-    }
+	@Override
+	public String name() {
+		return "nick";
+	}
 
-    @Override
-    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        return null;
-    }
+	@Override
+	public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+		return null;
+	}
 }

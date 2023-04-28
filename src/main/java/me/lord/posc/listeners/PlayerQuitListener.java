@@ -9,13 +9,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerQuitListener implements Listener {
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        Posc.onlinePlayers--;
+	@EventHandler
+	public void onPlayerQuit(PlayerQuitEvent event) {
+		Posc.onlinePlayers--;
 
-        DataManager.savePlayerData(event.getPlayer());
-        event.quitMessage(TextUtil.c("&7[&c-&7] &f" + event.getPlayer().getName()));
+		DataManager.savePlayerData(event.getPlayer());
+		event.quitMessage(TextUtil.c("&7[&c-&7] &f" + event.getPlayer().getName()));
 
-        PlayerQuit.exe(event);
-    }
+		PlayerQuit.exe(event);
+	}
 }

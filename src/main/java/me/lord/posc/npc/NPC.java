@@ -31,134 +31,134 @@ import java.util.Collection;
 import java.util.UUID;
 
 public class NPC extends ServerPlayer {
-    private final int index;
+	private final int index;
 
-    private final UUID interactionId;
+	private final UUID interactionId;
 
-    protected NPC(int index, @NotNull String name, @NotNull Location location) {
-        super(((CraftServer) Bukkit.getServer()).getServer(),
-                ((CraftWorld) Posc.mainWorld).getHandle(),
-                new GameProfile(UUID.randomUUID(), name));
+	protected NPC(int index, @NotNull String name, @NotNull Location location) {
+		super(((CraftServer) Bukkit.getServer()).getServer(),
+				((CraftWorld) Posc.mainWorld).getHandle(),
+				new GameProfile(UUID.randomUUID(), name));
 
-        isRealPlayer = false;
+		isRealPlayer = false;
 
-        this.index = index;
+		this.index = index;
 
-        setPos(location.getX(), location.getY(), location.getZ());
-        setYRot(location.getYaw());
-        setXRot(location.getPitch());
+		setPos(location.getX(), location.getY(), location.getZ());
+		setYRot(location.getYaw());
+		setXRot(location.getPitch());
 
-        Interaction interaction = (Interaction) Posc.mainWorld.spawnEntity(location, EntityType.INTERACTION);
-        interaction.setInteractionHeight(2.0f);
-        interactionId = interaction.getUniqueId();
-    }
+		Interaction interaction = (Interaction) Posc.mainWorld.spawnEntity(location, EntityType.INTERACTION);
+		interaction.setInteractionHeight(2.0f);
+		interactionId = interaction.getUniqueId();
+	}
 
-    public int getIndex() {
-        return index;
-    }
+	public int getIndex() {
+		return index;
+	}
 
-    public UUID getInteractionId() {
-        return interactionId;
-    }
+	public UUID getInteractionId() {
+		return interactionId;
+	}
 
-    // TODO: If possible, find a way to update the name without having to create an entirely new object
-    public void setName(String name) {
-        sendRemovePacket();
-        Posc.mainWorld.getEntity(getInteractionId()).remove();
-        NPC npc = new NPC(getIndex(), name, getLocation());
-        npc.getGameProfile().getProperties().putAll(getGameProfile().getProperties());
-        npc.sendInitPacket();
-        NPCManager.getNPCMap().put(index, npc);
-    }
+	// TODO: If possible, find a way to update the name without having to create an entirely new object
+	public void setName(String name) {
+		sendRemovePacket();
+		Posc.mainWorld.getEntity(getInteractionId()).remove();
+		NPC npc = new NPC(getIndex(), name, getLocation());
+		npc.getGameProfile().getProperties().putAll(getGameProfile().getProperties());
+		npc.sendInitPacket();
+		NPCManager.getNPCMap().put(index, npc);
+	}
 
-    public String getNameString() {
-        return getGameProfile().getName();
-    }
+	public String getNameString() {
+		return getGameProfile().getName();
+	}
 
-    public Location getLocation() {
-        return new Location(getBukkitEntity().getWorld(), getX(), getY(), getZ(), getYRot(), getXRot());
-    }
+	public Location getLocation() {
+		return new Location(getBukkitEntity().getWorld(), getX(), getY(), getZ(), getYRot(), getXRot());
+	}
 
-    public Property getSkinProperty() {
-        Collection<Property> properties = getGameProfile().getProperties().get("textures");
-        return properties.stream()
-                .filter(p -> p.getName().equals("textures"))
-                .findFirst()
-                .orElse(null);
-    }
+	public Property getSkinProperty() {
+		Collection<Property> properties = getGameProfile().getProperties().get("textures");
+		return properties.stream()
+				.filter(p -> p.getName().equals("textures"))
+				.findFirst()
+				.orElse(null);
+	}
 
-    public void setSkin(Property property) {
-        getGameProfile().getProperties().removeAll("textures");
-        getGameProfile().getProperties().put("textures", property);
-    }
+	public void setSkin(Property property) {
+		getGameProfile().getProperties().removeAll("textures");
+		getGameProfile().getProperties().put("textures", property);
+	}
 
-    public boolean setSkin(String username) {
-        try {
-            HttpsURLConnection connection = (HttpsURLConnection) new URL("https://api.ashcon.app/mojang/v2/user/" + username).openConnection();
-            if (connection.getResponseCode() == HttpsURLConnection.HTTP_OK) {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String reply = String.join(" ", reader.lines().toList());
-                int indexOfValue = reply.indexOf("\"value\": \"");
-                int indexOfSignature = reply.indexOf("\"signature\": \"");
-                String skin = reply.substring(indexOfValue + 10, reply.indexOf("\"", indexOfValue + 10));
-                String signature = reply.substring(indexOfSignature + 14, reply.indexOf("\"", indexOfSignature + 14));
+	public boolean setSkin(String username) {
+		try {
+			HttpsURLConnection connection = (HttpsURLConnection) new URL("https://api.ashcon.app/mojang/v2/user/" + username).openConnection();
+			if (connection.getResponseCode() == HttpsURLConnection.HTTP_OK) {
+				BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				String reply = String.join(" ", reader.lines().toList());
+				int indexOfValue = reply.indexOf("\"value\": \"");
+				int indexOfSignature = reply.indexOf("\"signature\": \"");
+				String skin = reply.substring(indexOfValue + 10, reply.indexOf("\"", indexOfValue + 10));
+				String signature = reply.substring(indexOfSignature + 14, reply.indexOf("\"", indexOfSignature + 14));
 
-                setSkin(new Property("textures", skin, signature));
+				setSkin(new Property("textures", skin, signature));
 
-                return true;
-            } else {
-                Posc.logger.warning("Couldn't open connection to https://api.ashcon.app/mojang/v2/user/" + username + " (Response code " + connection.getResponseCode() + ": " + connection.getResponseMessage() + ")");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+				return true;
+			} else {
+				Posc.logger.warning("Couldn't open connection to https://api.ashcon.app/mojang/v2/user/" + username + " (Response code " + connection.getResponseCode() + ": " + connection.getResponseMessage() + ")");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    public void teleport(Location location) {
-        setPos(location.getX(), location.getY(), location.getZ());
-        setYRot(location.getYaw());
-        setXRot(location.getPitch());
-        sendTeleportPacket();
-    }
+	public void teleport(Location location) {
+		setPos(location.getX(), location.getY(), location.getZ());
+		setYRot(location.getYaw());
+		setXRot(location.getPitch());
+		sendTeleportPacket();
+	}
 
-    public void message(Player player, String message, long delay) {
-        Bukkit.getScheduler().runTaskLater(Posc.get(),
-                () -> {
-                    player.sendMessage(TextUtil.c("\n&e&lNPC &6" + getNameString() + "&f: " + message + "\n"));
-                    player.playNote(player.getLocation(), Instrument.PLING, Note.sharp(0, Note.Tone.C));
-                },
-                delay);
-    }
+	public void message(Player player, String message, long delay) {
+		Bukkit.getScheduler().runTaskLater(Posc.get(),
+				() -> {
+					player.sendMessage(TextUtil.c("\n&e&lNPC &6" + getNameString() + "&f: " + message + "\n"));
+					player.playNote(player.getLocation(), Instrument.PLING, Note.sharp(0, Note.Tone.C));
+				},
+				delay);
+	}
 
-    public void sendInitPacket(Player player) {
-        ServerGamePacketListenerImpl connection = ((CraftPlayer) player).getHandle().connection;
-        connection.send(new ClientboundPlayerInfoUpdatePacket(ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER, this));
-        connection.send(new ClientboundAddPlayerPacket(this));
-        connection.send(new ClientboundRotateHeadPacket(this, (byte) (getYRot() * 256 / 360)));
-        SynchedEntityData data = getEntityData();
-        data.set(new EntityDataAccessor<>(17, EntityDataSerializers.BYTE), (byte) 126);
-        connection.send(new ClientboundSetEntityDataPacket(getId(), data.getNonDefaultValues()));
-    }
+	public void sendInitPacket(Player player) {
+		ServerGamePacketListenerImpl connection = ((CraftPlayer) player).getHandle().connection;
+		connection.send(new ClientboundPlayerInfoUpdatePacket(ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER, this));
+		connection.send(new ClientboundAddPlayerPacket(this));
+		connection.send(new ClientboundRotateHeadPacket(this, (byte) (getYRot() * 256 / 360)));
+		SynchedEntityData data = getEntityData();
+		data.set(new EntityDataAccessor<>(17, EntityDataSerializers.BYTE), (byte) 126);
+		connection.send(new ClientboundSetEntityDataPacket(getId(), data.getNonDefaultValues()));
+	}
 
-    public void sendInitPacket() {
-        Bukkit.getOnlinePlayers().forEach(this::sendInitPacket);
-    }
+	public void sendInitPacket() {
+		Bukkit.getOnlinePlayers().forEach(this::sendInitPacket);
+	}
 
-    public void sendRemovePacket(Player player) {
-        ((CraftPlayer) player).getHandle().connection.send(new ClientboundRemoveEntitiesPacket(getId()));
-    }
+	public void sendRemovePacket(Player player) {
+		((CraftPlayer) player).getHandle().connection.send(new ClientboundRemoveEntitiesPacket(getId()));
+	}
 
-    public void sendRemovePacket() {
-        Bukkit.getOnlinePlayers().forEach(this::sendRemovePacket);
-    }
+	public void sendRemovePacket() {
+		Bukkit.getOnlinePlayers().forEach(this::sendRemovePacket);
+	}
 
-    public void sendTeleportPacket(Player player) {
-        ((CraftPlayer) player).getHandle().connection.send(new ClientboundTeleportEntityPacket(this));
-    }
+	public void sendTeleportPacket(Player player) {
+		((CraftPlayer) player).getHandle().connection.send(new ClientboundTeleportEntityPacket(this));
+	}
 
-    public void sendTeleportPacket() {
-        Bukkit.getOnlinePlayers().forEach(this::sendTeleportPacket);
-    }
+	public void sendTeleportPacket() {
+		Bukkit.getOnlinePlayers().forEach(this::sendTeleportPacket);
+	}
 }

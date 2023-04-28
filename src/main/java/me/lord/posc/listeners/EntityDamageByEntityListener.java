@@ -9,18 +9,18 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class EntityDamageByEntityListener implements Listener {
-    @EventHandler
-    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        Entity victim = event.getEntity();
-        Entity attacker = event.getDamager();
+	@EventHandler
+	public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+		Entity victim = event.getEntity();
+		Entity attacker = event.getDamager();
 
-        if (attacker instanceof Player) {
-            Event.Data eventData = DataManager.getPlayerData((Player) attacker).getEventData();
-            if (eventData != null) {
-                if (!eventData.getEvent().canHit()) {
-                    event.setCancelled(true);
-                }
-            }
-        }
-    }
+		if (attacker instanceof Player) {
+			Event.Data eventData = DataManager.getPlayerData((Player) attacker).getEventData();
+			if (eventData != null) {
+				if (!eventData.getEvent().canHit()) {
+					event.setCancelled(true);
+				}
+			}
+		}
+	}
 }

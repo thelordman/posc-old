@@ -10,19 +10,19 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
 public class PlayerDeathListener implements Listener {
-    @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent event) {
-        Player victim = event.getPlayer();
-        Player attacker = victim.getKiller();
+	@EventHandler
+	public void onPlayerDeath(PlayerDeathEvent event) {
+		Player victim = event.getPlayer();
+		Player attacker = victim.getKiller();
 
-        // GameRule SHOW_DEATH_MESSAGES must be set to false, or it will duplicate
-        Bukkit.broadcast(TextUtil.c("&cDeath &7| &f").append(event.deathMessage()));
+		// GameRule SHOW_DEATH_MESSAGES must be set to false, or it will duplicate
+		Bukkit.broadcast(TextUtil.c("&cDeath &7| &f").append(event.deathMessage()));
 
-        DataManager.getPlayerData(victim).getScoreboard().updateDeaths();
-        if (attacker != null) {
-            DataManager.getPlayerData(attacker).getScoreboard().updateKills();
-        }
+		DataManager.getPlayerData(victim).getScoreboard().updateDeaths();
+		if (attacker != null) {
+			DataManager.getPlayerData(attacker).getScoreboard().updateKills();
+		}
 
-        PlayerDeath.exe(event);
-    }
+		PlayerDeath.exe(event);
+	}
 }

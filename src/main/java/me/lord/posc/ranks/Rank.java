@@ -9,44 +9,44 @@ import java.util.List;
 // TODO: Redo rank system according to Liami's wishes (high customizability with commands and config file)
 public enum Rank {
 
-    DEFAULT("&7[DEFAULT]", ChatColor.GRAY),
-    DEVELOPER("&d[DEVELOPER]"),
-    ADMIN("&6[ADMIN]"),
-    OWNER("&c[OWNER]");
+	DEFAULT("&7[DEFAULT]", ChatColor.GRAY),
+	DEVELOPER("&d[DEVELOPER]"),
+	ADMIN("&6[ADMIN]"),
+	OWNER("&c[OWNER]");
 
-    private final String prefix;
-    private final ChatColor chatColor;
-    private List<String> permissions = new ArrayList<>();
+	private final String prefix;
+	private final ChatColor chatColor;
+	private List<String> permissions = new ArrayList<>();
 
-    Rank(String prefix) {
-        this.prefix = TextUtil.cs(prefix);
-        this.chatColor = ChatColor.WHITE;
-    }
+	Rank(String prefix) {
+		this.prefix = TextUtil.cs(prefix);
+		this.chatColor = ChatColor.WHITE;
+	}
 
-    Rank(String prefix, ChatColor chatColor) {
-        this.prefix = TextUtil.cs(prefix);
-        this.chatColor = chatColor;
-    }
+	Rank(String prefix, ChatColor chatColor) {
+		this.prefix = TextUtil.cs(prefix);
+		this.chatColor = chatColor;
+	}
 
-    Rank(String prefix, ChatColor chatColor, List<String> permissions) {
-        this.prefix = TextUtil.cs(prefix);
-        this.chatColor = chatColor;
-        this.permissions = permissions;
-    }
+	Rank(String prefix, ChatColor chatColor, List<String> permissions) {
+		this.prefix = TextUtil.cs(prefix);
+		this.chatColor = chatColor;
+		this.permissions = permissions;
+	}
 
-    public String getPrefix() {
-        return prefix;
-    }
+	public String getPrefix() {
+		return prefix;
+	}
 
-    public ChatColor getChatColor() {
-        return chatColor;
-    }
+	public ChatColor getChatColor() {
+		return chatColor;
+	}
 
-    public List<String> getPermissions() {
-        return permissions;
-    }
+	public List<String> getPermissions() {
+		return permissions;
+	}
 
-    public void setPermissions(List<String> permissions) {
-        this.permissions = permissions;
-    }
+	public void setPermissions(List<String> permissions) {
+		this.permissions = permissions;
+	}
 }

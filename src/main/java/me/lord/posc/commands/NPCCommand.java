@@ -21,151 +21,151 @@ import java.util.Comparator;
 import java.util.List;
 
 public class NPCCommand implements Cmd {
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (args.length == 0) return false;
+	@Override
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+		if (args.length == 0) return false;
 
-        switch (args[0]) {
-            case "create" -> {
-                if (!(sender instanceof Player player)) return CommandUtil.error(sender, CommandUtil.Error.PLAYER_ONLY);
-                if (args.length == 1) return false;
+		switch (args[0]) {
+			case "create" -> {
+				if (!(sender instanceof Player player)) return CommandUtil.error(sender, CommandUtil.Error.PLAYER_ONLY);
+				if (args.length == 1) return false;
 
-                String name = TextUtil.joinArray(args, 1);
-                Location location = player.getLocation();
+				String name = TextUtil.joinArray(args, 1);
+				Location location = player.getLocation();
 
-                DataManager.getPlayerData(player).setSelectedNPC(NPCManager.createNPC(name, location, name));
-                player.sendMessage(TextUtil.c("&eNPC &6" + name + " &e(ID: &6" + DataManager.getPlayerData(player).getSelectedNPC() + "&e) created at your location."));
-            }
-            case "sel" -> {
-                NPC target;
+				DataManager.getPlayerData(player).setSelectedNPC(NPCManager.createNPC(name, location, name));
+				player.sendMessage(TextUtil.c("&eNPC &6" + name + " &e(ID: &6" + DataManager.getPlayerData(player).getSelectedNPC() + "&e) created at your location."));
+			}
+			case "sel" -> {
+				NPC target;
 
-                if (args.length == 1) {
-                    if (!(sender instanceof Player player)) return CommandUtil.error(sender, CommandUtil.Error.PLAYER_ONLY);
+				if (args.length == 1) {
+					if (!(sender instanceof Player player)) return CommandUtil.error(sender, CommandUtil.Error.PLAYER_ONLY);
 
-                    NPC targetNPC = NPCManager.getTargetNPC(player);
-                    if (targetNPC != null) {
-                        target = targetNPC;
-                    } else {
-                        target = NPCManager.getNPCMap().values().stream()
-                                .min(Comparator.comparingDouble(o -> o.getLocation().distanceSquared(player.getLocation())))
-                                .orElse(null);
-                    }
+					NPC targetNPC = NPCManager.getTargetNPC(player);
+					if (targetNPC != null) {
+						target = targetNPC;
+					} else {
+						target = NPCManager.getNPCMap().values().stream()
+								.min(Comparator.comparingDouble(o -> o.getLocation().distanceSquared(player.getLocation())))
+								.orElse(null);
+					}
 
-                    if (target == null) {
-                        player.sendMessage(TextUtil.c("&cNo NPC found\n&cTry /npc sel [id | name]"));
-                        break;
-                    }
-                } else {
-                    String targetName = TextUtil.joinArray(args, 1);
+					if (target == null) {
+						player.sendMessage(TextUtil.c("&cNo NPC found\n&cTry /npc sel [id | name]"));
+						break;
+					}
+				} else {
+					String targetName = TextUtil.joinArray(args, 1);
 
-                    if (TextUtil.isNumber(targetName)) {
-                        int index = Integer.parseInt(targetName);
+					if (TextUtil.isNumber(targetName)) {
+						int index = Integer.parseInt(targetName);
 
-                        target = NPCManager.getNPC(index);
+						target = NPCManager.getNPC(index);
 
-                        if (target == null) {
-                            target = handleNPCFromName(targetName, sender, false);
-                            if (target == null) break;
-                        }
-                    } else {
-                        target = handleNPCFromName(targetName, sender, false);
-                        if (target == null) break;
-                    }
-                }
+						if (target == null) {
+							target = handleNPCFromName(targetName, sender, false);
+							if (target == null) break;
+						}
+					} else {
+						target = handleNPCFromName(targetName, sender, false);
+						if (target == null) break;
+					}
+				}
 
-                if (sender instanceof Player player) {
-                    DataManager.getPlayerData(player).setSelectedNPC(target.getIndex());
-                } else {
-                    DataManager.getGlobal().setConsoleSelectedNPC(target.getIndex());
-                }
+				if (sender instanceof Player player) {
+					DataManager.getPlayerData(player).setSelectedNPC(target.getIndex());
+				} else {
+					DataManager.getGlobal().setConsoleSelectedNPC(target.getIndex());
+				}
 
-                sender.sendMessage(TextUtil.c("&eSelected &6" + target.getNameString() + " &e(ID: &6" + target.getIndex() + "&e)"));
-            }
-            case "list" -> {
-                sender.sendMessage(TextUtil.c("\n&e&lNPCs\n"));
-                for (NPC npc : NPCManager.getNPCMap().values()) {
-                    sender.sendMessage(TextUtil.c("&6" + npc.getIndex() + " &e- &6" + npc.getNameString() + " &e| &6" + TextUtil.sexyLocation(npc.getLocation()))
-                            .hoverEvent(HoverEvent.showText(TextUtil.c("&eSelect")))
-                            .clickEvent(ClickEvent.runCommand("/npc sel " + npc.getIndex())));
-                }
-                sender.sendMessage(TextUtil.empty());
-            }
-            case "delete" -> {
-                NPC target;
+				sender.sendMessage(TextUtil.c("&eSelected &6" + target.getNameString() + " &e(ID: &6" + target.getIndex() + "&e)"));
+			}
+			case "list" -> {
+				sender.sendMessage(TextUtil.c("\n&e&lNPCs\n"));
+				for (NPC npc : NPCManager.getNPCMap().values()) {
+					sender.sendMessage(TextUtil.c("&6" + npc.getIndex() + " &e- &6" + npc.getNameString() + " &e| &6" + TextUtil.sexyLocation(npc.getLocation()))
+							.hoverEvent(HoverEvent.showText(TextUtil.c("&eSelect")))
+							.clickEvent(ClickEvent.runCommand("/npc sel " + npc.getIndex())));
+				}
+				sender.sendMessage(TextUtil.empty());
+			}
+			case "delete" -> {
+				NPC target;
 
-                if (args.length == 1) {
-                    Integer selectedIndex = sender instanceof Player player ? DataManager.getPlayerData(player).getSelectedNPC() : DataManager.getGlobal().getConsoleSelectedNPC();
-                    NPC selectedNPC = null;
-                    if (selectedIndex != null) {
-                        selectedNPC = NPCManager.getNPC(selectedIndex);
-                    }
-                    if (selectedIndex == null || selectedNPC == null) {
-                        sender.sendMessage(TextUtil.c("&cYou must select an NPC first, or do /npc delete [id | name]"));
-                        break;
-                    }
-                    target = selectedNPC;
-                } else {
-                    String targetName = TextUtil.joinArray(args, 1);
+				if (args.length == 1) {
+					Integer selectedIndex = sender instanceof Player player ? DataManager.getPlayerData(player).getSelectedNPC() : DataManager.getGlobal().getConsoleSelectedNPC();
+					NPC selectedNPC = null;
+					if (selectedIndex != null) {
+						selectedNPC = NPCManager.getNPC(selectedIndex);
+					}
+					if (selectedIndex == null || selectedNPC == null) {
+						sender.sendMessage(TextUtil.c("&cYou must select an NPC first, or do /npc delete [id | name]"));
+						break;
+					}
+					target = selectedNPC;
+				} else {
+					String targetName = TextUtil.joinArray(args, 1);
 
-                    if (TextUtil.isNumber(targetName)) {
-                        int index = Integer.parseInt(targetName);
+					if (TextUtil.isNumber(targetName)) {
+						int index = Integer.parseInt(targetName);
 
-                        target = NPCManager.getNPC(index);
+						target = NPCManager.getNPC(index);
 
-                        if (target == null) {
-                            target = handleNPCFromName(targetName, sender, true);
-                            if (target == null) break;
-                        }
-                    } else {
-                        target = handleNPCFromName(targetName, sender, true);
-                        if (target == null) break;
-                    }
-                }
+						if (target == null) {
+							target = handleNPCFromName(targetName, sender, true);
+							if (target == null) break;
+						}
+					} else {
+						target = handleNPCFromName(targetName, sender, true);
+						if (target == null) break;
+					}
+				}
 
-                NPCManager.removeNPC(target.getIndex());
-                sender.sendMessage(TextUtil.c("&eDeleted &6" + target.getNameString() + " &e(ID: &6" + target.getIndex() + "&e)"));
-            }
-            case "rename" -> {
-                if (args.length == 1) return false;
-                NPC target = null;
-                Integer selectedIndex = sender instanceof Player player ? DataManager.getPlayerData(player).getSelectedNPC() : DataManager.getGlobal().getConsoleSelectedNPC();
-                String name = TextUtil.joinArray(args, 1);
-                if (name.length() > 16) {
-                    sender.sendMessage(TextUtil.c("&cName is too long (limit is 16 characters)"));
-                    break;
-                }
+				NPCManager.removeNPC(target.getIndex());
+				sender.sendMessage(TextUtil.c("&eDeleted &6" + target.getNameString() + " &e(ID: &6" + target.getIndex() + "&e)"));
+			}
+			case "rename" -> {
+				if (args.length == 1) return false;
+				NPC target = null;
+				Integer selectedIndex = sender instanceof Player player ? DataManager.getPlayerData(player).getSelectedNPC() : DataManager.getGlobal().getConsoleSelectedNPC();
+				String name = TextUtil.joinArray(args, 1);
+				if (name.length() > 16) {
+					sender.sendMessage(TextUtil.c("&cName is too long (limit is 16 characters)"));
+					break;
+				}
 
-                if (selectedIndex != null) {
-                    target = NPCManager.getNPC(selectedIndex);
-                }
-                if (selectedIndex == null || target == null) {
-                    sender.sendMessage(TextUtil.c("&cYou must select an NPC first"));
-                    break;
-                }
+				if (selectedIndex != null) {
+					target = NPCManager.getNPC(selectedIndex);
+				}
+				if (selectedIndex == null || target == null) {
+					sender.sendMessage(TextUtil.c("&cYou must select an NPC first"));
+					break;
+				}
 
-                sender.sendMessage(TextUtil.c("&6" + target.getNameString() + " &ewas renamed to &6" + name));
-                target.setName(name);
-            }
-            case "skin" -> {
-                if (args.length == 1) return false;
-                NPC target = null;
-                Integer selectedIndex = sender instanceof Player player ? DataManager.getPlayerData(player).getSelectedNPC() : DataManager.getGlobal().getConsoleSelectedNPC();
-                String name = args[1];
+				sender.sendMessage(TextUtil.c("&6" + target.getNameString() + " &ewas renamed to &6" + name));
+				target.setName(name);
+			}
+			case "skin" -> {
+				if (args.length == 1) return false;
+				NPC target = null;
+				Integer selectedIndex = sender instanceof Player player ? DataManager.getPlayerData(player).getSelectedNPC() : DataManager.getGlobal().getConsoleSelectedNPC();
+				String name = args[1];
 
-                if (selectedIndex != null) {
-                    target = NPCManager.getNPC(selectedIndex);
-                }
-                if (selectedIndex == null || target == null) {
-                    sender.sendMessage(TextUtil.c("&cYou must select an NPC first"));
-                    break;
-                }
+				if (selectedIndex != null) {
+					target = NPCManager.getNPC(selectedIndex);
+				}
+				if (selectedIndex == null || target == null) {
+					sender.sendMessage(TextUtil.c("&cYou must select an NPC first"));
+					break;
+				}
 
-                target.sendRemovePacket();
-                Posc.mainWorld.getEntity(target.getInteractionId()).remove();
-                NPCManager.createNPC(target.getNameString(), target.getLocation(), name, target.getIndex());
-                sender.sendMessage(TextUtil.c("&eSkin of &6" + target.getNameString() + " &ewas changed to &6" + name));
-            }
-            case "help" -> sender.sendMessage(TextUtil.c("""
+				target.sendRemovePacket();
+				Posc.mainWorld.getEntity(target.getInteractionId()).remove();
+				NPCManager.createNPC(target.getNameString(), target.getLocation(), name, target.getIndex());
+				sender.sendMessage(TextUtil.c("&eSkin of &6" + target.getNameString() + " &ewas changed to &6" + name));
+			}
+			case "help" -> sender.sendMessage(TextUtil.c("""
                     
                     &6&l/NPC Subcommands
                     
@@ -177,90 +177,90 @@ public class NPCCommand implements Cmd {
                     &6/npc skin <name> &e- &fChanges the skin of the selected NPC to the skin of the player with the specified name
                     
                     """));
-            case "move" -> {
-                if (!(sender instanceof Player player)) return false;
-                NPC target;
+			case "move" -> {
+				if (!(sender instanceof Player player)) return false;
+				NPC target;
 
-                if (args.length == 1) {
-                    Integer selectedIndex = DataManager.getPlayerData(player).getSelectedNPC();
-                    NPC selectedNPC = null;
-                    if (selectedIndex != null) {
-                        selectedNPC = NPCManager.getNPC(selectedIndex);
-                    }
-                    if (selectedIndex == null || selectedNPC == null) {
-                        sender.sendMessage(TextUtil.c("&cYou must select an NPC first, or do /npc move [id | name]"));
-                        break;
-                    }
-                    target = selectedNPC;
-                } else {
-                    String targetName = TextUtil.joinArray(args, 1);
+				if (args.length == 1) {
+					Integer selectedIndex = DataManager.getPlayerData(player).getSelectedNPC();
+					NPC selectedNPC = null;
+					if (selectedIndex != null) {
+						selectedNPC = NPCManager.getNPC(selectedIndex);
+					}
+					if (selectedIndex == null || selectedNPC == null) {
+						sender.sendMessage(TextUtil.c("&cYou must select an NPC first, or do /npc move [id | name]"));
+						break;
+					}
+					target = selectedNPC;
+				} else {
+					String targetName = TextUtil.joinArray(args, 1);
 
-                    if (TextUtil.isNumber(targetName)) {
-                        int index = Integer.parseInt(targetName);
+					if (TextUtil.isNumber(targetName)) {
+						int index = Integer.parseInt(targetName);
 
-                        target = NPCManager.getNPC(index);
+						target = NPCManager.getNPC(index);
 
-                        if (target == null) {
-                            target = handleNPCFromName(targetName, sender, true);
-                            if (target == null) break;
-                        }
-                    } else {
-                        target = handleNPCFromName(targetName, sender, true);
-                        if (target == null) break;
-                    }
-                }
+						if (target == null) {
+							target = handleNPCFromName(targetName, sender, true);
+							if (target == null) break;
+						}
+					} else {
+						target = handleNPCFromName(targetName, sender, true);
+						if (target == null) break;
+					}
+				}
 
-                target.teleport(player.getLocation());
-                sender.sendMessage(TextUtil.c("&eMoved &6" + target.getNameString() + " &e(ID: &6" + target.getIndex() + "&e)"));
-            }
-        }
+				target.teleport(player.getLocation());
+				sender.sendMessage(TextUtil.c("&eMoved &6" + target.getNameString() + " &e(ID: &6" + target.getIndex() + "&e)"));
+			}
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    private NPC handleNPCFromName(String name, CommandSender sender, boolean delete) {
-        name = name.replace("\"", "");
+	private NPC handleNPCFromName(String name, CommandSender sender, boolean delete) {
+		name = name.replace("\"", "");
 
-        NPC[] npcs = NPCManager.getNPC(name);
-        if (npcs.length == 0) {
-            sender.sendMessage(TextUtil.c("&cNo NPC with that name or ID found.\n&cDo /npc list for a list of NPCs."));
-            return null;
-        }
-        if (npcs.length == 1) {
-            return npcs[0];
-        }
-        sender.sendMessage(TextUtil.c("\n&e&lClick to " + (delete ? "delete" : "select") + " NPC\n"));
-        for (NPC npc : npcs) {
-            sender.sendMessage(TextUtil.c("&6" + npc.getIndex() + " &e- &6" + npc.getNameString() + " &e| &6" + TextUtil.sexyLocation(npc.getLocation()))
-                    .hoverEvent(HoverEvent.showText(TextUtil.c("&e" + (delete ? "Delete" : "Select"))))
-                    .clickEvent(ClickEvent.runCommand("/npc delete " + npc.getIndex())));
-        }
-        sender.sendMessage(TextUtil.empty());
-        return null;
-    }
+		NPC[] npcs = NPCManager.getNPC(name);
+		if (npcs.length == 0) {
+			sender.sendMessage(TextUtil.c("&cNo NPC with that name or ID found.\n&cDo /npc list for a list of NPCs."));
+			return null;
+		}
+		if (npcs.length == 1) {
+			return npcs[0];
+		}
+		sender.sendMessage(TextUtil.c("\n&e&lClick to " + (delete ? "delete" : "select") + " NPC\n"));
+		for (NPC npc : npcs) {
+			sender.sendMessage(TextUtil.c("&6" + npc.getIndex() + " &e- &6" + npc.getNameString() + " &e| &6" + TextUtil.sexyLocation(npc.getLocation()))
+					.hoverEvent(HoverEvent.showText(TextUtil.c("&e" + (delete ? "Delete" : "Select"))))
+					.clickEvent(ClickEvent.runCommand("/npc delete " + npc.getIndex())));
+		}
+		sender.sendMessage(TextUtil.empty());
+		return null;
+	}
 
-    @Override
-    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        return switch (args.length) {
-            case 1 -> CommandUtil.partialMatches(args[0], List.of("create", "sel", "list", "delete", "move", "rename", "skin", "help"));
-            case 2 -> switch (args[0]) {
-                case "sel", "delete", "move" -> CommandUtil.partialMatches(args[1], NPCManager.getNPCMap().values().stream()
-                        .map(NPC::getIndex)
-                        .map(String::valueOf)
-                        .toList());
-                default -> Collections.emptyList();
-            };
-            default -> Collections.emptyList();
-        };
-    }
+	@Override
+	public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+		return switch (args.length) {
+			case 1 -> CommandUtil.partialMatches(args[0], List.of("create", "sel", "list", "delete", "move", "rename", "skin", "help"));
+			case 2 -> switch (args[0]) {
+				case "sel", "delete", "move" -> CommandUtil.partialMatches(args[1], NPCManager.getNPCMap().values().stream()
+						.map(NPC::getIndex)
+						.map(String::valueOf)
+						.toList());
+				default -> Collections.emptyList();
+			};
+			default -> Collections.emptyList();
+		};
+	}
 
-    @Override
-    public String name() {
-        return "npc";
-    }
+	@Override
+	public String name() {
+		return "npc";
+	}
 
-    @Override
-    public String permission() {
-        return "posc.command.npc";
-    }
+	@Override
+	public String permission() {
+		return "posc.command.npc";
+	}
 }

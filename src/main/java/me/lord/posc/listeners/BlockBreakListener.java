@@ -8,15 +8,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
 public class BlockBreakListener implements Listener {
-    @EventHandler
-    public void onBlockBreak(BlockBreakEvent event) {
-        Player player = event.getPlayer();
+	@EventHandler
+	public void onBlockBreak(BlockBreakEvent event) {
+		Player player = event.getPlayer();
 
-        Event.Data eventData = DataManager.getPlayerData(player).getEventData();
-        if (eventData != null) {
-            if (!eventData.getEvent().canBreak()) {
-                event.setCancelled(true);
-            }
-        }
-    }
+		Event.Data eventData = DataManager.getPlayerData(player).getEventData();
+		if (eventData != null) {
+			if (!eventData.getEvent().canBreak()) {
+				event.setCancelled(true);
+			}
+		}
+	}
 }

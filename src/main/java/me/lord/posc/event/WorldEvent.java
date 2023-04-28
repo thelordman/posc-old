@@ -13,57 +13,57 @@ import java.util.Collection;
  * Implement if Event has a world specifically made for it.
  */
 public interface WorldEvent extends Event {
-    static WorldEvent getCurrent() {
-        return EventManager.getCurrentEvent() instanceof WorldEvent ? (WorldEvent) EventManager.getCurrentEvent() : null;
-    }
+	static WorldEvent getCurrent() {
+		return EventManager.getCurrentEvent() instanceof WorldEvent ? (WorldEvent) EventManager.getCurrentEvent() : null;
+	}
 
-    abstract class Data implements Event.Data {
-        private final Player player;
-        private final ItemStack[] oldInventory;
+	abstract class Data implements Event.Data {
+		private final Player player;
+		private final ItemStack[] oldInventory;
 
-        Data(Player player) {
-            this.player = player;
-            oldInventory = player.getInventory().getStorageContents();
-            player.getInventory().clear();
-        }
+		Data(Player player) {
+			this.player = player;
+			oldInventory = player.getInventory().getStorageContents();
+			player.getInventory().clear();
+		}
 
-        public ItemStack[] getOldInventory() {
-            return oldInventory;
-        }
+		public ItemStack[] getOldInventory() {
+			return oldInventory;
+		}
 
-        public Player getPlayer() {
-            return player;
-        }
-    }
+		public Player getPlayer() {
+			return player;
+		}
+	}
 
-    World getWorld();
+	World getWorld();
 
-    @Override
-    default boolean isJoinable() {
-        return true;
-    }
+	@Override
+	default boolean isJoinable() {
+		return true;
+	}
 
-    default Location spawn() {
-        return getWorld().getSpawnLocation();
-    }
+	default Location spawn() {
+		return getWorld().getSpawnLocation();
+	}
 
-    @Override
-    default Collection<? extends Player> getPlayers() {
-        return getWorld().getPlayers();
-    }
+	@Override
+	default Collection<? extends Player> getPlayers() {
+		return getWorld().getPlayers();
+	}
 
-    @Override
-    default void playerJoin(Player player) {
-        Event.super.playerJoin(player);
-        player.teleport(spawn());
-    }
+	@Override
+	default void playerJoin(Player player) {
+		Event.super.playerJoin(player);
+		player.teleport(spawn());
+	}
 
-    @Override
-    default void playerLeave(Player player) {
-        Event.super.playerLeave(player);
-        player.teleport(Posc.mainWorld.getSpawnLocation());
-        Data data = (Data) DataManager.getPlayerData(player).getEventData();
-        player.getInventory().setStorageContents(data.getOldInventory());
-        DataManager.getPlayerData(player).setEventData(null);
-    }
+	@Override
+	default void playerLeave(Player player) {
+		Event.super.playerLeave(player);
+		player.teleport(Posc.mainWorld.getSpawnLocation());
+		Data data = (Data) DataManager.getPlayerData(player).getEventData();
+		player.getInventory().setStorageContents(data.getOldInventory());
+		DataManager.getPlayerData(player).setEventData(null);
+	}
 }
